@@ -6,7 +6,7 @@ Demo::Demo(TetrisShape* hostBoard, TetrisPiece piece, TetrisPiece next,
 		int height, int width, long long numLinesRemoved1) {
 	//duplicate game board
 	BoardHeight = height;
-	BoardWidth = width;
+	BoardWidth = width; //here's a comment
 	board = new TetrisShape[height * width];
 	testBoard = new TetrisShape[height * width];
 	numLinesRemoved = numLinesRemoved1;
