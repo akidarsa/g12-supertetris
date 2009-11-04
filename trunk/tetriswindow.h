@@ -65,6 +65,7 @@
      void createStatus();
 
      TetrisBoard *board;
+     TetrisBoard *boardTwo;
      QLabel *nextPieceLabel;
      QGroupBox * ui_statusGroup;
      QLabel * ui_pieceCountLabel;
