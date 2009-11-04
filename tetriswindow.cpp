@@ -47,7 +47,25 @@
 
  TetrisWindow::TetrisWindow()
  {
+	 
      board = new TetrisBoard;
+// This part onward till the next breakpoint is edited by Alex
+
+	 boardTwo = new TetrisBoard;
+
+     /**connect(boardTwo, SIGNAL(pieceChanged(int)), ui_pieceCountLabel, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(piece4Changed(int)), ui_piece4Label, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(piece5Changed(int)), ui_piece5Label, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(piece6Changed(int)), ui_piece6Label, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(piece7Changed(int)), ui_piece7Label, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(blocksChanged(int)), ui_blockCountLabel, SLOT(setNum(int)));**/
+
+
+// This is the end of the edit done by Alex
+
+
+
+
 
      nextPieceLabel = new QLabel;
      nextPieceLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
@@ -73,9 +91,12 @@
      configureButton->setFocusPolicy(Qt::NoFocus);
 
      connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
+     connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(start())); //Alex
      connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
      connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
-     connect(demoButton, SIGNAL(clicked()), board, SLOT(startDemo()));
+     connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));	//Alex
+     //connect(demoButton, SIGNAL(clicked()), board, SLOT(startDemo())); //Alex
+     connect(demoButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo())); //Alex
      connect(configureButton, SIGNAL(clicked()), board, SLOT(configure()));
      //connect(board, SIGNAL(scoreChanged(int)), scoreLcd, SLOT(display(int)));
      //connect(board, SIGNAL(levelChanged(int)), levelLcd, SLOT(display(int)));
@@ -89,7 +110,18 @@
      connect(board, SIGNAL(piece6Changed(int)), ui_piece6Label, SLOT(setNum(int)));
      connect(board, SIGNAL(piece7Changed(int)), ui_piece7Label, SLOT(setNum(int)));
      connect(board, SIGNAL(blocksChanged(int)), ui_blockCountLabel, SLOT(setNum(int)));
+
+
+	 QWidget *test = new QWidget;
+	 QGridLayout *lout = new QGridLayout;
+     lout->addWidget(board, 0, 1, 6, 1);
+     lout->addWidget(boardTwo, 0, 2, 6, 1);
+	 test->setLayout(lout);
+	 test->setFocus();
+
      QGridLayout *layout = new QGridLayout;
+
+/**
      layout->addWidget(createLabel(tr("NEXT")), 0, 0);
      layout->addWidget(nextPieceLabel, 1, 0);
      //layout->addWidget(createLabel(tr("LEVEL")), 2, 0);
@@ -105,11 +137,31 @@
      layout->addWidget(quitButton, 4, 2);
      layout->addWidget(pauseButton, 5, 2);
      layout->addWidget(demoButton, 3, 0);
+**/
+
+// This part is edited by Alex
+	
+     layout->addWidget(createLabel(tr("NEXT")), 0, 0);
+     layout->addWidget(nextPieceLabel, 1, 0);
+     layout->addWidget(configureButton, 5, 0);
+     layout->addWidget(startButton, 2, 0);
+//     layout->addWidget(board, 0, 1, 6, 1);
+//     layout->addWidget(boardTwo, 0, 2, 6, 1);
+	 layout->addWidget(test, 0, 1, 6, 1);
+     layout->addWidget(ui_statusGroup, 0, 3);
+     layout->addWidget(createLabel(tr("LINES REMOVED")), 2, 3);
+     layout->addWidget(linesLcd, 3, 3);
+     layout->addWidget(quitButton, 4, 3);
+     layout->addWidget(pauseButton, 5, 3);
+     layout->addWidget(demoButton, 3, 0);
+
+// End of edit
+
      setLayout(layout);
 
      setWindowTitle(tr("Super Tetris"));
      //resize(550, 370); //original size
-     resize(750, 470);
+     resize(1000, 470);
  }
 
  QLabel *TetrisWindow::createLabel(const QString &text)
