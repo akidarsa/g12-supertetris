@@ -100,6 +100,7 @@
      void oneLineDown();
      void pieceDropped(int dropHeight);
      void removeFullLines();
+     void removeFullLines(TetrisBoard board2);
      void newPiece();
      void showNextPiece();
      bool tryMove(const TetrisPiece &newPiece, int newX, int newY);
