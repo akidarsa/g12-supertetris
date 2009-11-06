@@ -467,6 +467,57 @@ class ControlLineEdit;
      }
  }
 
+ void TetrisBoard::removeFullLines(TetrisBoard other)
+ {
+     //remove full lines from this and add lines to board2
+     int numFullLines = 0;
+
+     for (int i = BoardHeight - 1; i >= 0; --i) {
+         bool lineIsFull = true;
+
+         for (int j = 0; j < BoardWidth; ++j) {
+             if (this->shapeAt(j, i) == NoShape) {
+                 lineIsFull = false;
+                 break;
+             }
+         }
+
+         if (lineIsFull) {
+             ++numFullLines;
+             //add line to other board
+             //move board pieces up
+             for (int m = 1; m < BoardHeight; m++) {
+                 for (int n = 0; n < BoardWidth; n++) {
+                     other.shapeAt(n,m) = this->shapeAt(n,m-1);
+                 }
+             }
+             //add new bottom row
+             for (int n = 0; n < BoardHeight; ++n) {
+                 other.shapeAt(n,BoardHeight) = this->shapeAt(n,i);
+             }
+             //remove line from current board
+             for (int k = i; k < BoardHeight - 1; ++k) {
+                 for (int j = 0; j < BoardWidth; ++j)
+                     this->shapeAt(j, k) = this->shapeAt(j, k + 1);
+             }
+             for (int j = 0; j < BoardWidth; ++j)
+                 this->shapeAt(j, BoardHeight - 1) = NoShape;
+         }
+     }
+
+     if (numFullLines > 0) {
+         numLinesRemoved += numFullLines;
+         score += 10 * numFullLines;
+         emit linesRemovedChanged(numLinesRemoved);
+         emit scoreChanged(score);
+
+         this->timer.start(500, this);
+         this->isWaitingAfterLine = true;
+         this->curPiece.setShape(NoShape);
+         update();
+     }
+ }
+
  void TetrisBoard::newPiece()
  {
      curPiece = nextPiece;
