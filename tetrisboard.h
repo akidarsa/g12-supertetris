@@ -71,7 +71,7 @@
      void startDemo();
      void configure();
      void saveKeys();
-     void addLines(int linestoAdd);
+     void addLines(int linestoAdd, TetrisPiece piece1, int px);
 
  signals:
      void scoreChanged(int score);
@@ -83,7 +83,7 @@
      void piece6Changed(int num6Pieces);
      void piece7Changed(int num7Pieces);
      void blocksChanged(int numBlocks);
-     void timeToAddLines(int linestoAdd);
+     void timeToAddLines(int linestoAdd, TetrisPiece piece1, int px);
      void advChanged(int advantage);
 
  protected:

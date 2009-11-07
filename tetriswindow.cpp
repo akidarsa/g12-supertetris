@@ -114,8 +114,8 @@
      connect(boardTwo, SIGNAL(advChanged(int)), ui_advantage2, SLOT(setNum(int)));
      connect(boardTwo, SIGNAL(linesRemovedChanged(int)), ui_linesRemoved2, SLOT(setNum(int)));
      
-     connect(board, SIGNAL(timeToAddLines(int)), boardTwo, SLOT(addLines(int)));
-     connect(boardTwo, SIGNAL(timeToAddLines(int)), board, SLOT(addLines(int)));
+     connect(board, SIGNAL(timeToAddLines(int,TetrisPiece,int)), boardTwo, SLOT(addLines(int,TetrisPiece,int)));
+     connect(boardTwo, SIGNAL(timeToAddLines(int,TetrisPiece,int)), board, SLOT(addLines(int,TetrisPiece,int)));
 
 	 QWidget *test = new QWidget;
 	 QGridLayout *lout = new QGridLayout;
