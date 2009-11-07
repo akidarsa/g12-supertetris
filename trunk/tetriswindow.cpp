@@ -90,8 +90,8 @@
      configureButton = new QPushButton(tr("&Configure"));
      configureButton->setFocusPolicy(Qt::NoFocus);
 
-     connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
-     connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(start())); //Alex
+     connect(startButton, SIGNAL(clicked()), board, SLOT(startDemo()));
+     connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo())); //Alex
      connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
      connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
      connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));	//Alex
@@ -110,7 +110,12 @@
      connect(board, SIGNAL(piece6Changed(int)), ui_piece6Label, SLOT(setNum(int)));
      connect(board, SIGNAL(piece7Changed(int)), ui_piece7Label, SLOT(setNum(int)));
      connect(board, SIGNAL(blocksChanged(int)), ui_blockCountLabel, SLOT(setNum(int)));
-
+     connect(board, SIGNAL(advChanged(int)), ui_advantage1, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(advChanged(int)), ui_advantage2, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(linesRemovedChanged(int)), ui_linesRemoved2, SLOT(setNum(int)));
+     
+     connect(board, SIGNAL(timeToAddLines(int)), boardTwo, SLOT(addLines(int)));
+     connect(boardTwo, SIGNAL(timeToAddLines(int)), board, SLOT(addLines(int)));
 
 	 QWidget *test = new QWidget;
 	 QGridLayout *lout = new QGridLayout;
@@ -186,6 +191,12 @@
   ui_piece7Label = new QLabel("      ");
   QLabel * blockCount = new QLabel("# of blocks: ");
   ui_blockCountLabel = new QLabel("      ");
+  QLabel * advantage1 = new QLabel("Player 1 Adv.: ");
+  ui_advantage1 = new QLabel("     ");
+  QLabel * advantage2 = new QLabel("Player 2 Adv.: ");
+  ui_advantage2 = new QLabel("     ");
+  QLabel * linesRemoved2 = new QLabel("Player 2 Lines: ");
+  ui_linesRemoved2 = new QLabel("     ");
   statusLayout -> addWidget(pieceCount, 0, 0);
   statusLayout -> addWidget(ui_pieceCountLabel, 0, 1);
   statusLayout -> addWidget(piece4, 1, 0);
@@ -198,6 +209,12 @@
   statusLayout -> addWidget(ui_piece7Label, 4, 1);
   statusLayout -> addWidget(blockCount, 5, 0);
   statusLayout -> addWidget(ui_blockCountLabel, 5, 1);
+  statusLayout -> addWidget(advantage1, 6, 0);
+  statusLayout -> addWidget(ui_advantage1, 6, 1);
+  statusLayout -> addWidget(advantage2, 7, 0);
+  statusLayout -> addWidget(ui_advantage2, 7, 1);
+  statusLayout -> addWidget(linesRemoved2, 8, 0);
+  statusLayout -> addWidget(ui_linesRemoved2, 8, 1);
   ui_statusGroup = new QGroupBox(tr("Player Stats"));
   ui_statusGroup -> setLayout(statusLayout);
 }

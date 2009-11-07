@@ -64,6 +64,8 @@ class ControlLineEdit;
      clearBoard();
      fp = NULL;
      myDialog = new ConfigDialog;
+     singlePlay = false;
+     advantage = 0;
  }
 
  void TetrisBoard::setNextPieceLabel(QLabel *label)
@@ -100,6 +102,7 @@ class ControlLineEdit;
      num7Pieces = 0;
      numBlocks = 0;
      score = 0;
+     advantage = 0;
      level = 1;
      clearBoard();
      if (fp != NULL)
@@ -114,7 +117,7 @@ class ControlLineEdit;
      nextPiece.setFilePointer(fp);
      curPiece.setFilePointer(fp);
      nextPiece.setRandomShape();
-
+     emit advChanged(advantage);
      emit linesRemovedChanged(numLinesRemoved);
      emit scoreChanged(score);
      emit levelChanged(level);
@@ -147,7 +150,8 @@ class ControlLineEdit;
      num7Pieces = 0;
      numBlocks = 0;
      score = 0;
-     level = 9;
+     advantage = 0;
+     level = 12; //it has a 12th level intellect
      clearBoard();
      if (fp != NULL)
         fclose(fp);
@@ -161,7 +165,7 @@ class ControlLineEdit;
      nextPiece.setFilePointer(fp);
      curPiece.setFilePointer(fp);
      nextPiece.setRandomShape();
-
+     emit advChanged(advantage);
      emit linesRemovedChanged(numLinesRemoved);
      emit scoreChanged(score);
      emit levelChanged(level);
@@ -459,7 +463,9 @@ class ControlLineEdit;
          score += 10 * numFullLines;
          emit linesRemovedChanged(numLinesRemoved);
          emit scoreChanged(score);
-
+         advantage += numFullLines;
+         emit advChanged(advantage);
+         emit timeToAddLines(numFullLines);
          timer.start(500, this);
          isWaitingAfterLine = true;
          curPiece.setShape(NoShape);
@@ -467,54 +473,25 @@ class ControlLineEdit;
      }
  }
 
- void TetrisBoard::removeFullLines(TetrisBoard other)
+ void TetrisBoard::addLines(int linestoAdd)
  {
-     //remove full lines from this and add lines to board2
-     int numFullLines = 0;
-
-     for (int i = BoardHeight - 1; i >= 0; --i) {
-         bool lineIsFull = true;
-
-         for (int j = 0; j < BoardWidth; ++j) {
-             if (this->shapeAt(j, i) == NoShape) {
-                 lineIsFull = false;
-                 break;
-             }
-         }
-
-         if (lineIsFull) {
-             ++numFullLines;
-             //add line to other board
-             //move board pieces up
-             for (int m = 1; m < BoardHeight; m++) {
-                 for (int n = 0; n < BoardWidth; n++) {
-                     other.shapeAt(n,m) = this->shapeAt(n,m-1);
-                 }
-             }
-             //add new bottom row
-             for (int n = 0; n < BoardHeight; ++n) {
-                 other.shapeAt(n,BoardHeight) = this->shapeAt(n,i);
-             }
-             //remove line from current board
-             for (int k = i; k < BoardHeight - 1; ++k) {
-                 for (int j = 0; j < BoardWidth; ++j)
-                     this->shapeAt(j, k) = this->shapeAt(j, k + 1);
-             }
-             for (int j = 0; j < BoardWidth; ++j)
-                 this->shapeAt(j, BoardHeight - 1) = NoShape;
-         }
+     advantage -= linestoAdd;
+     emit advChanged(advantage);
+     if (advantage > 0) {
+         linestoAdd = linestoAdd - advantage;
      }
-
-     if (numFullLines > 0) {
-         numLinesRemoved += numFullLines;
-         score += 10 * numFullLines;
-         emit linesRemovedChanged(numLinesRemoved);
-         emit scoreChanged(score);
-
-         this->timer.start(500, this);
-         this->isWaitingAfterLine = true;
-         this->curPiece.setShape(NoShape);
-         update();
+     //move all rows up one
+     for(int i = 0; i < linestoAdd; ++i) {
+         for(int m = BoardHeight - 1; m > 0; m--) {
+             for(int n = 0; n < BoardWidth; ++n) {
+                 shapeAt(n,m) = shapeAt(n, m-1);
+              }
+         }
+         //create the bottom row
+         for(int j = 0; j < BoardWidth; ++j) {
+             shapeAt(j,0) = Shaped;
+         }
+         shapeAt(BoardWidth - 1,0) = NoShape;
      }
  }
 
