@@ -465,7 +465,7 @@ class ControlLineEdit;
          emit scoreChanged(score);
          advantage += numFullLines;
          emit advChanged(advantage);
-         emit timeToAddLines(numFullLines);
+         emit timeToAddLines(numFullLines, curPiece, curX);
          timer.start(500, this);
          isWaitingAfterLine = true;
          curPiece.setShape(NoShape);
@@ -473,7 +473,7 @@ class ControlLineEdit;
      }
  }
 
- void TetrisBoard::addLines(int linestoAdd)
+ void TetrisBoard::addLines(int linestoAdd, TetrisPiece piece1, int px)
  {
      advantage -= linestoAdd;
      emit advChanged(advantage);
@@ -491,7 +491,13 @@ class ControlLineEdit;
          for(int j = 0; j < BoardWidth; ++j) {
              shapeAt(j,0) = Shaped;
          }
-         shapeAt(BoardWidth - 1,0) = NoShape;
+         //make squares with cur piece = NoShape
+         for (int j = 0; j < piece1.size(); ++j) {
+             int x = px + piece1.x(j);
+             if(piece1.y(j) == i) {
+                 shapeAt(x, i) = NoShape;
+             }
+         }
      }
  }
 
