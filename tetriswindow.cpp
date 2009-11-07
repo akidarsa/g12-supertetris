@@ -128,6 +128,8 @@ using namespace std;
      connect(boardTwo, SIGNAL(linesRemovedChanged(int)), ui_linesRemoved2, SLOT(setNum(int)));
      connect(board, SIGNAL(timeToAddLines(int,TetrisPiece,int)), boardTwo, SLOT(addLines(int,TetrisPiece,int)));
      connect(boardTwo, SIGNAL(timeToAddLines(int,TetrisPiece,int)), board, SLOT(addLines(int,TetrisPiece,int)));
+     connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
+     connect(boardTwo, SIGNAL(iLost(bool)), board, SLOT(gameOver(bool)));
 
 	 /**QWidget *test = new QWidget;
 	 QGridLayout *lout = new QGridLayout;

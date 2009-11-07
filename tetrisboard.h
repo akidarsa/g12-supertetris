@@ -78,6 +78,19 @@
      //void configure();
      //void saveKeys();
      void addLines(int linestoAdd, TetrisPiece piece1, int px);
+     void gameOver(bool winOrLose) {
+         isGameOver = true;
+         curPiece.setShape(NoShape);
+         timer.stop();
+         isStarted = false;
+         if (winOrLose) {
+             isWin = true;
+         }
+         else {
+             isWin = false;
+         }
+         update();
+     }
 
  signals:
      void scoreChanged(int score);
@@ -91,8 +104,7 @@
      void blocksChanged(int numBlocks);
      void timeToAddLines(int linestoAdd, TetrisPiece piece1, int px);
      void advChanged(int advantage);
-
-
+     void iLost(bool winOrLose);
 
 protected:
      void paintEvent(QPaintEvent *event);
@@ -119,6 +131,7 @@ protected:
      QPointer<QLabel> nextPieceLabel;
      bool isStarted;
      bool isGameOver;
+     bool isWin; //must be placed after isGameOver is true
      bool isPaused;
      bool isInDemo;
      bool isTested;
