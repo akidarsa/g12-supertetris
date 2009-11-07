@@ -233,8 +233,15 @@ class ControlLineEdit;
 
      //Display Game Over
       if (isGameOver) {
-          painter.drawText(rect, Qt::AlignCenter, tr("Game Over"));
-          return;
+          if(isWin) {
+              painter.drawText(rect, Qt::AlignCenter, tr("You Won! :)"));
+              return;
+          }
+          else {
+              painter.drawText(rect, Qt::AlignCenter, tr("You Lose! X("));
+              return;
+          }
+
       }
 
      int boardTop = rect.bottom() - BoardHeight*squareHeight();
@@ -538,6 +545,8 @@ void TetrisBoard::rotateLeft()
          timer.stop();
          isStarted = false;
          isGameOver = true;
+         emit iLost(true);
+         isWin = false;
          update();
      }
  }
