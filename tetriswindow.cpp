@@ -43,14 +43,15 @@
  #include <iostream>
 
  #include "tetrisboard.h"
- #include "tetriswindow.h"
+#include "tetrixkey.h"
+#include "tetriswindow.h"
 
 using namespace std;
 
  TetrisWindow::TetrisWindow()
  {
 
-	myDialog = new ConfigDialog;
+	//myDialog = new ConfigDialog;
 
     leftVar = Qt::Key_Left;
     rightVar = Qt::Key_Right;
@@ -101,8 +102,10 @@ using namespace std;
      pauseButton->setFocusPolicy(Qt::NoFocus);
      demoButton = new QPushButton(tr("&Demo"));
      demoButton->setFocusPolicy(Qt::NoFocus);
-     configureButton = new QPushButton(tr("&Configure"));
+     configureButton = new QPushButton(tr("&Configure Player 1"));
      configureButton->setFocusPolicy(Qt::NoFocus);
+     configureButtonTwo = new QPushButton(tr("&Configure Player 2"));
+     configureButtonTwo->setFocusPolicy(Qt::NoFocus);
 
      connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(start())); //Alex
@@ -111,7 +114,17 @@ using namespace std;
      connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));	//Alex
      //connect(demoButton, SIGNAL(clicked()), board, SLOT(startDemo())); //Alex
      connect(demoButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo())); //Alex
-     connect(configureButton, SIGNAL(clicked()), board, SLOT(configure()));
+	 
+
+
+     connect(configureButton, SIGNAL(clicked()), this, SLOT(keyConfig()));
+     connect(configureButtonTwo, SIGNAL(clicked()), this, SLOT(keyConfigTwo()));
+	 //connect(configOneButton, SIGNAL(clicked()), this, SLOT(keyConfig));
+	 //connect(configTwoButton, SIGNAL(clicked()), this, SLOT(keyConfigTwo));
+	 //connect(exitButton, SIGNAL(clicked()), this, SLOT(sys.exit()));
+
+
+
      //connect(board, SIGNAL(scoreChanged(int)), scoreLcd, SLOT(display(int)));
      //connect(board, SIGNAL(levelChanged(int)), levelLcd, SLOT(display(int)));
      connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
@@ -167,7 +180,8 @@ using namespace std;
 	
      layout->addWidget(createLabel(tr("NEXT")), 0, 0);
      layout->addWidget(nextPieceLabel, 1, 0);
-     layout->addWidget(configureButton, 5, 0);
+	 layout->addWidget(configureButton, 4, 0);
+     layout->addWidget(configureButtonTwo, 5, 0);
      layout->addWidget(startButton, 2, 0);
      layout->addWidget(board, 0, 1, 6, 1);
      layout->addWidget(boardTwo, 0, 2, 6, 1);
@@ -238,11 +252,8 @@ using namespace std;
   ui_statusGroup -> setLayout(statusLayout);
 }
 
-void TetrisWindow::keyPressEvent(QKeyEvent *event) {
-    /**if (!isStarted || isPaused || isDemo || curPiece.shape() == NoShape) {
-        QFrame::keyPressEvent(event);
-        return;
-    }**/
+void TetrisWindow::keyPressEvent(QKeyEvent *event) 
+{
     QWidget::keyPressEvent(event);
 
     if ((event->key()) == leftVar) 
@@ -292,24 +303,48 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event) {
 
 }
 
- void TetrisWindow::saveKeys()
- {
-     rotRightVar = myDialog->getKey(0);
-     //dropVar = myDialog->getKey(1);
-     leftVar = myDialog->getKey(2);
-     rightVar = myDialog->getKey(3);
-     mdropVar = myDialog->getKey(4);
-     dropVar = myDialog->getKey(5);
-     board->pause();
- }
+void TetrisWindow::keyConfigTwo() 
+{
+    TetrixKey dialog;
+    board->pause();
+	boardTwo->pause();
+    dialog.exec();
+    leftVar = dialog.getKey(TetrixKey::LEFT);
+    rightVar = dialog.getKey(TetrixKey::RIGHT);
+    rotRightVar = dialog.getKey(TetrixKey::ROTATE);
+    dropVar = dialog.getKey(TetrixKey::SOFTDOWN);
+    mdropVar = dialog.getKey(TetrixKey::MAGICDOWN);
+    board->pause();
+	boardTwo->pause();
+}
 
- void TetrisWindow::configure()
- {
-     //if (!isPaused)
-     //    pause();
-     //myDialog->board = this;
-     //myDialog->exec();
-     //if (isPaused)
-     //   pause();
- }
+void TetrisWindow::keyConfig() 
+{
+    TetrixKey dialog;
+    board->pause();
+	boardTwo->pause();
+    dialog.exec();
+    leftVarTwo = dialog.getKey(TetrixKey::LEFT);
+    rightVarTwo = dialog.getKey(TetrixKey::RIGHT);
+    rotRightVarTwo = dialog.getKey(TetrixKey::ROTATE);
+    dropVarTwo = dialog.getKey(TetrixKey::SOFTDOWN);
+    mdropVarTwo = dialog.getKey(TetrixKey::MAGICDOWN);
+    board->pause();
+	boardTwo->pause();
+}
 
+/*void TetrisWindow::configure()
+{
+	QWidget *test = new QWidget;
+	test-> resize(200,300);
+	QGridLayout *layout = new QGridLayout;
+	configOneButton = new QPushButton(tr("Player 1"));
+	configTwoButton = new QPushButton(tr("Player 2"));
+	//exitButton = new QPushButton(tr("Exit"));
+	setWindowTitle("Key Config");
+	layout->addWidget(configOneButton, 0, 1);
+	layout->addWidget(configTwoButton, 0, 2);
+	//layout->addWidget(exitButton, 0, 3);
+	test->setLayout(layout);
+	test->show();
+}*/

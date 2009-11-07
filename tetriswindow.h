@@ -91,6 +91,10 @@
      QPushButton *pauseButton;
      QPushButton *demoButton;
      QPushButton *configureButton;
+     QPushButton *configureButtonTwo;
+     //QPushButton *configOneButton;
+     //QPushButton *configTwoButton;
+     //QPushButton *exitButton;
     int leftVar;
     int rightVar;
     int rotRightVar;
@@ -102,10 +106,11 @@
     int dropVarTwo;
     int mdropVarTwo;
 	void keyPressEvent(QKeyEvent *event);
-	ConfigDialog *myDialog;
-	void configure();
-	void saveKeys();
-	
+
+private slots:
+	void keyConfig();
+	void keyConfigTwo();
+	//void configure();
  };
 
  #endif
