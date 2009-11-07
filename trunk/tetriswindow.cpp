@@ -45,8 +45,26 @@
  #include "tetrisboard.h"
  #include "tetriswindow.h"
 
+using namespace std;
+
  TetrisWindow::TetrisWindow()
  {
+
+	myDialog = new ConfigDialog;
+
+    leftVar = Qt::Key_Left;
+    rightVar = Qt::Key_Right;
+    rotRightVar = Qt::Key_Up;
+    dropVar = Qt::Key_Down;
+    mdropVar = Qt::Key_Space;
+
+    leftVarTwo = Qt::Key_A;
+    rightVarTwo = Qt::Key_D;
+    rotRightVarTwo = Qt::Key_W;
+    dropVarTwo = Qt::Key_S;
+    mdropVarTwo = Qt::Key_B;
+
+	setFocusPolicy(Qt::StrongFocus);
 	 
      board = new TetrisBoard;
 // This part onward till the next breakpoint is edited by Alex
@@ -62,10 +80,6 @@
 
 
 // This is the end of the edit done by Alex
-
-
-
-
 
      nextPieceLabel = new QLabel;
      nextPieceLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
@@ -90,8 +104,8 @@
      configureButton = new QPushButton(tr("&Configure"));
      configureButton->setFocusPolicy(Qt::NoFocus);
 
-     connect(startButton, SIGNAL(clicked()), board, SLOT(startDemo()));
-     connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo())); //Alex
+     connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
+     connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(start())); //Alex
      connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
      connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
      connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));	//Alex
@@ -100,8 +114,7 @@
      connect(configureButton, SIGNAL(clicked()), board, SLOT(configure()));
      //connect(board, SIGNAL(scoreChanged(int)), scoreLcd, SLOT(display(int)));
      //connect(board, SIGNAL(levelChanged(int)), levelLcd, SLOT(display(int)));
-     connect(board, SIGNAL(linesRemovedChanged(int)),
-             linesLcd, SLOT(display(int)));
+     connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
 
      createStatus();
      connect(board, SIGNAL(pieceChanged(int)), ui_pieceCountLabel, SLOT(setNum(int)));
@@ -113,17 +126,21 @@
      connect(board, SIGNAL(advChanged(int)), ui_advantage1, SLOT(setNum(int)));
      connect(boardTwo, SIGNAL(advChanged(int)), ui_advantage2, SLOT(setNum(int)));
      connect(boardTwo, SIGNAL(linesRemovedChanged(int)), ui_linesRemoved2, SLOT(setNum(int)));
-     
      connect(board, SIGNAL(timeToAddLines(int,TetrisPiece,int)), boardTwo, SLOT(addLines(int,TetrisPiece,int)));
      connect(boardTwo, SIGNAL(timeToAddLines(int,TetrisPiece,int)), board, SLOT(addLines(int,TetrisPiece,int)));
 
-	 QWidget *test = new QWidget;
+	 /**QWidget *test = new QWidget;
 	 QGridLayout *lout = new QGridLayout;
      lout->addWidget(board, 0, 1, 6, 1);
      lout->addWidget(boardTwo, 0, 2, 6, 1);
 	 test->setLayout(lout);
-	 test->setFocus();
-
+	 //test->setFocusPolicy(Qt::StrongFocus);
+	 QKeyEvent *event;
+	 //test->keyPressEvent(event);
+	 setFocusPolicy(Qt::StrongFocus);
+	 QWidget::keyPressEvent(event);
+	 cout << (int)(event->key()) << endl;
+	 emit keyGrabber(event);**/
      QGridLayout *layout = new QGridLayout;
 
 /**
@@ -150,9 +167,9 @@
      layout->addWidget(nextPieceLabel, 1, 0);
      layout->addWidget(configureButton, 5, 0);
      layout->addWidget(startButton, 2, 0);
-//     layout->addWidget(board, 0, 1, 6, 1);
-//     layout->addWidget(boardTwo, 0, 2, 6, 1);
-	 layout->addWidget(test, 0, 1, 6, 1);
+     layout->addWidget(board, 0, 1, 6, 1);
+     layout->addWidget(boardTwo, 0, 2, 6, 1);
+	 //layout->addWidget(test, 0, 1, 6, 1);
      layout->addWidget(ui_statusGroup, 0, 3);
      layout->addWidget(createLabel(tr("LINES REMOVED")), 2, 3);
      layout->addWidget(linesLcd, 3, 3);
@@ -166,7 +183,7 @@
 
      setWindowTitle(tr("Super Tetris"));
      //resize(550, 370); //original size
-     resize(1000, 470);
+     resize(1200, 470);
  }
 
  QLabel *TetrisWindow::createLabel(const QString &text)
@@ -218,3 +235,79 @@
   ui_statusGroup = new QGroupBox(tr("Player Stats"));
   ui_statusGroup -> setLayout(statusLayout);
 }
+
+void TetrisWindow::keyPressEvent(QKeyEvent *event) {
+    /**if (!isStarted || isPaused || isDemo || curPiece.shape() == NoShape) {
+        QFrame::keyPressEvent(event);
+        return;
+    }**/
+    QWidget::keyPressEvent(event);
+
+    if ((event->key()) == leftVar) 
+	{
+        boardTwo->moveLeft();
+    } 
+	else if ((event->key()) == rightVar) 
+	{
+        boardTwo->moveRight();
+    } 
+	else if ((event->key()) == rotRightVar) 
+	{
+        boardTwo->rotateRight();
+    } 
+	else if ((event->key()) == mdropVar) 
+	{
+        boardTwo->dropDown();
+    } 
+	else if ((event->key()) == dropVar) 
+	{
+        boardTwo->oneLineDown();
+    } 
+    else if ((event->key()) == leftVarTwo) 
+	{
+        board->moveLeft();
+    } 
+	else if ((event->key()) == rightVarTwo) 
+	{
+        board->moveRight();
+    } 
+	else if ((event->key()) == rotRightVarTwo) 
+	{
+        board->rotateRight();
+    } 
+	else if ((event->key()) == mdropVarTwo) 
+	{
+        board->dropDown();
+    } 
+	else if ((event->key()) == dropVarTwo) 
+	{
+        board->oneLineDown();
+	}
+	else 
+	{
+        QWidget::keyPressEvent(event);
+    }
+
+}
+
+ void TetrisWindow::saveKeys()
+ {
+     rotRightVar = myDialog->getKey(0);
+     //dropVar = myDialog->getKey(1);
+     leftVar = myDialog->getKey(2);
+     rightVar = myDialog->getKey(3);
+     mdropVar = myDialog->getKey(4);
+     dropVar = myDialog->getKey(5);
+     board->pause();
+ }
+
+ void TetrisWindow::configure()
+ {
+     //if (!isPaused)
+     //    pause();
+     //myDialog->board = this;
+     //myDialog->exec();
+     //if (isPaused)
+     //   pause();
+ }
+

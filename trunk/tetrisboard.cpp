@@ -43,6 +43,9 @@
 
  #include "tetrisboard.h"
  #include "ConfigDialog.h"
+#include<iostream>
+
+using namespace std;
 
 class ControlLineEdit;
 
@@ -50,7 +53,7 @@ class ControlLineEdit;
      : QFrame(parent)
  {
      setFrameStyle(QFrame::Panel | QFrame::Sunken);
-     setFocusPolicy(Qt::StrongFocus);
+     //setFocusPolicy(Qt::StrongFocus);
      isStarted = false;
      isGameOver = false;
      isPaused = false;
@@ -63,7 +66,7 @@ class ControlLineEdit;
      dropOneLineV = (int) Qt::Key_D;
      clearBoard();
      fp = NULL;
-     myDialog = new ConfigDialog;
+     //myDialog = new ConfigDialog;
      singlePlay = false;
      advantage = 0;
  }
@@ -194,7 +197,7 @@ class ControlLineEdit;
      update();
  }
 
- void TetrisBoard::configure()
+/** void TetrisBoard::configure()
  {
      if (!isPaused)
          pause();
@@ -202,9 +205,9 @@ class ControlLineEdit;
      myDialog->exec();
      if (isPaused)
         pause();
- }
+ }**/
 
- void TetrisBoard::saveKeys()
+/** void TetrisBoard::saveKeys()
  {
      Up = myDialog->getKey(0);
      Down = myDialog->getKey(1);
@@ -213,7 +216,7 @@ class ControlLineEdit;
      dropLineV = myDialog->getKey(4);
      dropOneLineV = myDialog->getKey(5);
      pause();
- }
+ }**/
 
  void TetrisBoard::paintEvent(QPaintEvent *event)
  {
@@ -256,17 +259,39 @@ class ControlLineEdit;
      }
  }
 
- void TetrisBoard::keyPressEvent(QKeyEvent *event)
+void TetrisBoard::moveLeft()
+{
+	tryMove(curPiece, curX - 1, curY);
+}
+
+void TetrisBoard::moveRight()
+{
+	tryMove(curPiece, curX + 1, curY);
+}
+
+void TetrisBoard::rotateRight()
+{
+	tryMove(curPiece.rotatedRight(), curX, curY);
+}
+
+void TetrisBoard::rotateLeft()
+{
+	tryMove(curPiece.rotatedLeft(), curX, curY);
+}
+
+
+/** void TetrisBoard::keyPressEvent(QKeyEvent *event)
  {
      if (!isStarted || isPaused || isInDemo || curPiece.shape() == NoShape) {
          QFrame::keyPressEvent(event);
          return;
      }
 
+	 //cout << (int)(event->key()) << endl;
+
      int CurrentKey = (int) event->key();
 
      if (Left == CurrentKey){
-         tryMove(curPiece, curX - 1, curY);
      }
      else if (Right == CurrentKey)
      {
@@ -291,7 +316,6 @@ class ControlLineEdit;
      {
          QFrame::keyPressEvent(event);
      }
-     /*
      switch (event->key()) {
      case Qt::Key_Left:
          tryMove(curPiece, curX - 1, curY);
@@ -313,8 +337,8 @@ class ControlLineEdit;
          break;
      default:
          QFrame::keyPressEvent(event);
-     }*/
- }
+		 }
+ }**/
 
  void TetrisBoard::timerEvent(QTimerEvent *event)
  {
