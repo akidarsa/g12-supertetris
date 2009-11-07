@@ -71,6 +71,7 @@
      void startDemo();
      void configure();
      void saveKeys();
+     void addLines(int linestoAdd);
 
  signals:
      void scoreChanged(int score);
@@ -82,6 +83,8 @@
      void piece6Changed(int num6Pieces);
      void piece7Changed(int num7Pieces);
      void blocksChanged(int numBlocks);
+     void timeToAddLines(int linestoAdd);
+     void advChanged(int advantage);
 
  protected:
      void paintEvent(QPaintEvent *event);
@@ -100,7 +103,6 @@
      void oneLineDown();
      void pieceDropped(int dropHeight);
      void removeFullLines();
-     void removeFullLines(TetrisBoard board2);
      void newPiece();
      void showNextPiece();
      bool tryMove(const TetrisPiece &newPiece, int newX, int newY);
@@ -136,6 +138,9 @@
      int Right;
      int dropLineV;
      int dropOneLineV;
+     bool singlePlay;
+     int advantage;
+     int linestoAdd;
  };
 
  #endif
