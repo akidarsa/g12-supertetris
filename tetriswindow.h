@@ -45,11 +45,14 @@
  #include <QtGui>
  //#include <QFrame>
  //#include <QWidget>
+ #include "ConfigDialog.h"
+
 
  class QLCDNumber;
  class QLabel;
  class QPushButton;
  class QGroupBox;
+ class ConfigDialog;
 
  class TetrisBoard;
 
@@ -59,6 +62,9 @@
 
  public:
      TetrisWindow();
+
+ signals:
+	 void keyGrabber(QKeyEvent *event);
 
  private:
      QLabel *createLabel(const QString &text);
@@ -85,6 +91,21 @@
      QPushButton *pauseButton;
      QPushButton *demoButton;
      QPushButton *configureButton;
+    int leftVar;
+    int rightVar;
+    int rotRightVar;
+    int dropVar;
+    int mdropVar;
+    int leftVarTwo;
+    int rightVarTwo;
+    int rotRightVarTwo;
+    int dropVarTwo;
+    int mdropVarTwo;
+	void keyPressEvent(QKeyEvent *event);
+	ConfigDialog *myDialog;
+	void configure();
+	void saveKeys();
+	
  };
 
  #endif

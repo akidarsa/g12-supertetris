@@ -64,13 +64,19 @@
      void setNextPieceLabel(QLabel *label);
      QSize sizeHint() const;
      QSize minimumSizeHint() const;
+     void dropDown();
+     void oneLineDown();
+	 void moveLeft();
+	 void moveRight();
+	 void rotateRight();
+	 void rotateLeft();
 
  public slots:
      void start();
      void pause();
      void startDemo();
-     void configure();
-     void saveKeys();
+     //void configure();
+     //void saveKeys();
      void addLines(int linestoAdd, TetrisPiece piece1, int px);
 
  signals:
@@ -86,9 +92,11 @@
      void timeToAddLines(int linestoAdd, TetrisPiece piece1, int px);
      void advChanged(int advantage);
 
- protected:
+
+
+protected:
      void paintEvent(QPaintEvent *event);
-     void keyPressEvent(QKeyEvent *event);
+     //void keyPressEvent(QKeyEvent *event);
      void timerEvent(QTimerEvent *event);
 
  private:
@@ -99,8 +107,7 @@
      int squareWidth() { return contentsRect().width() / BoardWidth; }
      int squareHeight() { return contentsRect().height() / BoardHeight; }
      void clearBoard();
-     void dropDown();
-     void oneLineDown();
+
      void pieceDropped(int dropHeight);
      void removeFullLines();
      void newPiece();
@@ -131,7 +138,7 @@
      int numBlocks; //counts number of blocks in pieces
      TetrisShape board[BoardWidth * BoardHeight];
      FILE* fp;
-     ConfigDialog *myDialog;
+     //ConfigDialog *myDialog;
      int Up;
      int Down;
      int Left;
