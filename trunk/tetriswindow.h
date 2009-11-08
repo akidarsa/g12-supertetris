@@ -124,10 +124,15 @@
     int temprotRightVar;
     int tempdropVar;
     int tempmdropVar;
+	bool keyStarted;
 
 private slots:
 	void keyConfig();
 	void keyConfigTwo();
+	void keyGrabStart(bool started)
+	{
+		keyStarted = started;
+	};
 	//void configure();
  };
 

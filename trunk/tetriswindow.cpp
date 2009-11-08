@@ -150,6 +150,7 @@ using namespace std;
      connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
      connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
      connect(boardTwo, SIGNAL(iLost(bool)), board, SLOT(gameOver(bool)));
+	 connect(board, SIGNAL(gameIsStart(bool)), this, SLOT(keyGrabStart(bool)));
 
      QGridLayout *layout = new QGridLayout;
 
@@ -179,7 +180,6 @@ using namespace std;
   nextPieceLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
   nextPieceLabel->setAlignment(Qt::AlignCenter);
   board->setNextPieceLabel(nextPieceLabel);
-
 	
   nextPieceLabel2 = new QLabel;
   nextPieceLabel2->setFrameStyle(QFrame::Box | QFrame::Raised);
@@ -341,6 +341,9 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 {
     QWidget::keyPressEvent(event);
 
+	if(keyStarted)
+	{
+
     if ((event->key()) == leftVar) 
 	{
         boardTwo->moveLeft();
@@ -385,6 +388,7 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 	{
         QWidget::keyPressEvent(event);
     }
+	}
 
 }
 
