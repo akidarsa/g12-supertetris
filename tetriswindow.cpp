@@ -134,8 +134,8 @@ using namespace std;
      connect(boardTwo, SIGNAL(advChanged(int)), ui_advantage2, SLOT(setNum(int)));
      connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
      connect(boardTwo, SIGNAL(linesRemovedChanged(int)), linesLcd2, SLOT(display(int)));
-     connect(board, SIGNAL(timeToAddLines(int,TetrisPiece,int)), boardTwo, SLOT(addLines(int,TetrisPiece,int)));
-     connect(boardTwo, SIGNAL(timeToAddLines(int,TetrisPiece,int)), board, SLOT(addLines(int,TetrisPiece,int)));
+     connect(board, SIGNAL(timeToAddLines(TetrisShape*)), boardTwo, SLOT(addLines(TetrisShape*)));
+     connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
      connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
      connect(boardTwo, SIGNAL(iLost(bool)), board, SLOT(gameOver(bool)));
 

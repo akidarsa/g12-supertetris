@@ -497,6 +497,17 @@ void TetrisBoard::rotateLeft()
          }
 
          if (lineIsFull) {
+             advantage++;
+             TetrisShape line[BoardWidth];
+             for(int n = 0; n < BoardWidth; ++n) {
+                 line[n] = shapeAt(n,i);
+             }
+             for(int m = 0; m < curPiece.size(); ++m) {
+                 if(curY - curPiece.y(m) == i) {
+                     line[curX + curPiece.x(m)] = NoShape;
+                 }                             
+             }
+             emit timeToAddLines(line);
              ++numFullLines;
              for (int k = i; k < BoardHeight - 1; ++k) {
                  for (int j = 0; j < BoardWidth; ++j)
@@ -512,9 +523,9 @@ void TetrisBoard::rotateLeft()
          score += 10 * numFullLines;
          emit linesRemovedChanged(numLinesRemoved);
          emit scoreChanged(score);
-         advantage += numFullLines;
+         //advantage += numFullLines;
          emit advChanged(advantage);
-         emit timeToAddLines(numFullLines, curPiece, curX);
+         //emit timeToAddLines(numFullLines, curPiece, curX);
          timer.start(500, this);
          isWaitingAfterLine = true;
          curPiece.setShape(NoShape);
@@ -522,31 +533,22 @@ void TetrisBoard::rotateLeft()
      }
  }
 
- void TetrisBoard::addLines(int linestoAdd, TetrisPiece piece1, int px)
+ void TetrisBoard::addLines(TetrisShape *line)
  {
-     advantage -= linestoAdd;
+     advantage--;
      emit advChanged(advantage);
      if (advantage > 0) {
-         linestoAdd = linestoAdd - advantage;
+         return;
      }
      //move all rows up one
-     for(int i = 0; i < linestoAdd; ++i) {
-         for(int m = BoardHeight - 1; m > 0; m--) {
-             for(int n = 0; n < BoardWidth; ++n) {
-                 shapeAt(n,m) = shapeAt(n, m-1);
-              }
+     for(int m = BoardHeight - 1; m > 0; m--) {
+         for(int n = 0; n < BoardWidth; ++n) {
+             shapeAt(n,m) = shapeAt(n, m-1);
          }
-         //create the bottom row
-         for(int j = 0; j < BoardWidth; ++j) {
-             shapeAt(j,0) = Shaped;
-         }
-         //make squares with cur piece = NoShape
-         for (int j = 0; j < piece1.size(); ++j) {
-             int x = px + piece1.x(j);
-             if(piece1.y(j) == i) {
-                 shapeAt(x, i) = NoShape;
-             }
-         }
+     }
+     //create the bottom row
+     for(int j = 0; j < BoardWidth; ++j) {
+         shapeAt(j,0) = line[j];
      }
  }
 
