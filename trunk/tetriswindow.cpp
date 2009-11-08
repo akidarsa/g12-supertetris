@@ -110,14 +110,25 @@ using namespace std;
      createStatus();
      createStatus2();
      createControl();
+     /*Single player start*/
      connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
-     connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(start()));
+     connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(reset()));
+     /*Human vs. Human start*/
+     connect(startHHButton, SIGNAL(clicked()), board, SLOT(start()));
+     connect(startHHButton, SIGNAL(clicked()), boardTwo, SLOT(start()));
+     /*Human vs. Computer start*/
+     connect(startHCButton, SIGNAL(clicked()), board, SLOT(start()));
+     connect(startHCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
+     /*Computer vs. Computer start*/
+     connect(startCCButton, SIGNAL(clicked()), board, SLOT(startDemo()));
+     connect(startCCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
+     /*other controls*/
      connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
      connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
      connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));
-     connect(demoButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
      connect(configureButton, SIGNAL(clicked()), this, SLOT(keyConfig()));
      connect(configureButtonTwo, SIGNAL(clicked()), this, SLOT(keyConfigTwo()));
+     /*updates stats*/
      connect(board, SIGNAL(pieceChanged(int)), ui_pieceCountLabel, SLOT(setNum(int)));
      connect(board, SIGNAL(piece4Changed(int)), ui_piece4Label, SLOT(setNum(int)));
      connect(board, SIGNAL(piece5Changed(int)), ui_piece5Label, SLOT(setNum(int)));
@@ -130,6 +141,7 @@ using namespace std;
      connect(boardTwo, SIGNAL(piece6Changed(int)), ui_piece6Label2, SLOT(setNum(int)));
      connect(boardTwo, SIGNAL(piece7Changed(int)), ui_piece7Label2, SLOT(setNum(int)));
      connect(boardTwo, SIGNAL(blocksChanged(int)), ui_blockCountLabel2, SLOT(setNum(int)));
+     /*deals with line removal*/
      connect(board, SIGNAL(advChanged(int)), ui_advantage1, SLOT(setNum(int)));
      connect(boardTwo, SIGNAL(advChanged(int)), ui_advantage2, SLOT(setNum(int)));
      connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
@@ -297,24 +309,30 @@ void TetrisWindow::createStatus2()
 void TetrisWindow::createControl()
 {
     QGridLayout * controlLayout = new QGridLayout;
-    startButton = new QPushButton(tr("&Start"));
+    startButton = new QPushButton(tr("&Start - 1 Player"));
     startButton->setFocusPolicy(Qt::NoFocus);
     quitButton = new QPushButton(tr("&Quit"));
     quitButton->setFocusPolicy(Qt::NoFocus);
     pauseButton = new QPushButton(tr("&Pause"));
     pauseButton->setFocusPolicy(Qt::NoFocus);
-    demoButton = new QPushButton(tr("&Demo"));
-    demoButton->setFocusPolicy(Qt::NoFocus);
+    startHHButton = new QPushButton(tr("&Start - Human vs. Human"));
+    startHHButton->setFocusPolicy(Qt::NoFocus);
+    startHCButton = new QPushButton(tr("&Start - Human vs. Computer"));
+    startHCButton->setFocusPolicy(Qt::NoFocus);
+    startCCButton = new QPushButton(tr("&Start - Computer vs. Computer"));
+    startCCButton->setFocusPolicy(Qt::NoFocus);
     configureButton = new QPushButton(tr("&Configure Player 1"));
     configureButton->setFocusPolicy(Qt::NoFocus);
     configureButtonTwo = new QPushButton(tr("&Configure Player 2"));
     configureButtonTwo->setFocusPolicy(Qt::NoFocus);
     controlLayout -> addWidget(startButton, 0, 0);
-    controlLayout -> addWidget(pauseButton, 1, 0);
-    controlLayout -> addWidget(configureButton, 0, 1);
-    controlLayout -> addWidget(configureButtonTwo, 1, 1);
-    controlLayout -> addWidget(demoButton, 0, 2);
-    controlLayout -> addWidget(quitButton, 1, 2);
+    controlLayout -> addWidget(startHHButton, 1, 0);
+    controlLayout -> addWidget(startHCButton, 2, 0);
+    controlLayout -> addWidget(startCCButton, 3, 0);
+    controlLayout -> addWidget(pauseButton, 0, 1);
+    controlLayout -> addWidget(configureButton, 1, 1);
+    controlLayout -> addWidget(configureButtonTwo, 2, 1);
+    controlLayout -> addWidget(quitButton, 0, 2);
     ui_controlGroup = new QGroupBox(tr("Menu"));
     ui_controlGroup -> setLayout(controlLayout);
 }

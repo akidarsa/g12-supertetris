@@ -1,169 +1,78 @@
-/*
- * File:   Tetrispiece.h
- * Author: ee462a1
- *
- * Created on October 5, 2009, 9:15 AM
- */
-
 /****************************************************************************
  **
- ** Copyright (C) 2004-2008 Trolltech ASA. All rights reserved.
+ ** Copyright (C) 2009 Nokia Corporation and/or its subsidiary(-ies).
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
  **
- ** This file is part of the documentation of the Qt Toolkit.
+ ** This file is part of the examples of the Qt Toolkit.
  **
- ** This file may be used under the terms of the GNU General Public
- ** License versions 2.0 or 3.0 as published by the Free Software
- ** Foundation and appearing in the files LICENSE.GPL2 and LICENSE.GPL3
- ** included in the packaging of this file.  Alternatively you may (at
- ** your option) use any later version of the GNU General Public
- ** License if such license has been publicly approved by Trolltech ASA
- ** (or its successors, if any) and the KDE Free Qt Foundation. In
- ** addition, as a special exception, Trolltech gives you certain
- ** additional rights. These rights are described in the Trolltech GPL
- ** Exception version 1.2, which can be found at
- ** http://www.trolltech.com/products/qt/gplexception/ and in the file
- ** GPL_EXCEPTION.txt in this package.
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** Commercial Usage
+ ** Licensees holding valid Qt Commercial licenses may use this file in
+ ** accordance with the Qt Commercial License Agreement provided with the
+ ** Software or, alternatively, in accordance with the terms contained in
+ ** a written agreement between you and Nokia.
  **
- ** Please review the following information to ensure GNU General
- ** Public Licensing requirements will be met:
- ** http://trolltech.com/products/qt/licenses/licensing/opensource/. If
- ** you are unsure which license is appropriate for your use, please
- ** review the following information:
- ** http://trolltech.com/products/qt/licenses/licensing/licensingoverview
- ** or contact the sales department at sales@trolltech.com.
+ ** GNU Lesser General Public License Usage
+ ** Alternatively, this file may be used under the terms of the GNU Lesser
+ ** General Public License version 2.1 as published by the Free Software
+ ** Foundation and appearing in the file LICENSE.LGPL included in the
+ ** packaging of this file.  Please review the following information to
+ ** ensure the GNU Lesser General Public License version 2.1 requirements
+ ** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
  **
- ** In addition, as a special exception, Trolltech, as the sole
- ** copyright holder for Qt Designer, grants users of the Qt/Eclipse
- ** Integration plug-in the right for the Qt/Eclipse Integration to
- ** link to functionality provided by Qt Designer and its related
- ** libraries.
+ ** In addition, as a special exception, Nokia gives you certain additional
+ ** rights.  These rights are described in the Nokia Qt LGPL Exception
+ ** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
  **
- ** This file is provided "AS IS" with NO WARRANTY OF ANY KIND,
- ** INCLUDING THE WARRANTIES OF DESIGN, MERCHANTABILITY AND FITNESS FOR
- ** A PARTICULAR PURPOSE. Trolltech reserves all rights not expressly
- ** granted herein.
+ ** GNU General Public License Usage
+ ** Alternatively, this file may be used under the terms of the GNU
+ ** General Public License version 3.0 as published by the Free Software
+ ** Foundation and appearing in the file LICENSE.GPL included in the
+ ** packaging of this file.  Please review the following information to
+ ** ensure the GNU General Public License version 3.0 requirements will be
+ ** met: http://www.gnu.org/copyleft/gpl.html.
  **
- ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
- ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ ** If you have questions regarding the use of this file, please contact
+ ** Nokia at qt-info@nokia.com.
+ ** $QT_END_LICENSE$
  **
  ****************************************************************************/
-
-#ifndef TetrisPIECE_H
-#define TetrisPIECE_H
+  #ifndef TETRISPIECE_H
+ #define TETRISPIECE_H
 #include <stdio.h>
 
-enum TetrisShape {
-    NoShape, Mark, Shaped
-};
+ enum TetrisShape { NoShape, Piece4, Piece5, Piece6, Piece7, Mark };
 
-class TetrisPiece {
-public:
+ class TetrisPiece
+ {
+ public:
+     TetrisPiece() { setShape(NoShape);}
 
-    TetrisPiece() {
-        setShape(NoShape);
-    }
+     void setRandomShape();
+     void setShape(TetrisShape shape);
+     void setCoords(char* piecerep);
+     void randomPieceRep();
+     void setFilePointer(FILE* fpr);
 
-    void setRandomShape();
-    void setShape(TetrisShape shape);
-    void setShape(int*, int);
-    void setShape(char*, int);
+     TetrisShape shape() const { return pieceShape; }
+     int x(int index) const { return coords[index][0]; }
+     int y(int index) const { return coords[index][1]; }
+     int size() const;
+     int minX() const;
+     int maxX() const;
+     int minY() const;
+     int maxY() const;
+     TetrisPiece rotatedLeft();
+     TetrisPiece rotatedRight();
+     FILE* getFilePointer() {return fp;}
 
-    TetrisShape shape() const {
-        return pieceShape;
-    }
+ private:
+     void setX(int index, int x) { coords[index][0] = x; }
+     void setY(int index, int y) { coords[index][1] = y; }
 
-    int x(int index) const {
-        switch (blocks) {
-            case 4:
-                return coords[index][0];
-                break;
-            case 5:
-                return coords5[index][0];
-                break;
-            case 6:
-                return coords6[index][0];
-                break;
-            case 7:
-                return coords7[index][0];
-                break;
-        }
-        return 0;
-    }
-
-    int y(int index) const {
-        switch (blocks) {
-            case 4:
-                return coords[index][1];
-                break;
-            case 5:
-                return coords5[index][1];
-                break;
-            case 6:
-                return coords6[index][1];
-                break;
-            case 7:
-                return coords7[index][1];
-                break;
-        }
-        return 0;
-    }
-    int minX() const;
-    int maxX() const;
-    int minY() const;
-    int maxY() const;
-    int blocks;
-    TetrisPiece rotatedLeft() const;
-    TetrisPiece rotatedRight() const;
-
-    void setX(int index, int x) {
-        switch (blocks) {
-            case 4:
-                coords[index][0] = x;
-                break;
-            case 5:
-                coords5[index][0] = x;
-                break;
-            case 6:
-                coords6[index][0] = x;
-                break;
-            case 7:
-                coords7[index][0] = x;
-                break;
-        }
-    }
-
-    void setY(int index, int y) {
-        switch (blocks) {
-            case 4:
-                coords[index][1] = y;
-                break;
-            case 5:
-                coords5[index][1] = y;
-                break;
-            case 6:
-                coords6[index][1] = y;
-                break;
-            case 7:
-                coords7[index][1] = y;
-                break;
-        }
-    }
-
-    void setFilePointer(FILE* fpr){fp = fpr;}     
-    FILE* getFilePointer() {return fp;}
-
-    int size() const
-    {
-	return blocks;
-    }
-
-    TetrisShape pieceShape;
-    int coords[4][2];
-    int coords5[5][2];
-    int coords6[6][2];
-    int coords7[7][2];
-    FILE *fp;
-};
-
-#endif
-
+     TetrisShape pieceShape;
+     int coords[7][2];
+     FILE* fp;
+ };
+ #endif
