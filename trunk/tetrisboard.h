@@ -65,7 +65,9 @@
      QSize sizeHint() const;
      QSize minimumSizeHint() const;
      void dropDown();
+     void dropDown(int b);
      void oneLineDown();
+     void oneLineDown(int a);
 	 void moveLeft();
 	 void moveRight();
 	 void rotateRight();
