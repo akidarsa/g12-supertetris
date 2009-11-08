@@ -134,6 +134,9 @@ private slots:
 		keyStarted = started;
 	};
 	//void configure();
+        void disableButtons();
+        void disable2Buttons();
+        void enable2Buttons();
  };
 
  #endif
