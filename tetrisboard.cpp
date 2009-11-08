@@ -53,7 +53,6 @@ class ControlLineEdit;
      : QFrame(parent)
  {
      setFrameStyle(QFrame::Panel | QFrame::Sunken);
-     //setFocusPolicy(Qt::StrongFocus);
      isStarted = false;
      isGameOver = false;
      isPaused = false;
@@ -67,7 +66,6 @@ class ControlLineEdit;
      clearBoard();
      singlePlay = false;
      fp = NULL;
-     //myDialog = new ConfigDialog;
      singlePlay = false;
      advantage = 0;
  }
@@ -157,7 +155,8 @@ class ControlLineEdit;
      numBlocks = 0;
      score = 0;
      advantage = 0;
-     level = 12; //it has a 12th level intellect
+     //level = 12; //it has a 12th level intellect
+     level = 13; //I think the number 13 is lucky
      clearBoard();
      if (fp != NULL) {
          fclose(fp);
@@ -231,26 +230,6 @@ class ControlLineEdit;
      update();
  }
 
-/** void TetrisBoard::configure()
- {
-     if (!isPaused)
-         pause();
-     myDialog->board = this;
-     myDialog->exec();
-     if (isPaused)
-        pause();
- }**/
-
-/** void TetrisBoard::saveKeys()
- {
-     Up = myDialog->getKey(0);
-     Down = myDialog->getKey(1);
-     Left = myDialog->getKey(2);
-     Right = myDialog->getKey(3);
-     dropLineV = myDialog->getKey(4);
-     dropOneLineV = myDialog->getKey(5);
-     pause();
- }**/
 
  void TetrisBoard::paintEvent(QPaintEvent *event)
  {
@@ -304,7 +283,7 @@ class ControlLineEdit;
 
 void TetrisBoard::moveLeft()
 {
-	if(!isGameOver)
+	if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece, curX - 1, curY);
 	}
@@ -312,7 +291,7 @@ void TetrisBoard::moveLeft()
 
 void TetrisBoard::moveRight()
 {
-	if(!isGameOver)
+	if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece, curX + 1, curY);
 	}
@@ -320,7 +299,7 @@ void TetrisBoard::moveRight()
 
 void TetrisBoard::rotateRight()
 {
-	if(!isGameOver)
+	if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece.rotatedRight(), curX, curY);
 	}
@@ -328,72 +307,12 @@ void TetrisBoard::rotateRight()
 
 void TetrisBoard::rotateLeft()
 {
-	if(!isGameOver)
+	if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece.rotatedLeft(), curX, curY);
 	}
 }
 
-
-/** void TetrisBoard::keyPressEvent(QKeyEvent *event)
- {
-     if (!isStarted || isPaused || isInDemo || curPiece.shape() == NoShape) {
-         QFrame::keyPressEvent(event);
-         return;
-     }
-
-	 //cout << (int)(event->key()) << endl;
-
-     int CurrentKey = (int) event->key();
-
-     if (Left == CurrentKey){
-     }
-     else if (Right == CurrentKey)
-     {
-         tryMove(curPiece, curX + 1, curY);
-     }
-     else if (Down == CurrentKey){
-         tryMove(curPiece.rotatedRight(), curX, curY);
-     }
-     else if (Up == CurrentKey)
-     {
-         tryMove(curPiece.rotatedLeft(), curX, curY);
-     }
-     else if (dropLineV == CurrentKey)
-     {
-         dropDown();
-     }
-     else if (dropOneLineV == CurrentKey)
-     {
-         oneLineDown();
-     }
-     else
-     {
-         QFrame::keyPressEvent(event);
-     }
-     switch (event->key()) {
-     case Qt::Key_Left:
-         tryMove(curPiece, curX - 1, curY);
-         break;
-     case Qt::Key_Right:
-         tryMove(curPiece, curX + 1, curY);
-         break;
-     case Qt::Key_Down:
-         tryMove(curPiece.rotatedRight(), curX, curY);
-         break;
-     case Qt::Key_Up:
-         tryMove(curPiece.rotatedLeft(), curX, curY);
-         break;
-     case Qt::Key_Space:
-         dropDown();
-         break;
-     case Qt::Key_D:
-         oneLineDown();
-         break;
-     default:
-         QFrame::keyPressEvent(event);
-		 }
- }**/
 
  void TetrisBoard::timerEvent(QTimerEvent *event)
  {
@@ -445,7 +364,23 @@ void TetrisBoard::rotateLeft()
 
  void TetrisBoard::dropDown()
  {
-	 if(!isGameOver)
+	 if(!isGameOver) // and !isInDemo) //Add this on the final submit
+	 {
+     int dropHeight = 0;
+     int newY = curY;
+     while (true) {
+         if (!tryMove(curPiece, curX, newY - 1))
+             break;
+         --newY;
+         ++dropHeight;
+     }
+     pieceDropped(dropHeight);
+	 }
+ }
+
+ void TetrisBoard::dropDown(int b)
+ {
+	 if(!isGameOver and !isInDemo) //Add this on the final submit
 	 {
      int dropHeight = 0;
      int newY = curY;
@@ -468,6 +403,15 @@ void TetrisBoard::rotateLeft()
 	 }
  }
 
+ void TetrisBoard::oneLineDown(int a)
+ {
+	 if(!isGameOver & !isInDemo)
+	 {
+     if (!tryMove(curPiece, curX, curY - 1))
+         pieceDropped(0);
+	 }
+ }
+
  void TetrisBoard::pieceDropped(int dropHeight)
  {
      for (int i = 0; i < curPiece.size(); ++i) {
@@ -477,12 +421,6 @@ void TetrisBoard::rotateLeft()
      }
 
      ++numPiecesDropped;
-     /*if (numPiecesDropped % 25 == 0) {
-         ++level;
-         timer.start(timeoutTime(), this);
-         emit levelChanged(level);
-     }*/
-
      score += dropHeight + 7;
      emit scoreChanged(score);
      emit pieceChanged(numPiecesDropped);
@@ -571,6 +509,10 @@ void TetrisBoard::rotateLeft()
 
  void TetrisBoard::addLines(TetrisShape *line)
  {
+	 if(singlePlay)
+	 {
+		 return;
+	 }
      advantage--;
      emit advChanged(advantage);
      if (advantage > 0) {
@@ -633,11 +575,6 @@ void TetrisBoard::rotateLeft()
      for (int i = 0; i < newPiece.size(); ++i) {
          int x = newX + newPiece.x(i);
          int y = newY - newPiece.y(i);
-        /* printf("i = %d\n",i);
-         printf("x = %d, y = %d\n",newX,newY);
-         printf("px = %d, py = %d\n",newPiece.x(i),newPiece.y(i));
-         printf("BoardHeight = %d\n", BoardHeight);
-         printf("minx = %d, miny = %d\n\n",newPiece.minX(),newPiece.minY());*/
          if (x < 0 || x >= BoardWidth || y < 0 || y >= (BoardHeight+4))
              return false;
          if (shapeAt(x, y) != NoShape)
