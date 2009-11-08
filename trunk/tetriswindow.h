@@ -69,23 +69,33 @@
  private:
      QLabel *createLabel(const QString &text);
      void createStatus();
-
+     void createStatus2();
+     void createControl();
      TetrisBoard *board;
      TetrisBoard *boardTwo;
      QLabel *nextPieceLabel;
      QGroupBox * ui_statusGroup;
+     QGroupBox * ui_statusGroup2;
+     QGroupBox * ui_controlGroup;
      QLabel * ui_pieceCountLabel;
      QLabel * ui_piece4Label;
      QLabel * ui_piece5Label;
      QLabel * ui_piece6Label;
      QLabel * ui_piece7Label;
      QLabel * ui_blockCountLabel;
+     QLabel * ui_pieceCountLabel2;
+     QLabel * ui_piece4Label2;
+     QLabel * ui_piece5Label2;
+     QLabel * ui_piece6Label2;
+     QLabel * ui_piece7Label2;
+     QLabel * ui_blockCountLabel2;
      QLabel * ui_advantage1;
      QLabel * ui_advantage2;
      QLabel * ui_linesRemoved2;
      //QLCDNumber *scoreLcd;
      //QLCDNumber *levelLcd;
      QLCDNumber *linesLcd;
+     QLCDNumber *linesLcd2;
      QPushButton *startButton;
      QPushButton *quitButton;
      QPushButton *pauseButton;

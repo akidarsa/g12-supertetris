@@ -70,7 +70,7 @@ using namespace std;
      board = new TetrisBoard;
 // This part onward till the next breakpoint is edited by Alex
 
-	 boardTwo = new TetrisBoard;
+     boardTwo = new TetrisBoard;
 
      /**connect(boardTwo, SIGNAL(pieceChanged(int)), ui_pieceCountLabel, SLOT(setNum(int)));
      connect(boardTwo, SIGNAL(piece4Changed(int)), ui_piece4Label, SLOT(setNum(int)));
@@ -82,19 +82,14 @@ using namespace std;
 
 // This is the end of the edit done by Alex
 
-     nextPieceLabel = new QLabel;
-     nextPieceLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
-     nextPieceLabel->setAlignment(Qt::AlignCenter);
-     board->setNextPieceLabel(nextPieceLabel);
-
      //scoreLcd = new QLCDNumber(5);
      //scoreLcd->setSegmentStyle(QLCDNumber::Filled);
      //levelLcd = new QLCDNumber(2);
      //levelLcd->setSegmentStyle(QLCDNumber::Filled);
-     linesLcd = new QLCDNumber(5);
-     linesLcd->setSegmentStyle(QLCDNumber::Filled);
+     //linesLcd = new QLCDNumber(5);
+     //linesLcd->setSegmentStyle(QLCDNumber::Filled);
 
-     startButton = new QPushButton(tr("&Start"));
+/*     startButton = new QPushButton(tr("&Start"));
      startButton->setFocusPolicy(Qt::NoFocus);
      quitButton = new QPushButton(tr("&Quit"));
      quitButton->setFocusPolicy(Qt::NoFocus);
@@ -105,20 +100,20 @@ using namespace std;
      configureButton = new QPushButton(tr("&Configure Player 1"));
      configureButton->setFocusPolicy(Qt::NoFocus);
      configureButtonTwo = new QPushButton(tr("&Configure Player 2"));
-     configureButtonTwo->setFocusPolicy(Qt::NoFocus);
+     configureButtonTwo->setFocusPolicy(Qt::NoFocus); */
 
-     connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
-     connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(start())); //Alex
-     connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
-     connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
-     connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));	//Alex
+     //connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
+     //connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(start())); //Alex
+     //connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
+     //connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
+     //connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));	//Alex
      //connect(demoButton, SIGNAL(clicked()), board, SLOT(startDemo())); //Alex
-     connect(demoButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo())); //Alex
+     //connect(demoButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo())); //Alex
 	 
 
 
-     connect(configureButton, SIGNAL(clicked()), this, SLOT(keyConfig()));
-     connect(configureButtonTwo, SIGNAL(clicked()), this, SLOT(keyConfigTwo()));
+     //connect(configureButton, SIGNAL(clicked()), this, SLOT(keyConfig()));
+     //connect(configureButtonTwo, SIGNAL(clicked()), this, SLOT(keyConfigTwo()));
 	 //connect(configOneButton, SIGNAL(clicked()), this, SLOT(keyConfig));
 	 //connect(configTwoButton, SIGNAL(clicked()), this, SLOT(keyConfigTwo));
 	 //connect(exitButton, SIGNAL(clicked()), this, SLOT(sys.exit()));
@@ -127,18 +122,35 @@ using namespace std;
 
      //connect(board, SIGNAL(scoreChanged(int)), scoreLcd, SLOT(display(int)));
      //connect(board, SIGNAL(levelChanged(int)), levelLcd, SLOT(display(int)));
-     connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
+     //connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
 
      createStatus();
+     createStatus2();
+     createControl();
+     connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
+     connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(start()));
+     connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
+     connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
+     connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));
+     connect(demoButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
+     connect(configureButton, SIGNAL(clicked()), this, SLOT(keyConfig()));
+     connect(configureButtonTwo, SIGNAL(clicked()), this, SLOT(keyConfigTwo()));
      connect(board, SIGNAL(pieceChanged(int)), ui_pieceCountLabel, SLOT(setNum(int)));
      connect(board, SIGNAL(piece4Changed(int)), ui_piece4Label, SLOT(setNum(int)));
      connect(board, SIGNAL(piece5Changed(int)), ui_piece5Label, SLOT(setNum(int)));
      connect(board, SIGNAL(piece6Changed(int)), ui_piece6Label, SLOT(setNum(int)));
      connect(board, SIGNAL(piece7Changed(int)), ui_piece7Label, SLOT(setNum(int)));
      connect(board, SIGNAL(blocksChanged(int)), ui_blockCountLabel, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(pieceChanged(int)), ui_pieceCountLabel2, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(piece4Changed(int)), ui_piece4Label2, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(piece5Changed(int)), ui_piece5Label2, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(piece6Changed(int)), ui_piece6Label2, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(piece7Changed(int)), ui_piece7Label2, SLOT(setNum(int)));
+     connect(boardTwo, SIGNAL(blocksChanged(int)), ui_blockCountLabel2, SLOT(setNum(int)));
      connect(board, SIGNAL(advChanged(int)), ui_advantage1, SLOT(setNum(int)));
      connect(boardTwo, SIGNAL(advChanged(int)), ui_advantage2, SLOT(setNum(int)));
-     connect(boardTwo, SIGNAL(linesRemovedChanged(int)), ui_linesRemoved2, SLOT(setNum(int)));
+     connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
+     connect(boardTwo, SIGNAL(linesRemovedChanged(int)), linesLcd2, SLOT(display(int)));
      connect(board, SIGNAL(timeToAddLines(int,TetrisPiece,int)), boardTwo, SLOT(addLines(int,TetrisPiece,int)));
      connect(boardTwo, SIGNAL(timeToAddLines(int,TetrisPiece,int)), board, SLOT(addLines(int,TetrisPiece,int)));
      connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
@@ -178,20 +190,22 @@ using namespace std;
 
 // This part is edited by Alex
 	
-     layout->addWidget(createLabel(tr("NEXT")), 0, 0);
-     layout->addWidget(nextPieceLabel, 1, 0);
-	 layout->addWidget(configureButton, 4, 0);
-     layout->addWidget(configureButtonTwo, 5, 0);
-     layout->addWidget(startButton, 2, 0);
-     layout->addWidget(board, 0, 1, 6, 1);
-     layout->addWidget(boardTwo, 0, 2, 6, 1);
-	 //layout->addWidget(test, 0, 1, 6, 1);
-     layout->addWidget(ui_statusGroup, 0, 3);
-     layout->addWidget(createLabel(tr("LINES REMOVED")), 2, 3);
-     layout->addWidget(linesLcd, 3, 3);
-     layout->addWidget(quitButton, 4, 3);
-     layout->addWidget(pauseButton, 5, 3);
-     layout->addWidget(demoButton, 3, 0);
+     //layout->addWidget(createLabel(tr("NEXT")), 0, 0);
+     //layout->addWidget(nextPieceLabel, 1, 0);
+     //layout->addWidget(configureButton, 4, 0);
+     //layout->addWidget(configureButtonTwo, 5, 0);
+     //layout->addWidget(startButton, 2, 0);
+     layout->addWidget(ui_statusGroup, 0, 0);
+     layout->addWidget(board, 0, 1, 2, 1);
+     layout->addWidget(boardTwo, 0, 2, 2, 1);
+     //layout->addWidget(test, 0, 1, 6, 1);
+     layout->addWidget(ui_statusGroup2, 0, 3);
+     layout->addWidget(ui_controlGroup, 2, 0, 1, 4);
+     //layout->addWidget(createLabel(tr("LINES REMOVED")), 2, 3);
+     //layout->addWidget(linesLcd, 3, 3);
+     //layout->addWidget(quitButton, 4, 3);
+     //layout->addWidget(pauseButton, 5, 3);
+     //layout->addWidget(demoButton, 3, 0);
 
 // End of edit
 
@@ -209,9 +223,15 @@ using namespace std;
      return lbl;
  }
 
- void TetrisWindow::createStatus()
+void TetrisWindow::createStatus()
 {
   QGridLayout * statusLayout = new QGridLayout;
+  nextPieceLabel = new QLabel;
+  nextPieceLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
+  nextPieceLabel->setAlignment(Qt::AlignCenter);
+  board->setNextPieceLabel(nextPieceLabel);
+  linesLcd = new QLCDNumber(5);
+  linesLcd->setSegmentStyle(QLCDNumber::Filled);
   QLabel * pieceCount = new QLabel("# of pieces: ");
   ui_pieceCountLabel = new QLabel("      ");
   QLabel * piece4 = new QLabel("4 block pieces: ");
@@ -224,12 +244,8 @@ using namespace std;
   ui_piece7Label = new QLabel("      ");
   QLabel * blockCount = new QLabel("# of blocks: ");
   ui_blockCountLabel = new QLabel("      ");
-  QLabel * advantage1 = new QLabel("Player 1 Adv.: ");
+  QLabel * advantage1 = new QLabel("Advantage: ");
   ui_advantage1 = new QLabel("     ");
-  QLabel * advantage2 = new QLabel("Player 2 Adv.: ");
-  ui_advantage2 = new QLabel("     ");
-  QLabel * linesRemoved2 = new QLabel("Player 2 Lines: ");
-  ui_linesRemoved2 = new QLabel("     ");
   statusLayout -> addWidget(pieceCount, 0, 0);
   statusLayout -> addWidget(ui_pieceCountLabel, 0, 1);
   statusLayout -> addWidget(piece4, 1, 0);
@@ -244,12 +260,82 @@ using namespace std;
   statusLayout -> addWidget(ui_blockCountLabel, 5, 1);
   statusLayout -> addWidget(advantage1, 6, 0);
   statusLayout -> addWidget(ui_advantage1, 6, 1);
-  statusLayout -> addWidget(advantage2, 7, 0);
-  statusLayout -> addWidget(ui_advantage2, 7, 1);
-  statusLayout -> addWidget(linesRemoved2, 8, 0);
-  statusLayout -> addWidget(ui_linesRemoved2, 8, 1);
-  ui_statusGroup = new QGroupBox(tr("Player Stats"));
+  statusLayout -> addWidget(createLabel(tr("NEXT")), 7, 0);
+  statusLayout -> addWidget(nextPieceLabel, 8, 0);
+  statusLayout -> addWidget(createLabel(tr("LINES REMOVED")), 9, 0);
+  statusLayout -> addWidget(linesLcd, 10, 0);
+  ui_statusGroup = new QGroupBox(tr("Player 1"));
   ui_statusGroup -> setLayout(statusLayout);
+}
+
+void TetrisWindow::createStatus2()
+{
+  QGridLayout * statusLayout2 = new QGridLayout;
+  nextPieceLabel = new QLabel;
+  nextPieceLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
+  nextPieceLabel->setAlignment(Qt::AlignCenter);
+  boardTwo->setNextPieceLabel(nextPieceLabel);
+  linesLcd2 = new QLCDNumber(5);
+  linesLcd2->setSegmentStyle(QLCDNumber::Filled);
+  QLabel * pieceCount = new QLabel("# of pieces: ");
+  ui_pieceCountLabel2 = new QLabel("      ");
+  QLabel * piece4 = new QLabel("4 block pieces: ");
+  ui_piece4Label2 = new QLabel("      ");
+  QLabel * piece5 = new QLabel("5 block pieces: ");
+  ui_piece5Label2 = new QLabel("      ");
+  QLabel * piece6 = new QLabel("6 block pieces: ");
+  ui_piece6Label2 = new QLabel("      ");
+  QLabel * piece7 = new QLabel("7 block pieces: ");
+  ui_piece7Label2 = new QLabel("      ");
+  QLabel * blockCount = new QLabel("# of blocks: ");
+  ui_blockCountLabel2 = new QLabel("      ");
+  QLabel * advantage2 = new QLabel("Advantage: ");
+  ui_advantage2 = new QLabel("     ");
+  statusLayout2 -> addWidget(pieceCount, 0, 0);
+  statusLayout2 -> addWidget(ui_pieceCountLabel2, 0, 1);
+  statusLayout2 -> addWidget(piece4, 1, 0);
+  statusLayout2 -> addWidget(ui_piece4Label2, 1, 1);
+  statusLayout2 -> addWidget(piece5, 2, 0);
+  statusLayout2 -> addWidget(ui_piece5Label2, 2, 1);
+  statusLayout2 -> addWidget(piece6, 3, 0);
+  statusLayout2 -> addWidget(ui_piece6Label2, 3, 1);
+  statusLayout2 -> addWidget(piece7, 4, 0);
+  statusLayout2 -> addWidget(ui_piece7Label2, 4, 1);
+  statusLayout2 -> addWidget(blockCount, 5, 0);
+  statusLayout2 -> addWidget(ui_blockCountLabel2, 5, 1);
+  statusLayout2 -> addWidget(advantage2, 6, 0);
+  statusLayout2 -> addWidget(ui_advantage2, 6, 1);
+  statusLayout2 -> addWidget(createLabel(tr("NEXT")), 7, 0);
+  statusLayout2 -> addWidget(nextPieceLabel, 8, 0);
+  statusLayout2 -> addWidget(createLabel(tr("LINES REMOVED")), 9, 0);
+  statusLayout2 -> addWidget(linesLcd2, 10, 0);
+  ui_statusGroup2 = new QGroupBox(tr("Player 2"));
+  ui_statusGroup2 -> setLayout(statusLayout2);
+}
+
+void TetrisWindow::createControl()
+{
+    QGridLayout * controlLayout = new QGridLayout;
+    startButton = new QPushButton(tr("&Start"));
+    startButton->setFocusPolicy(Qt::NoFocus);
+    quitButton = new QPushButton(tr("&Quit"));
+    quitButton->setFocusPolicy(Qt::NoFocus);
+    pauseButton = new QPushButton(tr("&Pause"));
+    pauseButton->setFocusPolicy(Qt::NoFocus);
+    demoButton = new QPushButton(tr("&Demo"));
+    demoButton->setFocusPolicy(Qt::NoFocus);
+    configureButton = new QPushButton(tr("&Configure Player 1"));
+    configureButton->setFocusPolicy(Qt::NoFocus);
+    configureButtonTwo = new QPushButton(tr("&Configure Player 2"));
+    configureButtonTwo->setFocusPolicy(Qt::NoFocus);
+    controlLayout -> addWidget(startButton, 0, 0);
+    controlLayout -> addWidget(pauseButton, 1, 0);
+    controlLayout -> addWidget(configureButton, 0, 1);
+    controlLayout -> addWidget(configureButtonTwo, 1, 1);
+    controlLayout -> addWidget(demoButton, 0, 2);
+    controlLayout -> addWidget(quitButton, 1, 2);
+    ui_controlGroup = new QGroupBox(tr("Menu"));
+    ui_controlGroup -> setLayout(controlLayout);
 }
 
 void TetrisWindow::keyPressEvent(QKeyEvent *event) 
