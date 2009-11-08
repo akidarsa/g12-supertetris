@@ -372,6 +372,12 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 
 void TetrisWindow::keyConfigTwo() 
 {
+	templeftVar = leftVar;
+	temprightVar = rightVar;
+	temprotRightVar = rotRightVar;
+	tempdropVar = dropVar;
+	tempmdropVar = mdropVar;
+
     TetrixKey dialog;
     board->pause();
 	boardTwo->pause();
@@ -381,12 +387,41 @@ void TetrisWindow::keyConfigTwo()
     rotRightVar = dialog.getKey(TetrixKey::ROTATE);
     dropVar = dialog.getKey(TetrixKey::SOFTDOWN);
     mdropVar = dialog.getKey(TetrixKey::MAGICDOWN);
+
+
+	if(leftVar == 0)
+	{
+		leftVar = templeftVar;
+	}
+	if(rightVar == 0)
+	{
+		rightVar = temprightVar;
+	}
+	if(rotRightVar == 0)
+	{
+    rotRightVar = temprotRightVar;
+	}
+	if(dropVar == 0)
+	{
+    dropVar = tempdropVar;
+	}
+	if(mdropVar == 0)
+	{
+    mdropVar = tempmdropVar;
+	}
+
     board->pause();
 	boardTwo->pause();
 }
 
 void TetrisWindow::keyConfig() 
 {
+	templeftVar = leftVarTwo;
+	temprightVar = rightVarTwo;
+	temprotRightVar = rotRightVarTwo;
+	tempdropVar = dropVarTwo;
+	tempmdropVar = mdropVarTwo;
+
     TetrixKey dialog;
     board->pause();
 	boardTwo->pause();
@@ -396,7 +431,29 @@ void TetrisWindow::keyConfig()
     rotRightVarTwo = dialog.getKey(TetrixKey::ROTATE);
     dropVarTwo = dialog.getKey(TetrixKey::SOFTDOWN);
     mdropVarTwo = dialog.getKey(TetrixKey::MAGICDOWN);
-    board->pause();
+
+	if(leftVarTwo == 0)
+	{
+		leftVarTwo = templeftVar;
+	}
+	if(rightVarTwo == 0)
+	{
+		rightVarTwo = temprightVar;
+	}
+	if(rotRightVarTwo == 0)
+	{
+    rotRightVarTwo = temprotRightVar;
+	}
+	if(dropVarTwo == 0)
+	{
+    dropVarTwo = tempdropVar;
+	}
+	if(mdropVarTwo == 0)
+	{
+    mdropVarTwo = tempmdropVar;
+	}
+    
+	board->pause();
 	boardTwo->pause();
 }
 
