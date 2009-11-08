@@ -65,6 +65,7 @@ class ControlLineEdit;
      dropLineV = (int) Qt::Key_Space;
      dropOneLineV = (int) Qt::Key_D;
      clearBoard();
+     singlePlay = false;
      fp = NULL;
      //myDialog = new ConfigDialog;
      singlePlay = false;
@@ -90,9 +91,10 @@ class ControlLineEdit;
 
  void TetrisBoard::start()
  {
-     if (isPaused)
+     if (isPaused) {
          return;
-
+     }
+     singlePlay = false;
      isStarted = true;
      isInDemo = false;
      isGameOver = false;
@@ -130,16 +132,17 @@ class ControlLineEdit;
      emit piece6Changed(num6Pieces);
      emit piece7Changed(num7Pieces);
      emit blocksChanged(numBlocks);
-
+     emit gameIsStart(true);
      newPiece();
      timer.start(timeoutTime(), this);
  }
 
  void TetrisBoard::startDemo()
  {
-     if (isPaused)
+     if (isPaused) {
          return;
-
+     }
+     singlePlay = false;
      isStarted = true;
      isInDemo = true;
      isTested = false;
@@ -156,13 +159,14 @@ class ControlLineEdit;
      advantage = 0;
      level = 12; //it has a 12th level intellect
      clearBoard();
-     if (fp != NULL)
-        fclose(fp);
+     if (fp != NULL) {
+         fclose(fp);
+     }
      if (qApp->argc() == 3)
      {
          if (strcmp(qApp->argv()[1],"-f") == 0)
          {
-                fp = fopen(qApp->argv()[2],"r");
+             fp = fopen(qApp->argv()[2],"r");
          }
      }
      nextPiece.setFilePointer(fp);
@@ -178,11 +182,41 @@ class ControlLineEdit;
      emit piece6Changed(num6Pieces);
      emit piece7Changed(num7Pieces);
      emit blocksChanged(numBlocks);
-
+     emit gameIsStart(true);
      newPiece();
      timer.start(timeoutTime(), this);
  }
-
+ void TetrisBoard::reset()
+ {
+     nextPiece.setShape(NoShape);
+     showNextPiece();     
+     curPiece.setShape(NoShape);
+     timer.stop();
+     isStarted = false;
+     isGameOver = true;
+     singlePlay = true;
+     numLinesRemoved = 0;
+     numPiecesDropped = 0;
+     num4Pieces = 0;
+     num5Pieces = 0;
+     num6Pieces = 0;
+     num7Pieces = 0;
+     numBlocks = 0;
+     score = 0;
+     advantage = 0;
+     emit advChanged(advantage);
+     emit linesRemovedChanged(numLinesRemoved);
+     emit scoreChanged(score);
+     emit levelChanged(level);
+     emit pieceChanged(numPiecesDropped);
+     emit piece4Changed(num4Pieces);
+     emit piece5Changed(num5Pieces);
+     emit piece6Changed(num6Pieces);
+     emit piece7Changed(num7Pieces);
+     emit blocksChanged(numBlocks);
+     clearBoard();
+     update();
+ }
  void TetrisBoard::pause()
  {
      if (!isStarted)
@@ -230,9 +264,11 @@ class ControlLineEdit;
           //painter.drawText(rect, Qt::AlignCenter, tr("Pause"));
      //     return;
      // }
-
+      if (singlePlay) {
+          painter.drawText(rect, Qt::AlignCenter, tr("Single Player Mode"));
+      }
      //Display Game Over
-      if (isGameOver) {
+      if (isGameOver&&!singlePlay) {
           if(isWin) {
               painter.drawText(rect, Qt::AlignCenter, tr("You Won! \\(^_^)/"));
               return;

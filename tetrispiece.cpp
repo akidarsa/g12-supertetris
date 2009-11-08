@@ -1,56 +1,161 @@
-/****************************************************************************
+ /****************************************************************************
  **
- ** Copyright (C) 2004-2008 Trolltech ASA. All rights reserved.
+ ** Copyright (C) 2009 Nokia Corporation and/or its subsidiary(-ies).
+ ** All rights reserved.
+ ** Contact: Nokia Corporation (qt-info@nokia.com)
  **
- ** This file is part of the documentation of the Qt Toolkit.
+ ** This file is part of the examples of the Qt Toolkit.
  **
- ** This file may be used under the terms of the GNU General Public
-** License versions 2.0 or 3.0 as published by the Free Software
-** Foundation and appearing in the files LICENSE.GPL2 and LICENSE.GPL3
-** included in the packaging of this file.  Alternatively you may (at
-** your option) use any later version of the GNU General Public
-** License if such license has been publicly approved by Trolltech ASA
-** (or its successors, if any) and the KDE Free Qt Foundation. In
-** addition, as a special exception, Trolltech gives you certain
-** additional rights. These rights are described in the Trolltech GPL
-** Exception version 1.2, which can be found at
-** http://www.trolltech.com/products/qt/gplexception/ and in the file
-** GPL_EXCEPTION.txt in this package.
-**
-** Please review the following information to ensure GNU General
-** Public Licensing requirements will be met:
-** http://trolltech.com/products/qt/licenses/licensing/opensource/. If
-** you are unsure which license is appropriate for your use, please
-** review the following information:
-** http://trolltech.com/products/qt/licenses/licensing/licensingoverview
-** or contact the sales department at sales@trolltech.com.
-**
-** In addition, as a special exception, Trolltech, as the sole
-** copyright holder for Qt Designer, grants users of the Qt/Eclipse
-** Integration plug-in the right for the Qt/Eclipse Integration to
-** link to functionality provided by Qt Designer and its related
-** libraries.
-**
-** This file is provided "AS IS" with NO WARRANTY OF ANY KIND,
-** INCLUDING THE WARRANTIES OF DESIGN, MERCHANTABILITY AND FITNESS FOR
-** A PARTICULAR PURPOSE. Trolltech reserves all rights not expressly
-** granted herein.
+ ** $QT_BEGIN_LICENSE:LGPL$
+ ** Commercial Usage
+ ** Licensees holding valid Qt Commercial licenses may use this file in
+ ** accordance with the Qt Commercial License Agreement provided with the
+ ** Software or, alternatively, in accordance with the terms contained in
+ ** a written agreement between you and Nokia.
  **
- ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
- ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ ** GNU Lesser General Public License Usage
+ ** Alternatively, this file may be used under the terms of the GNU Lesser
+ ** General Public License version 2.1 as published by the Free Software
+ ** Foundation and appearing in the file LICENSE.LGPL included in the
+ ** packaging of this file.  Please review the following information to
+ ** ensure the GNU Lesser General Public License version 2.1 requirements
+ ** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+ **
+ ** In addition, as a special exception, Nokia gives you certain additional
+ ** rights.  These rights are described in the Nokia Qt LGPL Exception
+ ** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+ **
+ ** GNU General Public License Usage
+ ** Alternatively, this file may be used under the terms of the GNU
+ ** General Public License version 3.0 as published by the Free Software
+ ** Foundation and appearing in the file LICENSE.GPL included in the
+ ** packaging of this file.  Please review the following information to
+ ** ensure the GNU General Public License version 3.0 requirements will be
+ ** met: http://www.gnu.org/copyleft/gpl.html.
+ **
+ ** If you have questions regarding the use of this file, please contact
+ ** Nokia at qt-info@nokia.com.
+ ** $QT_END_LICENSE$
  **
  ****************************************************************************/
 
  #include <QtCore>
-
+ 
  #include <stdlib.h>
-#include <stdio.h>
+ #include <string.h>
+ #include <fstream>
 
  #include "tetrispiece.h"
+ #include "tetriswindow.h"
 
  void TetrisPiece::setRandomShape()
  {
-	static char* table4[7] =  {"1111000000000000",
+     //setShape(TetrisShape(qrand() % 7 + 1));
+     setShape(TetrisShape(qrand() % 4 + 1));
+ }
+
+ void TetrisPiece::setShape(TetrisShape shape)
+ {
+     /*static const int coordsTable[8][4][2] = {
+         { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },
+         { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } },
+         { { 0, -1 },  { 0, 0 },   { 1, 0 },   { 1, 1 } },
+         { { 0, -1 },  { 0, 0 },   { 0, 1 },   { 0, 2 } },
+         { { -1, 0 },  { 0, 0 },   { 1, 0 },   { 0, 1 } },
+         { { 0, 0 },   { 1, 0 },   { 0, 1 },   { 1, 1 } },
+         { { -1, -1 }, { 0, -1 },  { 0, 0 },   { 0, 1 } },
+         { { 1, -1 },  { 0, -1 },  { 0, 0 },   { 0, 1 } }
+     };
+
+     for (int i = 0; i < 4 ; i++) {
+         for (int j = 0; j < 2; ++j)
+             coords[i][j] = coordsTable[shape][i][j];
+     }*/
+
+     for (int i = 0; i < 7; i++)
+     {
+        coords[i][0] = 0;
+        coords[i][1] = 0;
+     }
+     
+     pieceShape = shape;
+     if ((shape != NoShape) & (shape != Mark))
+     {
+         if (fp == NULL)
+         {
+            randomPieceRep();
+         }
+         else
+         {
+             char str[49];
+             char c;
+             int i = 0;
+             c = (char) fgetc(fp);
+             while ((c != '\n') & (c != EOF))
+             {
+                 str[i] = c;
+                 c = (char) fgetc(fp);
+                 i++;
+             }
+             str[i] = '\0';
+             if (i == 16)
+             {
+                 pieceShape = Piece4;
+             }
+             else if (i == 25)
+             {
+                 pieceShape = Piece5;
+             }
+             else if (i == 36)
+             {
+                 pieceShape = Piece6;
+             }
+             else if (i == 49)
+             {
+                 pieceShape = Piece7;
+             }
+             if (c == EOF)
+                 pieceShape = NoShape;
+             setCoords(str);
+         }
+     }
+     else
+     {
+         setFilePointer(NULL);
+     }
+ }
+
+ /*char* TetrisPiece::setFileName()
+ {
+     if (qApp->argc() == 3)
+     {
+         if (strcmp(qApp->argv()[1],"-f") == 0)
+         {
+             char* TetrisPiece::FileName = qApp->argv()[2];
+             if (TetrisPiece::fp == NULL)
+             {
+                FILE* TetrisPiece::fp = fopen(TetrisPiece::FileName,"r");
+             }
+             char temp = fgetc(fp);
+             char* Line = temp;
+             while ((temp != '\n') || (temp != EOF))
+             {
+                 strcat(Line,temp);
+             }
+             printf("%s",Line);
+         }
+     }
+     
+ }*/
+
+ void TetrisPiece::setFilePointer(FILE* fpr)
+ {
+     fp = fpr;
+ }
+
+ void TetrisPiece::randomPieceRep()
+ {
+     static char* table4[7] =  {"1111000000000000",
                          "0100110010000000",
                          "1110100000000000",
                          "1100100010000000",
@@ -335,273 +440,116 @@
 			"1100000011111000000000000000000000000000000000000"};
 
 
-     blocks = qrand() % 4 + 4;
      if (size() == 4)
      {
-         setShape(table4[(qrand() % 7)],4);
+         setCoords(table4[(qrand() % 7)]);
      }
      else if (size() == 5)
      {
-         setShape(table5[(qrand() % 18)],5);
+         setCoords(table5[(qrand() % 18)]);
      }
      else if (size() == 6)
      {
-         setShape(table6[(qrand() % 60)],6);
+         setCoords(table6[(qrand() % 60)]);
      }
      else if (size() == 7)
      {
-         setShape(table7[(qrand() % 195)],7);
+         setCoords(table7[(qrand() % 195)]);
      }
+
  }
 
- void TetrisPiece::setShape(TetrisShape shape)
+ void TetrisPiece::setCoords(char* piecerep)
  {
-     static const int coordsTable[8][4][2] = {
-         { { 0, 0 },   { 0, 0 },   { 0, 0 },   { 0, 0 } },
-         { { 0, -1 },  { 0, 0 },   { -1, 0 },  { -1, 1 } },
-         { { 0, -1 },  { 0, 0 },   { 1, 0 },   { 1, 1 } },
-         { { 0, -1 },  { 0, 0 },   { 0, 1 },   { 0, 2 } },
-         { { -1, 0 },  { 0, 0 },   { 1, 0 },   { 0, 1 } },
-         { { 0, 0 },   { 1, 0 },   { 0, 1 },   { 1, 1 } },
-         { { -1, -1 }, { 0, -1 },  { 0, 0 },   { 0, 1 } },
-         { { 1, -1 },  { 0, -1 },  { 0, 0 },   { 0, 1 } }
-     };
-
-     for (int i = 0; i < 4 ; i++) {
-         for (int j = 0; j < 2; ++j)
-             coords[i][j] = coordsTable[shape][i][j];
-     }
-     blocks = 4;
-     pieceShape = shape;
- }
-
- void TetrisPiece::setShape(int shape[],int blockCount){
-     int j=0, k=0;
-     blocks = blockCount;
-     for(int i = 0; i< blockCount*blockCount; i++){
-         if((i%blockCount == 0)&&(i != 0)){ j++; }
-         if(shape[i]==1){
-             switch(blockCount){
-                 case 4:
-                     coords[k][0] = ((i%4)-1);
-                     coords[k][1] = (j-1);
-                     break;
-                 case 5:
-                     coords5[k][0] = ((i%5)-2);
-                     coords5[k][1] = (j-1);
-                     break;
-                 case 6:
-                     coords6[k][0] = ((i%6)-2);
-                     coords6[k][1] = (j-1);
-                     break;
-                 case 7:
-                     coords7[k][0] = ((i%7)-3);
-                     coords7[k][1] = (j-1);
-                     break;
+     int counter = 0;
+     //printf("Coords:");
+     for (int y = 0; y < size();y++)
+     {
+         for (int x = 0; x < size();x++)
+         {
+             if (piecerep[y+(x*size())] == '1')
+             {
+                coords[counter][0] = x - size()/2;
+                coords[counter][1] = size()/2 - y;
+                counter++;
+                //printf("%d,%d -",coords[counter-1][0],coords[counter-1][1]);
              }
-             k++;
          }
      }
-     pieceShape = TetrisShape(2);
  }
 
- void TetrisPiece::setShape(char* shape,int blockCount){
-     int j=0, k=0;
-     for(int i = 0; i< blockCount*blockCount; i++){
-         if((i%blockCount == 0)&&(i != 0)){ j++; }
-         if(shape[i]=='1'){
-             switch(blockCount){
-                 case 4:
-                     coords[k][0] = ((i%4)-1);
-                     coords[k][1] = (j-1);
-                     break;
-                 case 5:
-                     coords5[k][0] = ((i%5)-2);
-                     coords5[k][1] = (j-1);
-                     break;
-                 case 6:
-                     coords6[k][0] = ((i%6)-2);
-                     coords6[k][1] = (j-1);
-                     break;
-                 case 7:
-                     coords7[k][0] = ((i%7)-3);
-                     coords7[k][1] = (j-1);
-                     break;
-             }
-             k++;
-         }
-     }
-     pieceShape = TetrisShape(2);
+ int TetrisPiece::size() const
+ {
+     if (pieceShape == Piece4)
+         return(4);
+     else if (pieceShape == Piece5)
+         return(5);
+     else if (pieceShape == Piece6)
+         return(6);
+     else if (pieceShape == Piece7)
+         return(7);
+     else
+         return(4);
  }
 
  int TetrisPiece::minX() const
  {
-     int min;
-     switch(blocks){
-         case 4:
-            min = coords[0][0];
-            break;
-         case 5:
-            min = coords5[0][0];
-            break;
-         case 6:
-            min = coords6[0][0];
-            break;
-         case 7:
-            min = coords7[0][0];
-            break;
-     }
-    for (int i = 1; i < blocks; ++i)
-    {
-	switch(blocks){
-         case 4:
-            min = qMin(min, coords[i][0]);
-            break;
-         case 5:
-            min = qMin(min, coords5[i][0]);
-            break;
-         case 6:
-            min = qMin(min, coords6[i][0]);
-            break;
-         case 7:
-            min = qMin(min, coords7[i][0]);
-            break;
-	}
-    }
-    return min;
+     int min = coords[0][0];
+     for (int i = 1; i < size(); ++i)
+         min = qMin(min, coords[i][0]);
+     return min;
  }
 
  int TetrisPiece::maxX() const
  {
-     int max;
-     switch(blocks){
-         case 4:
-            max = coords[0][0];
-            break;
-         case 5:
-            max = coords5[0][0];
-            break;
-         case 6:
-            max = coords6[0][0];
-            break;
-         case 7:
-            max = coords7[0][0];
-            break;
-     }
-     for (int i = 1; i < blocks; ++i)
-     {
-        switch(blocks){
-         case 4:
-            max = qMax(max, coords[i][0]);
-            break;
-         case 5:
-            max = qMax(max, coords5[i][0]);
-            break;
-         case 6:
-            max = qMax(max, coords6[i][0]);
-            break;
-         case 7:
-            max = qMax(max, coords7[i][0]);
-            break;
-	}
-     }
+     int max = coords[0][0];
+     for (int i = 1; i < size(); ++i)
+         max = qMax(max, coords[i][0]);
      return max;
  }
 
  int TetrisPiece::minY() const
  {
-     int min;
-     switch(blocks){
-         case 4:
-            min = coords[0][1];
-            break;
-         case 5:
-            min = coords5[0][1];
-            break;
-         case 6:
-            min = coords6[0][1];
-            break;
-         case 7:
-            min = coords7[0][1];
-            break;
-     }
-     for (int i = 1; i < blocks; ++i)
-    {
-	switch(blocks){
-         case 4:
-            min = qMin(min, coords[i][1]);
-            break;
-         case 5:
-            min = qMin(min, coords5[i][1]);
-            break;
-         case 6:
-            min = qMin(min, coords6[i][1]);
-            break;
-         case 7:
-            min = qMin(min, coords7[i][1]);
-            break;
-	}
-    }
+     int min = coords[0][1];
+     for (int i = 1; i < size(); ++i)
+         min = qMin(min, coords[i][1]);
      return min;
  }
 
  int TetrisPiece::maxY() const
  {
-     int max;
-     switch(blocks){
-         case 4:
-            max = coords[0][1];
-            break;
-         case 5:
-            max = coords5[0][1];
-            break;
-         case 6:
-            max = coords6[0][1];
-            break;
-         case 7:
-            max = coords7[0][1];
-            break;
-     }
-     for (int i = 1; i < blocks; ++i)
-     {
-        switch(blocks){
-         case 4:
-            max = qMax(max, coords[i][1]);
-            break;
-         case 5:
-            max = qMax(max, coords5[i][1]);
-            break;
-         case 6:
-            max = qMax(max, coords6[i][1]);
-            break;
-         case 7:
-            max = qMax(max, coords7[i][1]);
-            break;
-	}
-     }
+     int max = coords[0][1];
+     for (int i = 1; i < size(); ++i)
+         max = qMax(max, coords[i][1]);
      return max;
  }
 
- TetrisPiece TetrisPiece::rotatedLeft() const
+ TetrisPiece TetrisPiece::rotatedLeft()
  {
+     //if (pieceShape == OShape)
+         //return *this;
+
      TetrisPiece result;
+     result.setFilePointer(getFilePointer());
      result.pieceShape = pieceShape;
-     result.blocks = blocks;
-     for (int i = 0; i < blocks; ++i) {
-         result.setX(i, y(i) );
-         result.setY(i, -x(i) );
+     for (int i = 0; i < size(); ++i) {
+         result.setX(i, y(i));
+         result.setY(i, -x(i));
      }
      return result;
  }
 
- TetrisPiece TetrisPiece::rotatedRight() const
+ TetrisPiece TetrisPiece::rotatedRight()
  {
+     //if (pieceShape == OShape)
+        // return *this;
+
      TetrisPiece result;
+     result.setFilePointer(getFilePointer());
      result.pieceShape = pieceShape;
-     result.blocks = blocks;
-     for (int i = 0; i < blocks; ++i) {
-         result.setX(i, -y(i) );
-         result.setY(i, x(i) );
+     for (int i = 0; i < size(); ++i) {
+         result.setX(i, -y(i));
+         result.setY(i, x(i));
      }
      return result;
  }

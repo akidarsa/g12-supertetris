@@ -91,6 +91,7 @@
          }
          update();
      }
+     void reset();
 
  signals:
      void scoreChanged(int score);
@@ -105,6 +106,7 @@
      void timeToAddLines(TetrisShape *line);
      void advChanged(int advantage);
      void iLost(bool winOrLose);
+     void gameIsStart(bool started);
 
 protected:
      void paintEvent(QPaintEvent *event);

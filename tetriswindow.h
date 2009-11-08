@@ -98,9 +98,11 @@
      QLCDNumber *linesLcd;
      QLCDNumber *linesLcd2;
      QPushButton *startButton;
+     QPushButton *startHHButton;
+     QPushButton *startHCButton;
+     QPushButton *startCCButton;
      QPushButton *quitButton;
      QPushButton *pauseButton;
-     QPushButton *demoButton;
      QPushButton *configureButton;
      QPushButton *configureButtonTwo;
      //QPushButton *configOneButton;
