@@ -77,7 +77,7 @@
      void startDemo();
      //void configure();
      //void saveKeys();
-     void addLines(int linestoAdd, TetrisPiece piece1, int px);
+     void addLines(TetrisShape *line);
      void gameOver(bool winOrLose) {
          isGameOver = true;
          curPiece.setShape(NoShape);
@@ -102,7 +102,7 @@
      void piece6Changed(int num6Pieces);
      void piece7Changed(int num7Pieces);
      void blocksChanged(int numBlocks);
-     void timeToAddLines(int linestoAdd, TetrisPiece piece1, int px);
+     void timeToAddLines(TetrisShape *line);
      void advChanged(int advantage);
      void iLost(bool winOrLose);
 
