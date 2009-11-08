@@ -74,6 +74,7 @@
      TetrisBoard *board;
      TetrisBoard *boardTwo;
      QLabel *nextPieceLabel;
+     QLabel *nextPieceLabel2;
      QGroupBox * ui_statusGroup;
      QGroupBox * ui_statusGroup2;
      QGroupBox * ui_controlGroup;
