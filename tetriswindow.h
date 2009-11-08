@@ -117,6 +117,11 @@
     int dropVarTwo;
     int mdropVarTwo;
 	void keyPressEvent(QKeyEvent *event);
+    int templeftVar;
+    int temprightVar;
+    int temprotRightVar;
+    int tempdropVar;
+    int tempmdropVar;
 
 private slots:
 	void keyConfig();

@@ -17,11 +17,11 @@ TetrixKey::TetrixKey(QWidget * parent) : QDialog(parent) {
     layout->addWidget(hardDownButton, 4, 0);
     this->setLayout(layout);
 
-/*    leftVar = Qt::Key_Left;
-    rightVar = Qt::Key_Right;
-    rotVar = Qt::Key_Up;
-    downVar = Qt::Key_D;
-    mdownVar = Qt::Key_Space;*/
+    leftVar = 0;
+    rightVar = 0;
+    rotVar = 0;
+    downVar = 0;
+    mdownVar = 0;
 
 
     connect(leftButton, SIGNAL(clicked()), this, SLOT(makepopup()));
