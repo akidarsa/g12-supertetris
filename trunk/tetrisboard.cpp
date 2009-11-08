@@ -234,11 +234,11 @@ class ControlLineEdit;
      //Display Game Over
       if (isGameOver) {
           if(isWin) {
-              painter.drawText(rect, Qt::AlignCenter, tr("You Won! :)"));
+              painter.drawText(rect, Qt::AlignCenter, tr("You Won! \\(^_^)/"));
               return;
           }
           else {
-              painter.drawText(rect, Qt::AlignCenter, tr("You Lose! X("));
+              painter.drawText(rect, Qt::AlignCenter, tr("You Lose! (>_<)"));
               return;
           }
 
@@ -268,22 +268,34 @@ class ControlLineEdit;
 
 void TetrisBoard::moveLeft()
 {
-	tryMove(curPiece, curX - 1, curY);
+	if(!isGameOver)
+	{
+		tryMove(curPiece, curX - 1, curY);
+	}
 }
 
 void TetrisBoard::moveRight()
 {
-	tryMove(curPiece, curX + 1, curY);
+	if(!isGameOver)
+	{
+		tryMove(curPiece, curX + 1, curY);
+	}
 }
 
 void TetrisBoard::rotateRight()
 {
-	tryMove(curPiece.rotatedRight(), curX, curY);
+	if(!isGameOver)
+	{
+		tryMove(curPiece.rotatedRight(), curX, curY);
+	}
 }
 
 void TetrisBoard::rotateLeft()
 {
-	tryMove(curPiece.rotatedLeft(), curX, curY);
+	if(!isGameOver)
+	{
+		tryMove(curPiece.rotatedLeft(), curX, curY);
+	}
 }
 
 
@@ -397,6 +409,8 @@ void TetrisBoard::rotateLeft()
 
  void TetrisBoard::dropDown()
  {
+	 if(!isGameOver)
+	 {
      int dropHeight = 0;
      int newY = curY;
      while (true) {
@@ -406,12 +420,16 @@ void TetrisBoard::rotateLeft()
          ++dropHeight;
      }
      pieceDropped(dropHeight);
+	 }
  }
 
  void TetrisBoard::oneLineDown()
  {
+	 if(!isGameOver)
+	 {
      if (!tryMove(curPiece, curX, curY - 1))
          pieceDropped(0);
+	 }
  }
 
  void TetrisBoard::pieceDropped(int dropHeight)

@@ -2,7 +2,7 @@
 #include "tetrixkey.h"
 
 TetrixKey::TetrixKey(QWidget * parent) : QDialog(parent) {
-    this -> resize(500, 600);
+    this -> resize(200, 300);
     QGridLayout *layout = new QGridLayout;
     leftButton = new QPushButton(tr("&Left"));
     rightButton = new QPushButton(tr("&Right"));
