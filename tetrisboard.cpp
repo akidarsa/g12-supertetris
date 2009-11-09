@@ -276,7 +276,7 @@ class ControlLineEdit;
              int y = curY - curPiece.y(i);
              drawSquare(painter, rect.left() + x * squareWidth(),
                         boardTop + (BoardHeight - y - 1) * squareHeight(),
-                        curPiece.shape());
+                        curPiece);
          }
      }
  }
@@ -565,7 +565,7 @@ void TetrisBoard::rotateLeft()
          int x = nextPiece.x(i) - nextPiece.minX();
          int y = nextPiece.y(i) - nextPiece.minY();
          drawSquare(painter, x * squareWidth(), y * squareHeight(),
-                    nextPiece.shape());
+                    nextPiece);
      }
      nextPieceLabel->setPixmap(pixmap);
  }
@@ -590,12 +590,30 @@ void TetrisBoard::rotateLeft()
 
  void TetrisBoard::drawSquare(QPainter &painter, int x, int y, TetrisShape shape)
  {
-     static const QRgb colorTable[8] = {
-         0x000000, 0xCC6666, 0x66CC66, 0x6666CC,
-         0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00
+     static const QRgb colorTable[5] = {
+         0x000000, 0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00
      };
 
      QColor color = colorTable[int(shape)];
+     painter.fillRect(x + 1, y + 1, squareWidth() - 2, squareHeight() - 2,
+                      color);
+
+     painter.setPen(color.light());
+     painter.drawLine(x, y + squareHeight() - 1, x, y);
+     painter.drawLine(x, y, x + squareWidth() - 1, y);
+
+     painter.setPen(color.dark());
+     painter.drawLine(x + 1, y + squareHeight() - 1,
+                      x + squareWidth() - 1, y + squareHeight() - 1);
+     painter.drawLine(x + squareWidth() - 1, y + squareHeight() - 1,
+                      x + squareWidth() - 1, y + 1);
+ }
+ void TetrisBoard::drawSquare(QPainter &painter, int x, int y, TetrisPiece shape)
+ {
+     static const QRgb colorTable[5] = {
+         0x000000, 0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00
+     };
+     QColor color = colorTable[qrand()%4+1];
      painter.fillRect(x + 1, y + 1, squareWidth() - 2, squareHeight() - 2,
                       color);
 

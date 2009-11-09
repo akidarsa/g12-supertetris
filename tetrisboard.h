@@ -130,6 +130,7 @@ protected:
      void showNextPiece();
      bool tryMove(const TetrisPiece &newPiece, int newX, int newY);
      void drawSquare(QPainter &painter, int x, int y, TetrisShape shape);
+     void drawSquare(QPainter &painter, int x, int y, TetrisPiece shape);
 
      QBasicTimer timer;
      QPointer<QLabel> nextPieceLabel;
