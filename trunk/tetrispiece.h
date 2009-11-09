@@ -63,6 +63,7 @@
      int maxX() const;
      int minY() const;
      int maxY() const;
+     int blocks;
      TetrisPiece rotatedLeft();
      TetrisPiece rotatedRight();
      FILE* getFilePointer() {return fp;}
@@ -70,6 +71,7 @@
  private:
      void setX(int index, int x) { coords[index][0] = x; }
      void setY(int index, int y) { coords[index][1] = y; }
+     void shiftToTopLeft();
 
      TetrisShape pieceShape;
      int coords[7][2];

@@ -476,6 +476,7 @@
              }
          }
      }
+     shiftToTopLeft();
  }
 
  int TetrisPiece::size() const
@@ -545,11 +546,24 @@
         // return *this;
 
      TetrisPiece result;
-     result.setFilePointer(getFilePointer());
+ //    result.setFilePointer(getFilePointer());
      result.pieceShape = pieceShape;
      for (int i = 0; i < size(); ++i) {
          result.setX(i, -y(i));
          result.setY(i, x(i));
      }
+     result.shiftToTopLeft();
      return result;
  }
+
+ void TetrisPiece::shiftToTopLeft()
+{ 
+	int shftx = abs(minX())%3;
+	int shfty = abs(minY())%3;
+	if(minX() >= 0){ shftx+=3; }
+	if(minY() >= 0){ shfty+=3; }
+	for (int i = 0; i< size(); i++){
+		setX(i, x(i)-shftx);
+		setY(i, y(i)-shfty);
+	}
+}
