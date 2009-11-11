@@ -456,7 +456,7 @@
      {
          setCoords(table7[(qrand() % 195)]);
      }
-
+     shiftToTopLeft(size());
  }
 
  void TetrisPiece::setCoords(char* piecerep)
@@ -476,7 +476,6 @@
              }
          }
      }
-     shiftToTopLeft();
  }
 
  int TetrisPiece::size() const
@@ -544,7 +543,6 @@
  {
      //if (pieceShape == OShape)
         // return *this;
-
      TetrisPiece result;
  //    result.setFilePointer(getFilePointer());
      result.pieceShape = pieceShape;
@@ -552,16 +550,17 @@
          result.setX(i, -y(i));
          result.setY(i, x(i));
      }
-     result.shiftToTopLeft();
+     result.shiftToTopLeft(size());
      return result;
  }
 
- void TetrisPiece::shiftToTopLeft()
+ void TetrisPiece::shiftToTopLeft(int s)
 { 
-	int shftx = abs(minX())%3;
-	int shfty = abs(minY())%3;
-	if(minX() >= 0){ shftx+=3; }
-	if(minY() >= 0){ shfty+=3; }
+	int shftSize = s/2;
+	int shftx = abs(minX())%shftSize;
+	int shfty = abs(minY())%shftSize;
+	if(minX() >= 0){ shftx+=shftSize; }
+	if(minY() >= 0){ shfty+=shftSize; }
 	for (int i = 0; i< size(); i++){
 		setX(i, x(i)-shftx);
 		setY(i, y(i)-shfty);

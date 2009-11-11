@@ -71,7 +71,7 @@
  private:
      void setX(int index, int x) { coords[index][0] = x; }
      void setY(int index, int y) { coords[index][1] = y; }
-     void shiftToTopLeft();
+     void shiftToTopLeft(int s);
 
      TetrisShape pieceShape;
      int coords[7][2];
