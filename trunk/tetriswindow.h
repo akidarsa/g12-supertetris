@@ -90,8 +90,6 @@
      QLabel * ui_piece6Label2;
      QLabel * ui_piece7Label2;
      QLabel * ui_blockCountLabel2;
-     QLabel * ui_advantage1;
-     QLabel * ui_advantage2;
      QLabel * ui_linesRemoved2;
      //QLCDNumber *scoreLcd;
      //QLCDNumber *levelLcd;

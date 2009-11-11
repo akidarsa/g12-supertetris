@@ -146,8 +146,6 @@ using namespace std;
      connect(boardTwo, SIGNAL(piece7Changed(int)), ui_piece7Label2, SLOT(setNum(int)));
      connect(boardTwo, SIGNAL(blocksChanged(int)), ui_blockCountLabel2, SLOT(setNum(int)));
      /*deals with line removal*/
-     connect(board, SIGNAL(advChanged(int)), ui_advantage1, SLOT(setNum(int)));
-     connect(boardTwo, SIGNAL(advChanged(int)), ui_advantage2, SLOT(setNum(int)));
      connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
      connect(boardTwo, SIGNAL(linesRemovedChanged(int)), linesLcd2, SLOT(display(int)));
      connect(board, SIGNAL(timeToAddLines(TetrisShape*)), boardTwo, SLOT(addLines(TetrisShape*)));
@@ -249,8 +247,6 @@ void TetrisWindow::createStatus()
   ui_piece7Label = new QLabel("      ");
   QLabel * blockCount = new QLabel("# of blocks: ");
   ui_blockCountLabel = new QLabel("      ");
-  QLabel * advantage1 = new QLabel("Advantage: ");
-  ui_advantage1 = new QLabel("     ");
   statusLayout -> addWidget(pieceCount, 0, 0);
   statusLayout -> addWidget(ui_pieceCountLabel, 0, 1);
   statusLayout -> addWidget(piece4, 1, 0);
@@ -263,8 +259,6 @@ void TetrisWindow::createStatus()
   statusLayout -> addWidget(ui_piece7Label, 4, 1);
   statusLayout -> addWidget(blockCount, 5, 0);
   statusLayout -> addWidget(ui_blockCountLabel, 5, 1);
-  statusLayout -> addWidget(advantage1, 6, 0);
-  statusLayout -> addWidget(ui_advantage1, 6, 1);
 
 
   ui_statusGroup = new QGroupBox(tr("Player 1"));
@@ -289,8 +283,6 @@ void TetrisWindow::createStatus2()
   ui_piece7Label2 = new QLabel("      ");
   QLabel * blockCount = new QLabel("# of blocks: ");
   ui_blockCountLabel2 = new QLabel("      ");
-  QLabel * advantage2 = new QLabel("Advantage: ");
-  ui_advantage2 = new QLabel("     ");
   statusLayout2 -> addWidget(pieceCount, 0, 0);
   statusLayout2 -> addWidget(ui_pieceCountLabel2, 0, 1);
   statusLayout2 -> addWidget(piece4, 1, 0);
@@ -303,8 +295,6 @@ void TetrisWindow::createStatus2()
   statusLayout2 -> addWidget(ui_piece7Label2, 4, 1);
   statusLayout2 -> addWidget(blockCount, 5, 0);
   statusLayout2 -> addWidget(ui_blockCountLabel2, 5, 1);
-  statusLayout2 -> addWidget(advantage2, 6, 0);
-  statusLayout2 -> addWidget(ui_advantage2, 6, 1);
 
   ui_statusGroup2 = new QGroupBox(tr("Player 2"));
   ui_statusGroup2 -> setLayout(statusLayout2);

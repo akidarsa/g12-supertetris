@@ -74,9 +74,9 @@
 	 void rotateLeft();
 
  public slots:
-     void start();
+     void start(bool attack);
      void pause();
-     void startDemo();
+     void startDemo(bool attack);
      //void configure();
      //void saveKeys();
      void addLines(TetrisShape *line);
@@ -106,7 +106,6 @@
      void piece7Changed(int num7Pieces);
      void blocksChanged(int numBlocks);
      void timeToAddLines(TetrisShape *line);
-     void advChanged(int advantage);
      void iLost(bool winOrLose);
      void gameIsStart(bool started);
 
@@ -164,7 +163,7 @@ protected:
      int dropLineV;
      int dropOneLineV;
      bool singlePlay;
-     int advantage;
+     bool attackMode;
      int linestoAdd;
  };
 

@@ -67,7 +67,6 @@ class ControlLineEdit;
      singlePlay = false;
      fp = NULL;
      singlePlay = false;
-     advantage = 0;
  }
 
  void TetrisBoard::setNextPieceLabel(QLabel *label)
@@ -105,7 +104,6 @@ class ControlLineEdit;
      num7Pieces = 0;
      numBlocks = 0;
      score = 0;
-     advantage = 0;
      level = 1;
      clearBoard();
      if (fp != NULL)
@@ -120,7 +118,6 @@ class ControlLineEdit;
      nextPiece.setFilePointer(fp);
      curPiece.setFilePointer(fp);
      nextPiece.setRandomShape();
-     emit advChanged(advantage);
      emit linesRemovedChanged(numLinesRemoved);
      emit scoreChanged(score);
      emit levelChanged(level);
@@ -154,7 +151,6 @@ class ControlLineEdit;
      num7Pieces = 0;
      numBlocks = 0;
      score = 0;
-     advantage = 0;
      //level = 12; //it has a 12th level intellect
      level = 13; //I think the number 13 is lucky
      clearBoard();
@@ -171,7 +167,6 @@ class ControlLineEdit;
      nextPiece.setFilePointer(fp);
      curPiece.setFilePointer(fp);
      nextPiece.setRandomShape();
-     emit advChanged(advantage);
      emit linesRemovedChanged(numLinesRemoved);
      emit scoreChanged(score);
      emit levelChanged(level);
@@ -202,8 +197,6 @@ class ControlLineEdit;
      num7Pieces = 0;
      numBlocks = 0;
      score = 0;
-     advantage = 0;
-     emit advChanged(advantage);
      emit linesRemovedChanged(numLinesRemoved);
      emit scoreChanged(score);
      emit levelChanged(level);
@@ -471,7 +464,6 @@ void TetrisBoard::rotateLeft()
          }
 
          if (lineIsFull) {
-             advantage++;
              TetrisShape line[BoardWidth];
              for(int n = 0; n < BoardWidth; ++n) {
                  line[n] = shapeAt(n,i);
@@ -497,8 +489,6 @@ void TetrisBoard::rotateLeft()
          score += 10 * numFullLines;
          emit linesRemovedChanged(numLinesRemoved);
          emit scoreChanged(score);
-         //advantage += numFullLines;
-         emit advChanged(advantage);
          //emit timeToAddLines(numFullLines, curPiece, curX);
          timer.start(500, this);
          isWaitingAfterLine = true;
@@ -509,15 +499,10 @@ void TetrisBoard::rotateLeft()
 
  void TetrisBoard::addLines(TetrisShape *line)
  {
-	 if(singlePlay)
+	 if((singlePlay)||(!attackMode))
 	 {
 		 return;
 	 }
-     advantage--;
-     emit advChanged(advantage);
-     if (advantage > 0) {
-         return;
-     }
      //Checks if this line has been added from opponent
      for(int i = 0; i < BoardWidth; ++i){
 	if(line[i] == Dead)
