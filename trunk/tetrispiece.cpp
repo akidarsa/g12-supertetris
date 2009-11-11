@@ -536,6 +536,7 @@
          result.setX(i, y(i));
          result.setY(i, -x(i));
      }
+     result.shiftToTopLeft(size());
      return result;
  }
 

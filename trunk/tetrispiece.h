@@ -42,7 +42,7 @@
  #define TETRISPIECE_H
 #include <stdio.h>
 
- enum TetrisShape { NoShape, Piece4, Piece5, Piece6, Piece7, Mark };
+ enum TetrisShape { NoShape, Piece4, Piece5, Piece6, Piece7, Dead, Mark};
 
  class TetrisPiece
  {

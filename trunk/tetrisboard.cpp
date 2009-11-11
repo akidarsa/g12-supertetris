@@ -276,7 +276,7 @@ class ControlLineEdit;
              int y = curY - curPiece.y(i);
              drawSquare(painter, rect.left() + x * squareWidth(),
                         boardTop + (BoardHeight - y - 1) * squareHeight(),
-                        curPiece);
+                        curPiece.shape());
          }
      }
  }
@@ -518,6 +518,11 @@ void TetrisBoard::rotateLeft()
      if (advantage > 0) {
          return;
      }
+     //Checks if this line has been added from opponent
+     for(int i = 0; i < BoardWidth; ++i){
+	if(line[i] == Dead)
+	  return;
+     }
      //move all rows up one
      for(int m = BoardHeight - 1; m > 0; m--) {
          for(int n = 0; n < BoardWidth; ++n) {
@@ -526,7 +531,9 @@ void TetrisBoard::rotateLeft()
      }
      //create the bottom row
      for(int j = 0; j < BoardWidth; ++j) {
-         shapeAt(j,0) = line[j];
+	 shapeAt(j,0) = Dead;
+	 if(line[j] == NoShape)
+           shapeAt(j,0) = line[j];
      }
  }
 
@@ -565,7 +572,7 @@ void TetrisBoard::rotateLeft()
          int x = nextPiece.x(i) - nextPiece.minX();
          int y = nextPiece.y(i) - nextPiece.minY();
          drawSquare(painter, x * squareWidth(), y * squareHeight(),
-                    nextPiece);
+                    nextPiece.shape());
      }
      nextPieceLabel->setPixmap(pixmap);
  }
@@ -590,8 +597,8 @@ void TetrisBoard::rotateLeft()
 
  void TetrisBoard::drawSquare(QPainter &painter, int x, int y, TetrisShape shape)
  {
-     static const QRgb colorTable[5] = {
-         0x000000, 0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00
+     static const QRgb colorTable[6] = {
+         0x000000, 0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00, 0x555555
      };
 
      QColor color = colorTable[int(shape)];
@@ -607,7 +614,23 @@ void TetrisBoard::rotateLeft()
                       x + squareWidth() - 1, y + squareHeight() - 1);
      painter.drawLine(x + squareWidth() - 1, y + squareHeight() - 1,
                       x + squareWidth() - 1, y + 1);
+
+     //Adds indentation in Square for Dead Blocks
+     if(shape == Dead){
+	  color = 0x333333;
+	  painter.drawLine(x + squareWidth()/4, y + 3*squareWidth()/4-1,
+			   x + squareWidth()/4, y + squareWidth()/4);
+	  painter.drawLine(x + squareWidth()/4, y + squareWidth()/4,
+			   x + 3*squareWidth()/4, y + squareWidth()/4);
+
+	  painter.setPen(color.light());
+	  painter.drawLine(x + 3*squareWidth()/4, y + squareWidth()/4,
+			   x + 3*squareWidth()/4, y + 3*squareWidth()/4-1);
+	  painter.drawLine(x + squareWidth()/4, y + 3*squareWidth()/4-1,
+			   x + squareWidth()/4, y + 3*squareWidth()/4-1);
+     }
  }
+
  void TetrisBoard::drawSquare(QPainter &painter, int x, int y, TetrisPiece shape)
  {
      static const QRgb colorTable[5] = {
