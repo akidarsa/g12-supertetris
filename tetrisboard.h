@@ -74,9 +74,15 @@
 	 void rotateLeft();
 
  public slots:
-     void start(bool attack);
+     //void startDemo(bool attack);
+     //void start(bool attack);
+
+
+
+
+     void start();
      void pause();
-     void startDemo(bool attack);
+     void startDemo();
      //void configure();
      //void saveKeys();
      void addLines(TetrisShape *line);
