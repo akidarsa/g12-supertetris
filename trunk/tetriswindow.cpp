@@ -152,6 +152,7 @@ using namespace std;
      connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
      connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
      connect(boardTwo, SIGNAL(iLost(bool)), board, SLOT(gameOver(bool)));
+	 connect(board, SIGNAL(gameIsStart(bool)), this, SLOT(keyGrabStart(bool)));
 
      QGridLayout *layout = new QGridLayout;
 
@@ -335,7 +336,10 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 {
     QWidget::keyPressEvent(event);
 
-	if (keyStarted)
+	cout << keyStarted << endl;
+
+
+	if (keyStarted == 1)
 	{
 
     if ((event->key()) == leftVar) 
@@ -352,11 +356,11 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
     } 
 	else if ((event->key()) == mdropVar) 
 	{
-        boardTwo->dropDown();
+        boardTwo->dropDown(1);
     } 
 	else if ((event->key()) == dropVar) 
 	{
-        boardTwo->oneLineDown();
+        boardTwo->oneLineDown(1);
     } 
     else if ((event->key()) == leftVarTwo) 
 	{
@@ -372,11 +376,11 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
     } 
 	else if ((event->key()) == mdropVarTwo) 
 	{
-        board->dropDown();
+        board->dropDown(1);
     } 
 	else if ((event->key()) == dropVarTwo) 
 	{
-        board->oneLineDown();
+        board->oneLineDown(1);
 	}
 	else 
 	{
