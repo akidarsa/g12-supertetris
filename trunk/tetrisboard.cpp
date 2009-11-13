@@ -152,7 +152,7 @@ class ControlLineEdit;
      numBlocks = 0;
      score = 0;
      //level = 12; //it has a 12th level intellect
-     level = 13; //I think the number 13 is lucky
+     level = 9999; //I think the number 13 is lucky
      clearBoard();
      if (fp != NULL) {
          fclose(fp);
@@ -274,36 +274,60 @@ class ControlLineEdit;
      }
  }
 
-void TetrisBoard::moveLeft()
+bool TetrisBoard::moveLeft()
 {
 	if(!isGameOver)
 	{
-		tryMove(curPiece, curX - 1, curY);
+		if(tryMove(curPiece, curX - 1, curY)){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
+	return false;
 }
 
-void TetrisBoard::moveRight()
+bool TetrisBoard::moveRight()
 {
 	if(!isGameOver)
 	{
-		tryMove(curPiece, curX + 1, curY);
+		if(tryMove(curPiece, curX + 1, curY)){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
+	return false;
 }
 
-void TetrisBoard::rotateRight()
+bool TetrisBoard::rotateRight()
 {
 	if(!isGameOver)
 	{
-		tryMove(curPiece.rotatedRight(), curX, curY);
+		if(tryMove(curPiece.rotatedRight(), curX, curY)){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
+	return false;
 }
 
-void TetrisBoard::rotateLeft()
+bool TetrisBoard::rotateLeft()
 {
 	if(!isGameOver)
 	{
-		tryMove(curPiece.rotatedLeft(), curX, curY);
+		if(tryMove(curPiece.rotatedLeft(), curX, curY)){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
+	return false;
 }
 
 void TetrisBoard::moveLeft(int a)
@@ -361,27 +385,32 @@ void TetrisBoard::rotateLeft(int a)
                  PieceMovement result = demoChoice.ratePosition(curPiece);
                  switch (result.rotation % 4) {
                      case 1:
-                         curPiece = curPiece.rotatedLeft();
-                         curPiece = curPiece.rotatedLeft();
-                         break;
+                        curPiece = curPiece.rotatedRight();
+                        curPiece = curPiece.rotatedRight();
+                        break;
                      case 2:
-                         curPiece = curPiece.rotatedRight();
-                         break;
+                        curPiece = curPiece.rotatedRight();
+                        curPiece = curPiece.rotatedRight();
+                        curPiece = curPiece.rotatedRight();
+                        break;
                      case 3:
-                         break;
+                        break;
                      default:
-                         curPiece = curPiece.rotatedLeft();
+                        curPiece = curPiece.rotatedRight();
                  }
                  curY = BoardHeight - 1 + curPiece.minY();
-                 if(tryMove(curPiece, result.x, curY)) {
-                     //printf("moved to %d\ntest1\n", result.x);
-                 } else {
-                     //printf("bhaa: result.x=%d\ntest1\n", result.x);
-                 }
-                //dropDown();
+/*		if(tryMove(curPiece, result.x, curY)){
+		} else{
+		}*/
+		int trys = 0;
+                while(result.x != curX) {
+			if(result.x < curX){ if(!moveLeft()){ if(trys++==15){break;} }}
+			else { if(!moveRight()){ if(trys++==15){break; } }}
+		}
              }
              else {
-                oneLineDown();
+		dropDown();
+//                oneLineDown();
              }
          }
      } else {

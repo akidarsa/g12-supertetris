@@ -102,7 +102,7 @@ PieceMovement Demo::ratePosition(TetrisPiece curPiece) {
 	PieceMovement p;//p includes two numbers:x=movement, rotation=number of rotations
 	double maxScore = -100000;
 	for (int i = 0; i < 4; i++) { //rotation loop
-		testPiece = testPiece.rotatedLeft();
+		testPiece = testPiece.rotatedRight();
 		//move from leftmost to right most
 		for (int j = 0 - testPiece.minX(); j < BoardWidth - testPiece.maxX(); j++) {
 			curY = BoardHeight - 1 + testPiece.minY();

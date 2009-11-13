@@ -68,14 +68,14 @@
      void dropDown(int b);
      void oneLineDown();
      void oneLineDown(int a);
+	 bool moveLeft();
+	 bool moveRight();
+	 bool rotateRight();
+	 bool rotateLeft();
 	 void moveLeft(int a);
 	 void moveRight(int a);
 	 void rotateRight(int a);
 	 void rotateLeft(int a);
-	 void moveLeft();
-	 void moveRight();
-	 void rotateRight();
-	 void rotateLeft();
 
  public slots:
      void start();
