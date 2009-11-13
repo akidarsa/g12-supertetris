@@ -149,8 +149,8 @@ using namespace std;
      /*deals with line removal*/
      connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
      connect(boardTwo, SIGNAL(linesRemovedChanged(int)), linesLcd2, SLOT(display(int)));
-     connect(board, SIGNAL(timeToAddLines(TetrisShape*)), boardTwo, SLOT(addLines(TetrisShape*)));
-     connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
+     //connect(board, SIGNAL(timeToAddLines(TetrisShape*)), boardTwo, SLOT(addLines(TetrisShape*)));
+     //connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
      connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
      connect(boardTwo, SIGNAL(iLost(bool)), board, SLOT(gameOver(bool)));
 	 connect(board, SIGNAL(gameIsStart(bool)), this, SLOT(keyGrabStart(bool)));
@@ -366,15 +366,15 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 
     if ((event->key()) == leftVar) 
 	{
-        boardTwo->moveLeft();
+        boardTwo->moveLeft(1);
     } 
 	else if ((event->key()) == rightVar) 
 	{
-        boardTwo->moveRight();
+        boardTwo->moveRight(1);
     } 
 	else if ((event->key()) == rotRightVar) 
 	{
-        boardTwo->rotateRight();
+        boardTwo->rotateRight(1);
     } 
 	else if ((event->key()) == mdropVar) 
 	{
@@ -386,15 +386,15 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
     } 
     else if ((event->key()) == leftVarTwo) 
 	{
-        board->moveLeft();
+        board->moveLeft(1);
     } 
 	else if ((event->key()) == rightVarTwo) 
 	{
-        board->moveRight();
+        board->moveRight(1);
     } 
 	else if ((event->key()) == rotRightVarTwo) 
 	{
-        board->rotateRight();
+        board->rotateRight(1);
     } 
 	else if ((event->key()) == mdropVarTwo) 
 	{

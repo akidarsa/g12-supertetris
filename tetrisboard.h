@@ -68,6 +68,10 @@
      void dropDown(int b);
      void oneLineDown();
      void oneLineDown(int a);
+	 void moveLeft(int a);
+	 void moveRight(int a);
+	 void rotateRight(int a);
+	 void rotateLeft(int a);
 	 void moveLeft();
 	 void moveRight();
 	 void rotateRight();

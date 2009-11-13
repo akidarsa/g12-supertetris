@@ -276,7 +276,7 @@ class ControlLineEdit;
 
 void TetrisBoard::moveLeft()
 {
-	if(!isGameOver and !isInDemo)
+	if(!isGameOver)
 	{
 		tryMove(curPiece, curX - 1, curY);
 	}
@@ -284,7 +284,7 @@ void TetrisBoard::moveLeft()
 
 void TetrisBoard::moveRight()
 {
-	if(!isGameOver and !isInDemo)
+	if(!isGameOver)
 	{
 		tryMove(curPiece, curX + 1, curY);
 	}
@@ -292,7 +292,7 @@ void TetrisBoard::moveRight()
 
 void TetrisBoard::rotateRight()
 {
-	if(!isGameOver and !isInDemo)
+	if(!isGameOver)
 	{
 		tryMove(curPiece.rotatedRight(), curX, curY);
 	}
@@ -300,6 +300,46 @@ void TetrisBoard::rotateRight()
 
 void TetrisBoard::rotateLeft()
 {
+	if(!isGameOver)
+	{
+		tryMove(curPiece.rotatedLeft(), curX, curY);
+	}
+}
+
+void TetrisBoard::moveLeft(int a)
+{
+	a = 1;
+
+	if(!isGameOver and !isInDemo)
+	{
+		tryMove(curPiece, curX - 1, curY);
+	}
+}
+
+void TetrisBoard::moveRight(int a)
+{
+	a = 1;
+	
+	if(!isGameOver and !isInDemo)
+	{
+		tryMove(curPiece, curX + 1, curY);
+	}
+}
+
+void TetrisBoard::rotateRight(int a)
+{
+	a = 1;
+	
+	if(!isGameOver and !isInDemo)
+	{
+		tryMove(curPiece.rotatedRight(), curX, curY);
+	}
+}
+
+void TetrisBoard::rotateLeft(int a)
+{
+	a = 1;
+
 	if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece.rotatedLeft(), curX, curY);
@@ -373,6 +413,8 @@ void TetrisBoard::rotateLeft()
 
  void TetrisBoard::dropDown(int b)
  {
+	 b = 1;
+
 	 if(!isGameOver and !isInDemo) //Add this on the final submit
 	 {
      int dropHeight = 0;
@@ -398,6 +440,8 @@ void TetrisBoard::rotateLeft()
 
  void TetrisBoard::oneLineDown(int a)
  {
+	 a = 1;
+
 	 if(!isGameOver & !isInDemo)
 	 {
      if (!tryMove(curPiece, curX, curY - 1))
