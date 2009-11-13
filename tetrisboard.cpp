@@ -152,7 +152,7 @@ class ControlLineEdit;
      numBlocks = 0;
      score = 0;
      //level = 12; //it has a 12th level intellect
-     level = 9999; //I think the number 13 is lucky
+     level = 13; //I think the number 13 is lucky
      clearBoard();
      if (fp != NULL) {
          fclose(fp);
