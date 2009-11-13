@@ -361,9 +361,6 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 {
     QWidget::keyPressEvent(event);
 
-	cout << keyStarted << endl;
-
-
 	if (keyStarted == 1)
 	{
 
@@ -434,23 +431,23 @@ void TetrisWindow::keyConfigTwo()
     mdropVar = dialog.getKey(TetrixKey::MAGICDOWN);
 
 
-	if(leftVar == 0)
+	if(leftVar == 0 and leftVar != leftVarTwo)
 	{
 		leftVar = templeftVar;
 	}
-	if(rightVar == 0)
+	if(rightVar == 0 or rightVar == rightVarTwo)
 	{
 		rightVar = temprightVar;
 	}
-	if(rotRightVar == 0)
+	if(rotRightVar == 0 || rotRightVar == rotRightVarTwo)
 	{
     rotRightVar = temprotRightVar;
 	}
-	if(dropVar == 0)
+	if(dropVar == 0 || dropVar == dropVarTwo)
 	{
     dropVar = tempdropVar;
 	}
-	if(mdropVar == 0)
+	if(mdropVar == 0 || mdropVar == mdropVarTwo)
 	{
     mdropVar = tempmdropVar;
 	}
@@ -477,23 +474,23 @@ void TetrisWindow::keyConfig()
     dropVarTwo = dialog.getKey(TetrixKey::SOFTDOWN);
     mdropVarTwo = dialog.getKey(TetrixKey::MAGICDOWN);
 
-	if(leftVarTwo == 0)
+	if(leftVarTwo == 0 or leftVarTwo == leftVar)
 	{
 		leftVarTwo = templeftVar;
 	}
-	if(rightVarTwo == 0)
+	if(rightVarTwo == 0 or rightVarTwo == rightVar)
 	{
 		rightVarTwo = temprightVar;
 	}
-	if(rotRightVarTwo == 0)
+	if(rotRightVarTwo == 0 or rotRightVarTwo == rotRightVar)
 	{
     rotRightVarTwo = temprotRightVar;
 	}
-	if(dropVarTwo == 0)
+	if(dropVarTwo == 0 or dropVarTwo == dropVar)
 	{
     dropVarTwo = tempdropVar;
 	}
-	if(mdropVarTwo == 0)
+	if(mdropVarTwo == 0 or mdropVarTwo == mdropVar)
 	{
     mdropVarTwo = tempmdropVar;
 	}
