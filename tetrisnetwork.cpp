@@ -79,6 +79,12 @@ void TetrisNetwork::connectServer()
   connect(socket, SIGNAL(readyRead()), this, SLOT(getMessage()));
   connect(socket, SIGNAL(connectionClosed()), this, SLOT(connectionClosed()));
   socket -> connectToHost(serverName -> text(), (portNumber -> text()).toInt());
+  getMessage();
+  sendId();
+  getMessage();
+  sendGame();
+  getMessage();
+  sendReady();
 /*  if(srvMsg.compare("ID?"))
   {
     socket -> write("ID=19251");
@@ -175,7 +181,7 @@ void TetrisNetwork::sendId()
 	{
 	  cout << "test 1 passed" << endl;
 	  socket -> write("ID=19251\n");
-	  tetrisAnswer -> append("Sending ID\n");
+	  tetrisAnswer -> append("Sending ID");
 	  getMessage();
 	}
 }
@@ -185,17 +191,17 @@ void TetrisNetwork::sendGame()
 	{
 	  cout << "test 2 passed" << endl;
 	  socket -> write("GAMETYPE=tetris\n");
-	  tetrisAnswer -> append("Sending GameType\n");
+	  tetrisAnswer -> append("Sending GameType");
 	  getMessage();
 	}
 }
 void TetrisNetwork::sendReady()
 {
-//	if(srvMsg.compare("READY?") == 1)
-//	{
+	while(srvMsg.compare("READY?") == 1)
+	{
 	  cout << "test 3 passed" << endl;
 	  socket -> write("READY\n");
-	  tetrisAnswer -> append("Game Start Ready\n");
+	  tetrisAnswer -> append("Start");
 	  getMessage();
-//	}
+	}
 }
