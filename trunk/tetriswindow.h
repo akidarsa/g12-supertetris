@@ -142,6 +142,7 @@ private slots:
         void disableButtons();
         void disable2Buttons();
         void enable2Buttons();
+		void connectServer();
  };
 
  #endif

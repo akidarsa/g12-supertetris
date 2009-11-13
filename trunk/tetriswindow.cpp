@@ -52,8 +52,6 @@ using namespace std;
  TetrisWindow::TetrisWindow()
  {
 
-	//myDialog = new ConfigDialog;
-
     leftVar = Qt::Key_Left;
     rightVar = Qt::Key_Right;
     rotRightVar = Qt::Key_Up;
@@ -72,49 +70,11 @@ using namespace std;
      boardTwo = new TetrisBoard;
 
 	verizon = new TetrisNetwork;
-	verizon->exec();
-
-
-
-/*     startButton = new QPushButton(tr("&Start"));
-     startButton->setFocusPolicy(Qt::NoFocus);
-     quitButton = new QPushButton(tr("&Quit"));
-     quitButton->setFocusPolicy(Qt::NoFocus);
-     pauseButton = new QPushButton(tr("&Pause"));
-     pauseButton->setFocusPolicy(Qt::NoFocus);
-     demoButton = new QPushButton(tr("&Demo"));
-     demoButton->setFocusPolicy(Qt::NoFocus);
-     configureButton = new QPushButton(tr("&Configure Player 1"));
-     configureButton->setFocusPolicy(Qt::NoFocus);
-     configureButtonTwo = new QPushButton(tr("&Configure Player 2"));
-     configureButtonTwo->setFocusPolicy(Qt::NoFocus); */
-
-     //connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
-     //connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(start())); //Alex
-     //connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
-     //connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
-     //connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));	//Alex
-     //connect(demoButton, SIGNAL(clicked()), board, SLOT(startDemo())); //Alex
-     //connect(demoButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo())); //Alex
-	 
-
-
-     //connect(configureButton, SIGNAL(clicked()), this, SLOT(keyConfig()));
-     //connect(configureButtonTwo, SIGNAL(clicked()), this, SLOT(keyConfigTwo()));
-	 //connect(configOneButton, SIGNAL(clicked()), this, SLOT(keyConfig));
-	 //connect(configTwoButton, SIGNAL(clicked()), this, SLOT(keyConfigTwo));
-	 //connect(exitButton, SIGNAL(clicked()), this, SLOT(sys.exit()));
-
-
-
-     //connect(board, SIGNAL(scoreChanged(int)), scoreLcd, SLOT(display(int)));
-     //connect(board, SIGNAL(levelChanged(int)), levelLcd, SLOT(display(int)));
-     //connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
 
      createStatus();
      createStatus2();
      createControl();
-//connect(startHNetButton, SIGNAL(clicked()), this, verizon.exec())
+	 connect(startHNetButton, SIGNAL(clicked()), this, SLOT(connectServer()));
      /*Single player start*/
      connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(reset()));
@@ -161,28 +121,6 @@ using namespace std;
 
      QGridLayout *layout = new QGridLayout;
 
-/**
-     layout->addWidget(createLabel(tr("NEXT")), 0, 0);
-     layout->addWidget(nextPieceLabel, 1, 0);
-     //layout->addWidget(createLabel(tr("LEVEL")), 2, 0);
-     //layout->addWidget(levelLcd, 3, 0);
-     layout->addWidget(configureButton, 5, 0);
-     layout->addWidget(startButton, 2, 0);
-     layout->addWidget(board, 0, 1, 6, 1);
-     //layout->addWidget(createLabel(tr("SCORE")), 0, 2);
-     //layout->addWidget(scoreLcd, 1, 2);
-     layout->addWidget(ui_statusGroup, 0, 2);
-     layout->addWidget(createLabel(tr("LINES REMOVED")), 2, 2);
-     layout->addWidget(linesLcd, 3, 2);
-     layout->addWidget(quitButton, 4, 2);
-     layout->addWidget(pauseButton, 5, 2);
-     layout->addWidget(demoButton, 3, 0);
-**/
-
-// This part is edited by Alex
-
-
-
   nextPieceLabel = new QLabel;
   nextPieceLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
   nextPieceLabel->setAlignment(Qt::AlignCenter);
@@ -193,23 +131,11 @@ using namespace std;
   nextPieceLabel2->setFrameStyle(QFrame::Box | QFrame::Raised);
   nextPieceLabel2->setAlignment(Qt::AlignCenter);
   boardTwo->setNextPieceLabel(nextPieceLabel2);
-     //layout->addWidget(createLabel(tr("NEXT")), 0, 0);
-     //layout->addWidget(nextPieceLabel, 1, 0);
-     //layout->addWidget(configureButton, 4, 0);
-     //layout->addWidget(configureButtonTwo, 5, 0);
-     //layout->addWidget(startButton, 2, 0);
      layout->addWidget(ui_statusGroup, 0, 0);
      layout->addWidget(board, 0, 1, 5, 1);
      layout->addWidget(boardTwo, 0, 2, 5, 1);
-     //layout->addWidget(test, 0, 1, 6, 1);
      layout->addWidget(ui_statusGroup2, 0, 3);
      layout->addWidget(ui_controlGroup, 5, 0, 1, 4);
-     //layout->addWidget(createLabel(tr("LINES REMOVED")), 2, 3);
-     //layout->addWidget(linesLcd, 3, 3);
-     //layout->addWidget(quitButton, 4, 3);
-     //layout->addWidget(pauseButton, 5, 3);
-     //layout->addWidget(demoButton, 3, 0);
-
   layout -> addWidget(createLabel(tr("NEXT")), 1, 0);
   layout -> addWidget(nextPieceLabel, 2, 0);
   layout -> addWidget(createLabel(tr("LINES REMOVED")), 3, 0);
@@ -222,8 +148,6 @@ using namespace std;
      setLayout(layout);
 
      setWindowTitle(tr("Super Tetris"));
-     //resize(550, 370); //original size
-     //resize(1200, 640);
      resize(1200,800);
  }
 
@@ -520,18 +444,8 @@ void TetrisWindow::enable2Buttons()
     configureButton->setEnabled(true);
     configureButtonTwo->setEnabled(true);
 }
-/*void TetrisWindow::configure()
+
+void TetrisWindow::connectServer()
 {
-	QWidget *test = new QWidget;
-	test-> resize(200,300);
-	QGridLayout *layout = new QGridLayout;
-	configOneButton = new QPushButton(tr("Player 1"));
-	configTwoButton = new QPushButton(tr("Player 2"));
-	//exitButton = new QPushButton(tr("Exit"));
-	setWindowTitle("Key Config");
-	layout->addWidget(configOneButton, 0, 1);
-	layout->addWidget(configTwoButton, 0, 2);
-	//layout->addWidget(exitButton, 0, 3);
-	test->setLayout(layout);
-	test->show();
-}*/
+	verizon->exec();
+}
