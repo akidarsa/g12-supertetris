@@ -45,7 +45,7 @@
  #include <QtGui>
  //#include <QFrame>
  //#include <QWidget>
- #include "ConfigDialog.h"
+#include "tetrisnetwork.h"
 
 
  class QLCDNumber;
@@ -67,6 +67,7 @@
 	 void keyGrabber(QKeyEvent *event);
 
  private:
+	TetrisNetwork * verizon;
      QLabel *createLabel(const QString &text);
      void createStatus();
      void createStatus2();

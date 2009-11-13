@@ -45,7 +45,7 @@
  #include "tetrisboard.h"
 #include "tetrixkey.h"
 #include "tetriswindow.h"
-//#include "clientdialog.h"
+//#include "tetrisnetwork.h"
 
 using namespace std;
 
@@ -70,6 +70,9 @@ using namespace std;
 	 
      board = new TetrisBoard;
      boardTwo = new TetrisBoard;
+
+	verizon = new TetrisNetwork;
+	verizon->exec();
 
 
 
@@ -111,6 +114,7 @@ using namespace std;
      createStatus();
      createStatus2();
      createControl();
+//connect(startHNetButton, SIGNAL(clicked()), this, verizon.exec())
      /*Single player start*/
      connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(reset()));
@@ -516,8 +520,6 @@ void TetrisWindow::enable2Buttons()
     configureButton->setEnabled(true);
     configureButtonTwo->setEnabled(true);
 }
-
-
 /*void TetrisWindow::configure()
 {
 	QWidget *test = new QWidget;
