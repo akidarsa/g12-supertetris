@@ -78,6 +78,8 @@
      QGroupBox * ui_statusGroup;
      QGroupBox * ui_statusGroup2;
      QGroupBox * ui_controlGroup;
+     QGroupBox * ui_networkGroup;
+     QGroupBox * ui_localGroup;
      QLabel * ui_pieceCountLabel;
      QLabel * ui_piece4Label;
      QLabel * ui_piece5Label;
@@ -96,6 +98,10 @@
      QLCDNumber *linesLcd;
      QLCDNumber *linesLcd2;
      QPushButton *startButton;
+     QPushButton *startHNetButton;
+     QPushButton *startHANetButton;
+     QPushButton *startCNetButton;
+     QPushButton *startCANetButton;
      QPushButton *startHHButton;
      QPushButton *startHCButton;
      QPushButton *startCCButton;
@@ -116,7 +122,7 @@
     int rotRightVarTwo;
     int dropVarTwo;
     int mdropVarTwo;
-	void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event);
     int templeftVar;
     int temprightVar;
     int temprotRightVar;
