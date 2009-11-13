@@ -45,6 +45,7 @@
  #include "tetrisboard.h"
 #include "tetrixkey.h"
 #include "tetriswindow.h"
+//#include "clientdialog.h"
 
 using namespace std;
 
@@ -218,7 +219,8 @@ using namespace std;
 
      setWindowTitle(tr("Super Tetris"));
      //resize(550, 370); //original size
-     resize(1200, 640);
+     //resize(1200, 640);
+     resize(1200,800);
  }
 
  QLabel *TetrisWindow::createLabel(const QString &text)
@@ -304,30 +306,53 @@ void TetrisWindow::createStatus2()
 void TetrisWindow::createControl()
 {
     QGridLayout * controlLayout = new QGridLayout;
-    startButton = new QPushButton(tr("&Start - 1 Player"));
+    //Local buttons start here
+    QGridLayout * localLayout = new QGridLayout;
+    startButton = new QPushButton(tr("&Single Player"));
     startButton->setFocusPolicy(Qt::NoFocus);
+    startHHButton = new QPushButton(tr("&Human vs. Human"));
+    startHHButton->setFocusPolicy(Qt::NoFocus);
+    startHCButton = new QPushButton(tr("&Human vs. Computer"));
+    startHCButton->setFocusPolicy(Qt::NoFocus);
+    startCCButton = new QPushButton(tr("&Computer vs. Computer"));
+    startCCButton->setFocusPolicy(Qt::NoFocus);
+    localLayout -> addWidget(startButton, 0, 0);
+    localLayout -> addWidget(startHHButton, 1, 0);
+    localLayout -> addWidget(startHCButton, 2, 0);
+    localLayout -> addWidget(startCCButton, 3, 0);
+    ui_localGroup = new QGroupBox(tr("Start - Local"));
+    ui_localGroup -> setLayout(localLayout);
+    //Network Buttons Start here, local ends
+    QGridLayout * networkLayout = new QGridLayout;
+    startHNetButton = new QPushButton(tr("&Human - Survival"));
+    startHNetButton->setFocusPolicy(Qt::NoFocus);
+    startHANetButton = new QPushButton(tr("&Human - Attack"));
+    startHANetButton->setFocusPolicy(Qt::NoFocus);
+    startCNetButton = new QPushButton(tr("&Computer - Survival"));
+    startCNetButton->setFocusPolicy(Qt::NoFocus);
+    startCANetButton = new QPushButton(tr("&Computer - Attack"));
+    startCANetButton->setFocusPolicy(Qt::NoFocus);
+    networkLayout -> addWidget(startHNetButton, 0, 0);
+    networkLayout -> addWidget(startHANetButton, 1, 0);
+    networkLayout -> addWidget(startCNetButton, 2, 0);
+    networkLayout -> addWidget(startCANetButton, 3, 0);
+    ui_networkGroup = new QGroupBox(tr("Start - Network"));
+    ui_networkGroup -> setLayout(networkLayout);
+    //Network buttons end here
     quitButton = new QPushButton(tr("&Quit"));
     quitButton->setFocusPolicy(Qt::NoFocus);
     pauseButton = new QPushButton(tr("&Pause"));
     pauseButton->setFocusPolicy(Qt::NoFocus);
-    startHHButton = new QPushButton(tr("&Start - Human vs. Human"));
-    startHHButton->setFocusPolicy(Qt::NoFocus);
-    startHCButton = new QPushButton(tr("&Start - Human vs. Computer"));
-    startHCButton->setFocusPolicy(Qt::NoFocus);
-    startCCButton = new QPushButton(tr("&Start - Computer vs. Computer"));
-    startCCButton->setFocusPolicy(Qt::NoFocus);
     configureButton = new QPushButton(tr("&Configure Player 1"));
     configureButton->setFocusPolicy(Qt::NoFocus);
     configureButtonTwo = new QPushButton(tr("&Configure Player 2"));
     configureButtonTwo->setFocusPolicy(Qt::NoFocus);
-    controlLayout -> addWidget(startButton, 0, 0);
-    controlLayout -> addWidget(startHHButton, 1, 0);
-    controlLayout -> addWidget(startHCButton, 2, 0);
-    controlLayout -> addWidget(startCCButton, 3, 0);
-    controlLayout -> addWidget(pauseButton, 0, 1);
-    controlLayout -> addWidget(configureButton, 1, 1);
-    controlLayout -> addWidget(configureButtonTwo, 2, 1);
-    controlLayout -> addWidget(quitButton, 0, 2);
+    controlLayout -> addWidget(ui_localGroup, 0 , 0, 4 , 1);
+    controlLayout -> addWidget(ui_networkGroup, 0, 1, 4, 1);
+    controlLayout -> addWidget(pauseButton, 0, 2);
+    controlLayout -> addWidget(configureButton, 1, 2);
+    controlLayout -> addWidget(configureButtonTwo, 2, 2);
+    controlLayout -> addWidget(quitButton, 3, 2);
     ui_controlGroup = new QGroupBox(tr("Menu"));
     ui_controlGroup -> setLayout(controlLayout);
 }

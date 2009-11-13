@@ -74,12 +74,6 @@
 	 void rotateLeft();
 
  public slots:
-     //void startDemo(bool attack);
-     //void start(bool attack);
-
-
-
-
      void start();
      void pause();
      void startDemo();
