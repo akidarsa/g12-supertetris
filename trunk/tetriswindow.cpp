@@ -335,6 +335,9 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 {
     QWidget::keyPressEvent(event);
 
+	if (keyStarted)
+	{
+
     if ((event->key()) == leftVar) 
 	{
         boardTwo->moveLeft();
@@ -379,6 +382,7 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 	{
         QWidget::keyPressEvent(event);
     }
+	}
 
 }
 
