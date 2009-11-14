@@ -9,8 +9,7 @@ INCLUDEPATH += .
 QT += network
 
 # Input
-HEADERS += ConfigDialog.h \
-           ControlLineEdit.h \
+HEADERS += ControlLineEdit.h \
            PieceMovement.h \
            tetrisboard.h \
            tetrisdemo.h \
@@ -18,8 +17,7 @@ HEADERS += ConfigDialog.h \
            tetrispiece.h \
            tetriswindow.h \
            tetrixkey.h
-SOURCES += ConfigDialog.cpp \
-           ControlLineEdit.cpp \
+SOURCES += ControlLineEdit.cpp \
            main.cpp \
            tetrisboard.cpp \
            tetrisdemo.cpp \

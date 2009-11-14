@@ -49,10 +49,8 @@
  #include "tetrispiece.h"
  #include "PieceMovement.h"
  #include "tetrisdemo.h"
- #include "ConfigDialog.h"
 
  class QLabel;
- class ConfigDialog;
 
  class TetrisBoard : public QFrame
  {
@@ -98,7 +96,7 @@
          update();
      }
      void reset();
-     void setConnected(QString status) {
+     void setConnect(QString status) {
          if(status == "Connected") {
              isConnected = true;
          }
@@ -117,10 +115,10 @@
      void piece6Changed(int num6Pieces);
      void piece7Changed(int num7Pieces);
      void blocksChanged(int numBlocks);
-     void toNetCommand(QString command);
      void timeToAddLines(TetrisShape *line);
      void iLost(bool winOrLose);
      void gameIsStart(bool started);
+     void toNetCommand(QString command);
 
 protected:
      void paintEvent(QPaintEvent *event);
@@ -169,7 +167,6 @@ protected:
      int numBlocks; //counts number of blocks in pieces
      TetrisShape board[BoardWidth * BoardHeight];
      FILE* fp;
-     //ConfigDialog *myDialog;
      int Up;
      int Down;
      int Left;

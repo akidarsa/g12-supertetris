@@ -87,9 +87,11 @@ using namespace std;
      connect(startCCButton, SIGNAL(clicked()), board, SLOT(startDemo()));
      connect(startCCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
      /*Network Controls*/
+     connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(enableButtons()));
      connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(exec()));
      connect(verizon, SIGNAL(netConnected(QString)), ui_netStatus, SLOT(setText(QString)));
-     connect(verizon, SIGNAL(netConnected(QString)), board, SLOT(setConnected(QString))); 
+     connect(verizon, SIGNAL(netConnected(QString)), board, SLOT(setConnect(QString)));
+     connect(verizon, SIGNAL(netConnected(QString)), this, SLOT(setConnect(QString))); 
      connect(endNetButton, SIGNAL(clicked()), verizon, SLOT(closeSocket()));
      connect(board, SIGNAL(toNetCommand(QString)), verizon, SLOT(command(QString)));
      //connect(verizon, SIGNAL(fromNetCommand(QString)), boardTwo, SLOT(
@@ -252,6 +254,7 @@ void TetrisWindow::createControl()
     ui_netStatus -> setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     endNetButton = new QPushButton(tr("&Disconnect"));
     endNetButton->setFocusPolicy(Qt::NoFocus);
+    endNetButton->setEnabled(false);
     networkLayout -> addWidget(startNetButton, 0, 0, 1, 2);
     networkLayout -> addWidget(netStatusLabel, 1, 0);
     networkLayout -> addWidget(ui_netStatus, 1, 1);

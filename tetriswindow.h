@@ -52,7 +52,6 @@
  class QLabel;
  class QPushButton;
  class QGroupBox;
- class ConfigDialog;
 
  class TetrisBoard;
 
@@ -132,9 +131,20 @@ private slots:
 	void keyConfig();
 	void keyGrabStart(bool started)
 	{
-		keyStarted = started;
+	    keyStarted = started;
 	};
 	//void configure();
+        void setConnect(QString status)
+        {
+            if(status == "Connected") {
+                startNetButton->setEnabled(false);
+                endNetButton->setEnabled(true);
+            }
+            else {
+                startNetButton->setEnabled(true);
+                endNetButton->setEnabled(false);
+            }
+        }
  };
 
  #endif

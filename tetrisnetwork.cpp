@@ -130,7 +130,7 @@ void TetrisNetwork::closeSocket()
   if (isConnected == true)
     {
 
-      socket -> write("bye\n");
+      socket -> write("19125:GAMEOVER\n");
       socket -> flush();
     }
   emit netConnected("Disconnected");
@@ -197,6 +197,9 @@ void TetrisNetwork::sendGame1()
 		tetrisAnswer -> append("Sending GameType");
 		getMessage();
 //	}
+    hvsnButton->setEnabled(false);
+    cvsnButton->setEnabled(false);
+    qualifierButton->setEnabled(false);
 }
 
 void TetrisNetwork::sendGame2()
@@ -209,6 +212,9 @@ void TetrisNetwork::sendGame2()
 		tetrisAnswer -> append("Sending GameType");
 		getMessage();
 	}
+    hvsnButton->setEnabled(false);
+    cvsnButton->setEnabled(false);
+    qualifierButton->setEnabled(false);        
 }
 
 void TetrisNetwork::sendGame3()
@@ -221,16 +227,26 @@ void TetrisNetwork::sendGame3()
 	  tetrisAnswer -> append("Sending GameType");
 	  getMessage();
 	}
+    hvsnButton->setEnabled(false);
+    cvsnButton->setEnabled(false);
+    qualifierButton->setEnabled(false);
 }
 
 void TetrisNetwork::sendStart()
 {
-	if(srvMsg.compare("READY?") == 1)
-	{
+	//if(srvMsg.compare("READY?") == 1)
+	//{
 	  cout << "test 3 passed" << endl;
 	  socket -> write("READY\n");
 	  tetrisAnswer -> append("The game has started.\n Good Luck!");
 	  getMessage();
 	  this->accept();
-	}
+	//}
+}
+
+void TetrisNetwork::enableButtons()
+{
+    hvsnButton->setEnabled(true);
+    cvsnButton->setEnabled(true);
+    qualifierButton->setEnabled(true);
 }

@@ -42,7 +42,6 @@
  #include <QtGui>
 
  #include "tetrisboard.h"
- #include "ConfigDialog.h"
 #include<iostream>
 
 using namespace std;
