@@ -281,7 +281,7 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 {
     QWidget::keyPressEvent(event);
 
-	if (keyStarted == 1)
+	if (keyStarted)
 	{
 
     if ((event->key()) == p1LftKey) 
