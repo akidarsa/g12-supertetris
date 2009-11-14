@@ -7,29 +7,41 @@
 #include "tetrisnetwork.h"
 using namespace std;
 
+
+/**
+ * STUFF THAT NEEDS TO BE IMPLEMENTED
+ *
+ * 1). Checking what the network is sending
+ *
+ * 2). Disable all other button once one option is sent
+ *
+ *
+ *
+ * */
+
 TetrisNetwork::TetrisNetwork()
 {
     isConnected = false;
     socket = NULL;
     createServerGroupBox();
     createAnswerGroupBox();
-    closeButton = new QPushButton("Close");
-	readyButton = new QPushButton("Ready");
-	gameButton = new QPushButton("Game");
-	idButton = new QPushButton("ID");
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(closeSocket()));
-    connect(readyButton, SIGNAL(clicked()), this, SLOT(sendReady()));
-    connect(gameButton, SIGNAL(clicked()), this, SLOT(sendGame()));
-    connect(idButton, SIGNAL(clicked()), this, SLOT(sendId()));
+	startButton = new QPushButton("Start");
+	hvsnButton = new QPushButton("Human Mode");
+	cvsnButton = new QPushButton("Computer Mode");
+	qualifierButton = new QPushButton("Qualifier Mode");
+    connect(startButton, SIGNAL(clicked()), this, SLOT(sendStart()));
+    connect(hvsnButton, SIGNAL(clicked()), this, SLOT(sendGame1()));
+    connect(cvsnButton, SIGNAL(clicked()), this, SLOT(sendGame2()));
+    connect(qualifierButton, SIGNAL(clicked()), this, SLOT(sendGame3()));
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(serverGroupBox);
     mainLayout->addWidget(answerGroupBox);
-    mainLayout->addWidget(idButton);
-    mainLayout->addWidget(gameButton);
-    mainLayout->addWidget(readyButton);
-    mainLayout->addWidget(closeButton);
+    mainLayout->addWidget(hvsnButton);
+    mainLayout->addWidget(cvsnButton);
+    mainLayout->addWidget(qualifierButton);
+    mainLayout->addWidget(startButton);
     setLayout(mainLayout);
-    setWindowTitle(tr("Connect to Tetris Server"));
+    setWindowTitle(tr("Tetris Network.Live"));
 }
 
 TetrisNetwork:: ~TetrisNetwork()
@@ -41,7 +53,7 @@ TetrisNetwork:: ~TetrisNetwork()
 
 void TetrisNetwork::createServerGroupBox()
 {
-  serverGroupBox = new QGroupBox(tr("Server Information"));
+  serverGroupBox = new QGroupBox(tr("Network Information"));
   QGridLayout *layout = new QGridLayout;
   serverLabel = new QLabel("Server: ");
   serverName = new QLineEdit("127.0.0.1");
@@ -49,7 +61,7 @@ void TetrisNetwork::createServerGroupBox()
   layout -> addWidget(serverName, 0, 1);
   portLabel = new QLabel("Port: ");
   portNumber = new QLineEdit("9462");
-  connectButton = new QPushButton("Connect");
+  connectButton = new QPushButton("Engage");
   connect(connectButton, SIGNAL(clicked()), this, SLOT(connectServer()));
   layout -> addWidget(portLabel, 1, 0);
   layout -> addWidget(portNumber, 1, 1);
@@ -79,17 +91,7 @@ void TetrisNetwork::connectServer()
   connect(socket, SIGNAL(readyRead()), this, SLOT(getMessage()));
   connect(socket, SIGNAL(connectionClosed()), this, SLOT(connectionClosed()));
   socket -> connectToHost(serverName -> text(), (portNumber -> text()).toInt());
-  getMessage();
-  sendId();
-  getMessage();
-  sendGame();
-  getMessage();
-  sendReady();
-/*  if(srvMsg.compare("ID?"))
-  {
-    socket -> write("ID=19251");
-  }*/
-
+  socket -> write("ID=19251\n");
 }
 
 void TetrisNetwork::reportConnected()
@@ -175,33 +177,50 @@ void TetrisNetwork::command(QString order)
   
 }
 
-void TetrisNetwork::sendId()
+void TetrisNetwork::sendGame1()
 {
-	if(srvMsg.compare("ID?") == 1)
+//	while(srvMsg.compare("GAMETYPE?") == 1)
+//	{
+		cout << "test 2 passed" << endl;
+		socket -> write("GAMETYPE=tetris\n");
+		tetrisAnswer -> append("Human Vs Network Selected\n");
+		tetrisAnswer -> append("Sending GameType");
+		getMessage();
+//	}
+}
+
+void TetrisNetwork::sendGame2()
+{
+	if(srvMsg.compare("GAMETYPE?") == 1)
 	{
-	  cout << "test 1 passed" << endl;
-	  socket -> write("ID=19251\n");
-	  tetrisAnswer -> append("Sending ID");
-	  getMessage();
+		cout << "test 2 passed" << endl;
+		socket -> write("GAMETYPE=tetris\n");
+		tetrisAnswer -> append("Computer Vs Network Selected\n");
+		tetrisAnswer -> append("Sending GameType");
+		getMessage();
 	}
 }
-void TetrisNetwork::sendGame()
+
+void TetrisNetwork::sendGame3()
 {
 	if(srvMsg.compare("GAMETYPE?") == 1)
 	{
 	  cout << "test 2 passed" << endl;
-	  socket -> write("GAMETYPE=tetris\n");
+	  socket -> write("GAMETYPE=tetris-qualifier\n");
+	  tetrisAnswer -> append("Qualifier Mode Selected\n");
 	  tetrisAnswer -> append("Sending GameType");
 	  getMessage();
 	}
 }
-void TetrisNetwork::sendReady()
+
+void TetrisNetwork::sendStart()
 {
-	while(srvMsg.compare("READY?") == 1)
+	if(srvMsg.compare("READY?") == 1)
 	{
 	  cout << "test 3 passed" << endl;
 	  socket -> write("READY\n");
-	  tetrisAnswer -> append("Start");
+	  tetrisAnswer -> append("The game has started.\n Good Luck!");
 	  getMessage();
+	  this->accept();
 	}
 }
