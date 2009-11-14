@@ -94,18 +94,17 @@
      QLabel * ui_piece7Label2;
      QLabel * ui_blockCountLabel2;
      QLabel * ui_linesRemoved2;
+     QLabel * ui_netStatus;
      //QLCDNumber *scoreLcd;
      //QLCDNumber *levelLcd;
      QLCDNumber *linesLcd;
      QLCDNumber *linesLcd2;
      QPushButton *startButton;
-     QPushButton *startHNetButton;
-     QPushButton *startHANetButton;
-     QPushButton *startCNetButton;
-     QPushButton *startCANetButton;
      QPushButton *startHHButton;
      QPushButton *startHCButton;
      QPushButton *startCCButton;
+     QPushButton *startNetButton;
+     QPushButton *endNetButton;
      QPushButton *quitButton;
      QPushButton *pauseButton;
      QPushButton *configureButton;
@@ -139,10 +138,7 @@ private slots:
 		keyStarted = started;
 	};
 	//void configure();
-        void disableButtons();
-        void disable2Buttons();
-        void enable2Buttons();
-		void connectServer();
+        void disconnectNet();
  };
 
  #endif
