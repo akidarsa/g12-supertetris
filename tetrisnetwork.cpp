@@ -25,20 +25,13 @@ TetrisNetwork::TetrisNetwork()
     socket = NULL;
     createServerGroupBox();
     createAnswerGroupBox();
-	startButton = new QPushButton("Start");
-	hvsnButton = new QPushButton("Human Mode");
-	cvsnButton = new QPushButton("Computer Mode");
-	qualifierButton = new QPushButton("Qualifier Mode");
+    createModeGroupBox();
+    startButton = new QPushButton("Start");
     connect(startButton, SIGNAL(clicked()), this, SLOT(sendStart()));
-    connect(hvsnButton, SIGNAL(clicked()), this, SLOT(sendGame1()));
-    connect(cvsnButton, SIGNAL(clicked()), this, SLOT(sendGame2()));
-    connect(qualifierButton, SIGNAL(clicked()), this, SLOT(sendGame3()));
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(serverGroupBox);
     mainLayout->addWidget(answerGroupBox);
-    mainLayout->addWidget(hvsnButton);
-    mainLayout->addWidget(cvsnButton);
-    mainLayout->addWidget(qualifierButton);
+    mainLayout->addWidget(modeGroupBox);
     mainLayout->addWidget(startButton);
     setLayout(mainLayout);
     setWindowTitle(tr("Tetris Network.Live"));
@@ -51,6 +44,21 @@ TetrisNetwork:: ~TetrisNetwork()
   delete closeButton;
 }
 
+void TetrisNetwork::createModeGroupBox()
+{
+    modeGroupBox = new QGroupBox(tr("Network Play Modes"));
+    QGridLayout *layout = new QGridLayout;
+    hvsnButton = new QPushButton("Human Mode");
+    cvsnButton = new QPushButton("Computer Mode");
+    qualifierButton = new QPushButton("Qualifier Mode");
+    connect(hvsnButton, SIGNAL(clicked()), this, SLOT(sendGame1()));
+    connect(cvsnButton, SIGNAL(clicked()), this, SLOT(sendGame2()));
+    connect(qualifierButton, SIGNAL(clicked()), this, SLOT(sendGame3()));
+    layout -> addWidget(hvsnButton, 1, 0);
+    layout -> addWidget(cvsnButton, 2, 0);
+    layout -> addWidget(qualifierButton, 3, 0);    
+    modeGroupBox->setLayout(layout);
+}
 void TetrisNetwork::createServerGroupBox()
 {
   serverGroupBox = new QGroupBox(tr("Network Information"));
@@ -98,6 +106,7 @@ void TetrisNetwork::reportConnected()
 {
   tetrisAnswer -> append("connected");
   isConnected = true;
+  emit netConnected("Connected");
 }
 
 void TetrisNetwork::reportHostFound()
@@ -124,6 +133,7 @@ void TetrisNetwork::closeSocket()
       socket -> write("bye\n");
       socket -> flush();
     }
+  emit netConnected("Disconnected");
   accept(); // close the dialog window
 }
 
