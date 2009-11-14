@@ -98,7 +98,7 @@
          update();
      }
      void reset();
-     void setConnect(QString status) {
+     void setConnected(QString status) {
          if(status == "Connected") {
              isConnected = true;
          }
@@ -117,6 +117,7 @@
      void piece6Changed(int num6Pieces);
      void piece7Changed(int num7Pieces);
      void blocksChanged(int numBlocks);
+     void toNetCommand(QString command);
      void timeToAddLines(TetrisShape *line);
      void iLost(bool winOrLose);
      void gameIsStart(bool started);

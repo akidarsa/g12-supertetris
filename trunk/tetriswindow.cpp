@@ -245,16 +245,17 @@ void TetrisWindow::createControl()
     ui_localGroup -> setLayout(localLayout);
     //Network Buttons Start here, local ends
     QGridLayout * networkLayout = new QGridLayout;
-    startNetButton = new QPushButton(tr("&Play on Network"));
+    startNetButton = new QPushButton(tr("Play on &Network"));
     startNetButton->setFocusPolicy(Qt::NoFocus);
     QLabel * netStatusLabel = new QLabel("Network Status: ");
     ui_netStatus = new QLabel("Disconnected");
+    ui_netStatus -> setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     endNetButton = new QPushButton(tr("&Disconnect"));
     endNetButton->setFocusPolicy(Qt::NoFocus);
-    networkLayout -> addWidget(startNetButton, 0, 0);
+    networkLayout -> addWidget(startNetButton, 0, 0, 1, 2);
     networkLayout -> addWidget(netStatusLabel, 1, 0);
     networkLayout -> addWidget(ui_netStatus, 1, 1);
-    networkLayout -> addWidget(endNetButton, 2, 0);
+    networkLayout -> addWidget(endNetButton, 2, 0, 1, 2);
     ui_networkGroup = new QGroupBox(tr("Start - Network"));
     ui_networkGroup -> setLayout(networkLayout);
     //Network buttons end here

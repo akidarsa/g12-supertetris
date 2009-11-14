@@ -7,11 +7,11 @@ TetrixKey::TetrixKey(QWidget * parent) : QDialog(parent) {
     
 
     //P1 Buttons
-    leftButton1 = new QPushButton(tr("&Set P1 Left"));
-    rightButton1 = new QPushButton(tr("&Set P1 Right"));
-    rotateButton1 = new QPushButton(tr("&Set P1 Rotate"));
-    softDownButton1 = new QPushButton(tr("&Set P1 Soft Down"));
-    hardDownButton1 = new QPushButton(tr("&Set P1 Hard Down"));
+    leftButton1 = new QPushButton(tr("Set P1 Left"));
+    rightButton1 = new QPushButton(tr("Set P1 Right"));
+    rotateButton1 = new QPushButton(tr("Set P1 Rotate"));
+    softDownButton1 = new QPushButton(tr("Set P1 Soft Down"));
+    hardDownButton1 = new QPushButton(tr("Set P1 Hard Down"));
     layout->addWidget(leftButton1, 0, 0);
     layout->addWidget(rightButton1, 1, 0);
     layout->addWidget(rotateButton1, 2, 0);
@@ -19,11 +19,11 @@ TetrixKey::TetrixKey(QWidget * parent) : QDialog(parent) {
     layout->addWidget(hardDownButton1, 4, 0);
 
     //P2 Buttons
-    leftButton2 = new QPushButton(tr("&Set P2 Left"));
-    rightButton2 = new QPushButton(tr("&Set P2 Right"));
-    rotateButton2 = new QPushButton(tr("&Set P2 Rotate"));
-    softDownButton2 = new QPushButton(tr("&Set P2 Soft Down"));
-    hardDownButton2 = new QPushButton(tr("&Set P2 Hard Down"));
+    leftButton2 = new QPushButton(tr("Set P2 Left"));
+    rightButton2 = new QPushButton(tr("Set P2 Right"));
+    rotateButton2 = new QPushButton(tr("Set P2 Rotate"));
+    softDownButton2 = new QPushButton(tr("Set P2 Soft Down"));
+    hardDownButton2 = new QPushButton(tr("Set P2 Hard Down"));
     layout->addWidget(leftButton2, 0, 2);
     layout->addWidget(rightButton2, 1, 2);
     layout->addWidget(rotateButton2, 2, 2);
