@@ -51,6 +51,7 @@ using namespace std;
 
  TetrisWindow::TetrisWindow()
  {
+	 keyStarted = false;
 
     p1LftKey = Qt::Key_A;
     p1RgtKey = Qt::Key_D;
@@ -283,51 +284,50 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 
 	if (keyStarted)
 	{
-
-    if ((event->key()) == p1LftKey) 
-	{
-        board->moveLeft(1);
-    } 
-	else if ((event->key()) == p1RgtKey) 
-	{
-        board->moveRight(1);
-    } 
-	else if ((event->key()) == p1RotKey) 
-	{
-        board->rotateRight(1);
-    } 
-	else if ((event->key()) == p1DrpKey) 
-	{
-        board->dropDown(1);
-    } 
-	else if ((event->key()) == p1DwnKey) 
-	{
-        board->oneLineDown(1);
-    } 
-    else if ((event->key()) == p2LftKey) 
-	{
-        boardTwo->moveLeft(1);
-    } 
-	else if ((event->key()) == p2RgtKey) 
-	{
-        boardTwo->moveRight(1);
-    } 
-	else if ((event->key()) == p2RotKey) 
-	{
-        boardTwo->rotateRight(1);
-    } 
-	else if ((event->key()) == p2DrpKey) 
-	{
-        boardTwo->dropDown(1);
-    } 
-	else if ((event->key()) == p2DwnKey) 
-	{
-        boardTwo->oneLineDown(1);
-	}
-	else 
-	{
-        QWidget::keyPressEvent(event);
-    }
+		if ((event->key()) == p1LftKey) 
+		{
+			board->moveLeft(1);
+		} 
+		else if ((event->key()) == p1RgtKey) 
+		{
+			board->moveRight(1);
+		} 
+		else if ((event->key()) == p1RotKey) 
+		{
+			board->rotateRight(1);
+		} 
+		else if ((event->key()) == p1DrpKey) 
+		{
+			board->dropDown(1);
+		} 
+		else if ((event->key()) == p1DwnKey) 
+		{
+			board->oneLineDown(1);
+		} 
+		else if ((event->key()) == p2LftKey) 
+		{
+			boardTwo->moveLeft(1);
+		} 
+		else if ((event->key()) == p2RgtKey) 
+		{
+			boardTwo->moveRight(1);
+		} 
+		else if ((event->key()) == p2RotKey) 
+		{
+			boardTwo->rotateRight(1);
+		} 
+		else if ((event->key()) == p2DrpKey) 
+		{
+			boardTwo->dropDown(1);
+		} 
+		else if ((event->key()) == p2DwnKey) 
+		{
+			boardTwo->oneLineDown(1);
+		}
+		else 
+		{
+			QWidget::keyPressEvent(event);
+		}
 	}
 
 }
