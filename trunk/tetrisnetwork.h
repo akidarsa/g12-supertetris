@@ -16,6 +16,8 @@ class TetrisNetwork : public QDialog
 	public:
 		TetrisNetwork();
 		virtual ~ TetrisNetwork();
+        signals:
+                void netConnected(QString command);
 
 
 	private:
@@ -24,10 +26,12 @@ class TetrisNetwork : public QDialog
 		bool isConnected;
 		QTcpSocket * socket;
 		QPushButton * closeButton;
+                void createModeGroupBox();
 		void createServerGroupBox();
 		void createAnswerGroupBox();  
 		QGroupBox *serverGroupBox;
 		QGroupBox *answerGroupBox;
+                QGroupBox *modeGroupBox;
 		QTextEdit * tetrisAnswer;
 		QString srvMsg;
 		QLabel * serverLabel;
