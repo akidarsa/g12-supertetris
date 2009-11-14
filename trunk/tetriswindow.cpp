@@ -74,23 +74,23 @@ using namespace std;
      createStatus();
      createStatus2();
      createControl();
-	 connect(startHNetButton, SIGNAL(clicked()), this, SLOT(connectServer()));
      /*Single player start*/
      connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(reset()));
-     connect(startButton, SIGNAL(clicked()), this, SLOT(disableButtons()));
      /*Human vs. Human start*/
      connect(startHHButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startHHButton, SIGNAL(clicked()), boardTwo, SLOT(start()));
-     connect(startHHButton, SIGNAL(clicked()), this, SLOT(enable2Buttons()));
      /*Human vs. Computer start*/
      connect(startHCButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startHCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
-     connect(startHCButton, SIGNAL(clicked()), this, SLOT(disableButtons()));
      /*Computer vs. Computer start*/
      connect(startCCButton, SIGNAL(clicked()), board, SLOT(startDemo()));
      connect(startCCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
-     connect(startCCButton, SIGNAL(clicked()), this, SLOT(disable2Buttons()));
+     /*Network Controls*/
+     connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(exec()));
+     //connect(verizon, SIGNAL(netConnected(QString)), ui_netStatus, SLOT(setText(QString))); 
+     connect(endNetButton, SIGNAL(clicked()), verizon, SLOT(closeSocket()));
+     connect(endNetButton, SIGNAL(clicked()), this, SLOT(disconnectNet()));
      /*other controls*/
      connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
      connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
@@ -117,8 +117,7 @@ using namespace std;
      //connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
      connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
      connect(boardTwo, SIGNAL(iLost(bool)), board, SLOT(gameOver(bool)));
-	 connect(board, SIGNAL(gameIsStart(bool)), this, SLOT(keyGrabStart(bool)));
-
+     connect(board, SIGNAL(gameIsStart(bool)), this, SLOT(keyGrabStart(bool)));
      QGridLayout *layout = new QGridLayout;
 
   nextPieceLabel = new QLabel;
@@ -163,9 +162,6 @@ void TetrisWindow::createStatus()
   QGridLayout * statusLayout = new QGridLayout;
   linesLcd = new QLCDNumber(5);
   linesLcd->setSegmentStyle(QLCDNumber::Filled);
-
-
-
   QLabel * pieceCount = new QLabel("# of pieces: ");
   ui_pieceCountLabel = new QLabel("      ");
   QLabel * piece4 = new QLabel("4 block pieces: ");
@@ -190,8 +186,6 @@ void TetrisWindow::createStatus()
   statusLayout -> addWidget(ui_piece7Label, 4, 1);
   statusLayout -> addWidget(blockCount, 5, 0);
   statusLayout -> addWidget(ui_blockCountLabel, 5, 1);
-
-
   ui_statusGroup = new QGroupBox(tr("Player 1"));
   ui_statusGroup -> setLayout(statusLayout);
 }
@@ -199,7 +193,6 @@ void TetrisWindow::createStatus()
 void TetrisWindow::createStatus2()
 {
   QGridLayout * statusLayout2 = new QGridLayout;
-
   linesLcd2 = new QLCDNumber(5);
   linesLcd2->setSegmentStyle(QLCDNumber::Filled);
   QLabel * pieceCount = new QLabel("# of pieces: ");
@@ -226,7 +219,6 @@ void TetrisWindow::createStatus2()
   statusLayout2 -> addWidget(ui_piece7Label2, 4, 1);
   statusLayout2 -> addWidget(blockCount, 5, 0);
   statusLayout2 -> addWidget(ui_blockCountLabel2, 5, 1);
-
   ui_statusGroup2 = new QGroupBox(tr("Player 2"));
   ui_statusGroup2 -> setLayout(statusLayout2);
 }
@@ -252,18 +244,16 @@ void TetrisWindow::createControl()
     ui_localGroup -> setLayout(localLayout);
     //Network Buttons Start here, local ends
     QGridLayout * networkLayout = new QGridLayout;
-    startHNetButton = new QPushButton(tr("&Human - Survival"));
-    startHNetButton->setFocusPolicy(Qt::NoFocus);
-    startHANetButton = new QPushButton(tr("&Human - Attack"));
-    startHANetButton->setFocusPolicy(Qt::NoFocus);
-    startCNetButton = new QPushButton(tr("&Computer - Survival"));
-    startCNetButton->setFocusPolicy(Qt::NoFocus);
-    startCANetButton = new QPushButton(tr("&Computer - Attack"));
-    startCANetButton->setFocusPolicy(Qt::NoFocus);
-    networkLayout -> addWidget(startHNetButton, 0, 0);
-    networkLayout -> addWidget(startHANetButton, 1, 0);
-    networkLayout -> addWidget(startCNetButton, 2, 0);
-    networkLayout -> addWidget(startCANetButton, 3, 0);
+    startNetButton = new QPushButton(tr("&Play on Network"));
+    startNetButton->setFocusPolicy(Qt::NoFocus);
+    QLabel * netStatusLabel = new QLabel("Network Status: ");
+    ui_netStatus = new QLabel("Disconnected");
+    endNetButton = new QPushButton(tr("&Disconnect"));
+    endNetButton->setFocusPolicy(Qt::NoFocus);
+    networkLayout -> addWidget(startNetButton, 0, 0);
+    networkLayout -> addWidget(netStatusLabel, 1, 0);
+    networkLayout -> addWidget(ui_netStatus, 1, 1);
+    networkLayout -> addWidget(endNetButton, 2, 0);
     ui_networkGroup = new QGroupBox(tr("Start - Network"));
     ui_networkGroup -> setLayout(networkLayout);
     //Network buttons end here
@@ -275,7 +265,7 @@ void TetrisWindow::createControl()
     configureButton->setFocusPolicy(Qt::NoFocus);
     configureButtonTwo = new QPushButton(tr("&Configure Player 2"));
     configureButtonTwo->setFocusPolicy(Qt::NoFocus);
-    controlLayout -> addWidget(ui_localGroup, 0 , 0, 4 , 1);
+    controlLayout -> addWidget(ui_localGroup, 0 , 0, 4, 1);
     controlLayout -> addWidget(ui_networkGroup, 0, 1, 4, 1);
     controlLayout -> addWidget(pauseButton, 0, 2);
     controlLayout -> addWidget(configureButton, 1, 2);
@@ -427,25 +417,8 @@ void TetrisWindow::keyConfig()
 	boardTwo->pause();
 }
 
-void TetrisWindow::disableButtons() 
+void TetrisWindow::disconnectNet()
 {
-    configureButton->setEnabled(true);
-    configureButtonTwo->setEnabled(false);
+    ui_netStatus -> setText("Disconnected");
 }
 
-void TetrisWindow::disable2Buttons() 
-{
-    configureButton->setEnabled(false);
-    configureButtonTwo->setEnabled(false);
-}
-
-void TetrisWindow::enable2Buttons()
-{
-    configureButton->setEnabled(true);
-    configureButtonTwo->setEnabled(true);
-}
-
-void TetrisWindow::connectServer()
-{
-	verizon->exec();
-}
