@@ -92,8 +92,9 @@ using namespace std;
      connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(exec()));
      connect(verizon, SIGNAL(netConnected(QString)), ui_netStatus, SLOT(setText(QString)));
      connect(verizon, SIGNAL(netConnected(QString)), board, SLOT(setConnect(QString)));
-     connect(verizon, SIGNAL(netConnected(QString)), this, SLOT(setConnect(QString))); 
-     connect(endNetButton, SIGNAL(clicked()), verizon, SLOT(closeSocket()));
+     connect(verizon, SIGNAL(netConnected(QString)), this, SLOT(setConnect(QString)));
+     connect(verizon, SIGNAL(netGameMode(QString)), this, SLOT(netStart(QString)));
+     connect(endNetButton, SIGNAL(clicked()), verizon, SLOT(closeSocket()));   
      connect(board, SIGNAL(toNetCommand(QString)), verizon, SLOT(command(QString)));
      //connect(verizon, SIGNAL(fromNetCommand(QString)), boardTwo, SLOT(
      /*other controls*/
@@ -281,7 +282,7 @@ void TetrisWindow::createControl()
 void TetrisWindow::keyPressEvent(QKeyEvent *event) 
 {
     QWidget::keyPressEvent(event);
-
+cout << keyStarted << endl;
 	if (keyStarted)
 	{
 		if ((event->key()) == p1LftKey) 
@@ -390,5 +391,18 @@ void TetrisWindow::keyConfig()
     
 	board->pause();
 	boardTwo->pause();
+}
+
+void TetrisWindow::netStart(QString mode)
+{
+    if(mode == "human") {
+        board->start();
+    }
+    else if(mode == "computer") {
+        board->startDemo();
+    }
+    //else if(mode == "qualifier") {
+       // board->qualifier();
+    //}
 }
 

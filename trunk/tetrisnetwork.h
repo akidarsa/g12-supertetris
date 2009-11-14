@@ -18,6 +18,7 @@ class TetrisNetwork : public QDialog
 		virtual ~ TetrisNetwork();
         signals:
                 void netConnected(QString command);
+                void netGameMode(QString mode);
 	private:
 		QLineEdit * serverName;
 		QLineEdit * portNumber;
@@ -39,6 +40,9 @@ class TetrisNetwork : public QDialog
 		QPushButton * hvsnButton;
 		QPushButton * cvsnButton;
 		QPushButton * qualifierButton;
+                bool humanMode;
+                bool computerMode;
+                bool qualifierMode;
 		
 	private slots:
 		void connectionClosed();

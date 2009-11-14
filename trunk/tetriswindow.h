@@ -144,7 +144,8 @@ private slots:
                 startNetButton->setEnabled(true);
                 endNetButton->setEnabled(false);
             }
-        }
+        };
+        void netStart(QString mode);
  };
 
  #endif
