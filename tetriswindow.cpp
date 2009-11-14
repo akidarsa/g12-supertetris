@@ -88,9 +88,11 @@ using namespace std;
      connect(startCCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
      /*Network Controls*/
      connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(exec()));
-     connect(verizon, SIGNAL(netConnected(QString)), ui_netStatus, SLOT(setText(QString))); 
+     connect(verizon, SIGNAL(netConnected(QString)), ui_netStatus, SLOT(setText(QString)));
+     connect(verizon, SIGNAL(netConnected(QString)), board, SLOT(setConnected(QString))); 
      connect(endNetButton, SIGNAL(clicked()), verizon, SLOT(closeSocket()));
-     //connect(endNetButton, SIGNAL(clicked()), this, SLOT(disconnectNet()));
+     connect(board, SIGNAL(toNetCommand(QString)), verizon, SLOT(command(QString)));
+     //connect(verizon, SIGNAL(fromNetCommand(QString)), boardTwo, SLOT(
      /*other controls*/
      connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
      connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
@@ -384,10 +386,5 @@ void TetrisWindow::keyConfig()
     
 	board->pause();
 	boardTwo->pause();
-}
-
-void TetrisWindow::disconnectNet()
-{
-    ui_netStatus -> setText("Disconnected");
 }
 

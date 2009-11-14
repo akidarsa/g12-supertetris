@@ -98,6 +98,14 @@
          update();
      }
      void reset();
+     void setConnect(QString status) {
+         if(status == "Connected") {
+             isConnected = true;
+         }
+         else {
+             isConnected = false;
+         }
+     }
 
  signals:
      void scoreChanged(int score);
@@ -144,6 +152,7 @@ protected:
      bool isInDemo;
      bool isTested;
      bool isWaitingAfterLine;
+     bool isConnected;
      TetrisPiece curPiece;
      TetrisPiece nextPiece;
      int curX;
