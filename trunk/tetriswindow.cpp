@@ -52,17 +52,17 @@ using namespace std;
  TetrisWindow::TetrisWindow()
  {
 
-    leftVar = Qt::Key_Left;
-    rightVar = Qt::Key_Right;
-    rotRightVar = Qt::Key_Up;
-    dropVar = Qt::Key_Down;
-    mdropVar = Qt::Key_Space;
+    p1LftKey = Qt::Key_A;
+    p1RgtKey = Qt::Key_D;
+    p1RotKey = Qt::Key_W;
+    p1DwnKey = Qt::Key_S;
+    p1DrpKey = Qt::Key_B;
 
-    leftVarTwo = Qt::Key_A;
-    rightVarTwo = Qt::Key_D;
-    rotRightVarTwo = Qt::Key_W;
-    dropVarTwo = Qt::Key_S;
-    mdropVarTwo = Qt::Key_B;
+    p2LftKey = Qt::Key_Left;
+    p2RgtKey = Qt::Key_Right;
+    p2RotKey = Qt::Key_Up;
+    p2DwnKey = Qt::Key_Down;
+    p2DrpKey = Qt::Key_Space;
 
 	setFocusPolicy(Qt::StrongFocus);
 	 
@@ -96,7 +96,6 @@ using namespace std;
      connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
      connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));
      connect(configureButton, SIGNAL(clicked()), this, SLOT(keyConfig()));
-     connect(configureButtonTwo, SIGNAL(clicked()), this, SLOT(keyConfigTwo()));
      /*updates stats*/
      connect(board, SIGNAL(pieceChanged(int)), ui_pieceCountLabel, SLOT(setNum(int)));
      connect(board, SIGNAL(piece4Changed(int)), ui_piece4Label, SLOT(setNum(int)));
@@ -113,8 +112,8 @@ using namespace std;
      /*deals with line removal*/
      connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
      connect(boardTwo, SIGNAL(linesRemovedChanged(int)), linesLcd2, SLOT(display(int)));
-     //connect(board, SIGNAL(timeToAddLines(TetrisShape*)), boardTwo, SLOT(addLines(TetrisShape*)));
-     //connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
+     connect(board, SIGNAL(timeToAddLines(TetrisShape*)), boardTwo, SLOT(addLines(TetrisShape*)));
+     connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
      connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
      connect(boardTwo, SIGNAL(iLost(bool)), board, SLOT(gameOver(bool)));
      connect(board, SIGNAL(gameIsStart(bool)), this, SLOT(keyGrabStart(bool)));
@@ -232,7 +231,7 @@ void TetrisWindow::createControl()
     startButton->setFocusPolicy(Qt::NoFocus);
     startHHButton = new QPushButton(tr("&Human vs. Human"));
     startHHButton->setFocusPolicy(Qt::NoFocus);
-    startHCButton = new QPushButton(tr("&Human vs. Computer"));
+    startHCButton = new QPushButton(tr("Human &vs. Computer"));
     startHCButton->setFocusPolicy(Qt::NoFocus);
     startCCButton = new QPushButton(tr("&Computer vs. Computer"));
     startCCButton->setFocusPolicy(Qt::NoFocus);
@@ -261,15 +260,12 @@ void TetrisWindow::createControl()
     quitButton->setFocusPolicy(Qt::NoFocus);
     pauseButton = new QPushButton(tr("&Pause"));
     pauseButton->setFocusPolicy(Qt::NoFocus);
-    configureButton = new QPushButton(tr("&Configure Player 1"));
+    configureButton = new QPushButton(tr("&Key Configure"));
     configureButton->setFocusPolicy(Qt::NoFocus);
-    configureButtonTwo = new QPushButton(tr("&Configure Player 2"));
-    configureButtonTwo->setFocusPolicy(Qt::NoFocus);
     controlLayout -> addWidget(ui_localGroup, 0 , 0, 4, 1);
     controlLayout -> addWidget(ui_networkGroup, 0, 1, 4, 1);
-    controlLayout -> addWidget(pauseButton, 0, 2);
-    controlLayout -> addWidget(configureButton, 1, 2);
-    controlLayout -> addWidget(configureButtonTwo, 2, 2);
+    controlLayout -> addWidget(configureButton, 0, 2);
+    controlLayout -> addWidget(pauseButton, 1, 2);
     controlLayout -> addWidget(quitButton, 3, 2);
     ui_controlGroup = new QGroupBox(tr("Menu"));
     ui_controlGroup -> setLayout(controlLayout);
@@ -282,45 +278,45 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 	if (keyStarted == 1)
 	{
 
-    if ((event->key()) == leftVar) 
-	{
-        boardTwo->moveLeft(1);
-    } 
-	else if ((event->key()) == rightVar) 
-	{
-        boardTwo->moveRight(1);
-    } 
-	else if ((event->key()) == rotRightVar) 
-	{
-        boardTwo->rotateRight(1);
-    } 
-	else if ((event->key()) == mdropVar) 
-	{
-        boardTwo->dropDown(1);
-    } 
-	else if ((event->key()) == dropVar) 
-	{
-        boardTwo->oneLineDown(1);
-    } 
-    else if ((event->key()) == leftVarTwo) 
+    if ((event->key()) == p1LftKey) 
 	{
         board->moveLeft(1);
     } 
-	else if ((event->key()) == rightVarTwo) 
+	else if ((event->key()) == p1RgtKey) 
 	{
         board->moveRight(1);
     } 
-	else if ((event->key()) == rotRightVarTwo) 
+	else if ((event->key()) == p1RotKey) 
 	{
         board->rotateRight(1);
     } 
-	else if ((event->key()) == mdropVarTwo) 
+	else if ((event->key()) == p1DrpKey) 
 	{
         board->dropDown(1);
     } 
-	else if ((event->key()) == dropVarTwo) 
+	else if ((event->key()) == p1DwnKey) 
 	{
         board->oneLineDown(1);
+    } 
+    else if ((event->key()) == p2LftKey) 
+	{
+        boardTwo->moveLeft(1);
+    } 
+	else if ((event->key()) == p2RgtKey) 
+	{
+        boardTwo->moveRight(1);
+    } 
+	else if ((event->key()) == p2RotKey) 
+	{
+        boardTwo->rotateRight(1);
+    } 
+	else if ((event->key()) == p2DrpKey) 
+	{
+        boardTwo->dropDown(1);
+    } 
+	else if ((event->key()) == p2DwnKey) 
+	{
+        boardTwo->oneLineDown(1);
 	}
 	else 
 	{
@@ -330,87 +326,60 @@ void TetrisWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
-void TetrisWindow::keyConfigTwo() 
-{
-	templeftVar = leftVar;
-	temprightVar = rightVar;
-	temprotRightVar = rotRightVar;
-	tempdropVar = dropVar;
-	tempmdropVar = mdropVar;
-
-    TetrixKey dialog;
-    board->pause();
-	boardTwo->pause();
-    dialog.exec();
-    leftVar = dialog.getKey(TetrixKey::LEFT);
-    rightVar = dialog.getKey(TetrixKey::RIGHT);
-    rotRightVar = dialog.getKey(TetrixKey::ROTATE);
-    dropVar = dialog.getKey(TetrixKey::SOFTDOWN);
-    mdropVar = dialog.getKey(TetrixKey::MAGICDOWN);
-
-
-	if(leftVar == 0 and leftVar != leftVarTwo)
-	{
-		leftVar = templeftVar;
-	}
-	if(rightVar == 0 or rightVar == rightVarTwo)
-	{
-		rightVar = temprightVar;
-	}
-	if(rotRightVar == 0 || rotRightVar == rotRightVarTwo)
-	{
-    rotRightVar = temprotRightVar;
-	}
-	if(dropVar == 0 || dropVar == dropVarTwo)
-	{
-    dropVar = tempdropVar;
-	}
-	if(mdropVar == 0 || mdropVar == mdropVarTwo)
-	{
-    mdropVar = tempmdropVar;
-	}
-
-    board->pause();
-	boardTwo->pause();
-}
-
 void TetrisWindow::keyConfig() 
 {
-	templeftVar = leftVarTwo;
-	temprightVar = rightVarTwo;
-	temprotRightVar = rotRightVarTwo;
-	tempdropVar = dropVarTwo;
-	tempmdropVar = mdropVarTwo;
+	tempLftVar[0] = p1LftKey;
+	tempRgtVar[0] = p1RgtKey;
+	tempRotVar[0] = p1RotKey;
+	tempDwnVar[0] = p1DwnKey;
+	tempDrpVar[0] = p1DrpKey;
+
+	tempLftVar[1] = p2LftKey;
+	tempRgtVar[1] = p2RgtKey;
+	tempRotVar[1] = p2RotKey;
+	tempDwnVar[1] = p2DwnKey;
+	tempDrpVar[1] = p2DrpKey;
 
     TetrixKey dialog;
     board->pause();
 	boardTwo->pause();
     dialog.exec();
-    leftVarTwo = dialog.getKey(TetrixKey::LEFT);
-    rightVarTwo = dialog.getKey(TetrixKey::RIGHT);
-    rotRightVarTwo = dialog.getKey(TetrixKey::ROTATE);
-    dropVarTwo = dialog.getKey(TetrixKey::SOFTDOWN);
-    mdropVarTwo = dialog.getKey(TetrixKey::MAGICDOWN);
+    p1LftKey = dialog.getKey(TetrixKey::LFT1);
+    p1RgtKey = dialog.getKey(TetrixKey::RGT1);
+    p1RotKey = dialog.getKey(TetrixKey::ROT1);
+    p1DwnKey = dialog.getKey(TetrixKey::DWN1);
+    p1DrpKey = dialog.getKey(TetrixKey::DRP1);
 
-	if(leftVarTwo == 0 or leftVarTwo == leftVar)
+    p2LftKey = dialog.getKey(TetrixKey::LFT2);
+    p2RgtKey = dialog.getKey(TetrixKey::RGT2);
+    p2RotKey = dialog.getKey(TetrixKey::ROT2);
+    p2DwnKey = dialog.getKey(TetrixKey::DWN2);
+    p2DrpKey = dialog.getKey(TetrixKey::DRP2);
+
+	if(p2LftKey == 0 or p2LftKey == p1LftKey)
 	{
-		leftVarTwo = templeftVar;
+		p1LftKey = tempLftVar[0];
+		p2LftKey = tempLftVar[1];
 	}
-	if(rightVarTwo == 0 or rightVarTwo == rightVar)
+	if(p2RgtKey == 0 or p2RgtKey == p1RgtKey)
 	{
-		rightVarTwo = temprightVar;
+		p1RgtKey = tempRgtVar[0];
+		p2RgtKey = tempRgtVar[1];
 	}
-	if(rotRightVarTwo == 0 or rotRightVarTwo == rotRightVar)
+	if(p2RotKey == 0 or p2RotKey == p1RotKey)
 	{
-    rotRightVarTwo = temprotRightVar;
+    		p1RotKey = tempRotVar[0];
+    		p2RotKey = tempRotVar[1];
 	}
-	if(dropVarTwo == 0 or dropVarTwo == dropVar)
+	if(p2DwnKey == 0 or p2DwnKey == p1DwnKey)
 	{
-    dropVarTwo = tempdropVar;
+    		p1DwnKey = tempDwnVar[0];
+    		p2DwnKey = tempDwnVar[1];
 	}
-	if(mdropVarTwo == 0 or mdropVarTwo == mdropVar)
+	if(p2DrpKey == 0 or p2DrpKey == p1DrpKey)
 	{
-    mdropVarTwo = tempmdropVar;
+		p1DrpKey = tempDrpVar[0];
+		p2DrpKey = tempDrpVar[1];
 	}
     
 	board->pause();
