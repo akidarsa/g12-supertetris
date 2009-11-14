@@ -108,31 +108,28 @@
      QPushButton *quitButton;
      QPushButton *pauseButton;
      QPushButton *configureButton;
-     QPushButton *configureButtonTwo;
-     //QPushButton *configOneButton;
-     //QPushButton *configTwoButton;
-     //QPushButton *exitButton;
-    int leftVar;
-    int rightVar;
-    int rotRightVar;
-    int dropVar;
-    int mdropVar;
-    int leftVarTwo;
-    int rightVarTwo;
-    int rotRightVarTwo;
-    int dropVarTwo;
-    int mdropVarTwo;
+    int p1LftKey;
+    int p1RgtKey;
+    int p1RotKey;
+    int p1DwnKey; //Moves one line DOWN
+    int p1DrpKey; //DROPS piece to bottom
+
+    int p2LftKey;
+    int p2RgtKey;
+    int p2RotKey;
+    int p2DwnKey; //Moves one line DOWN
+    int p2DrpKey; //DROPS piece to bottom
+
     void keyPressEvent(QKeyEvent *event);
-    int templeftVar;
-    int temprightVar;
-    int temprotRightVar;
-    int tempdropVar;
-    int tempmdropVar;
-	bool keyStarted;
+    int tempLftVar[2];
+    int tempRgtVar[2];
+    int tempRotVar[2];
+    int tempDwnVar[2];
+    int tempDrpVar[2];
+    bool keyStarted;
 
 private slots:
 	void keyConfig();
-	void keyConfigTwo();
 	void keyGrabStart(bool started)
 	{
 		keyStarted = started;

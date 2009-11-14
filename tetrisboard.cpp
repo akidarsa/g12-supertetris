@@ -409,8 +409,8 @@ void TetrisBoard::rotateLeft(int a)
 		}
              }
              else {
-		dropDown();
-//                oneLineDown();
+//		dropDown();
+                oneLineDown();
              }
          }
      } else {

@@ -13,25 +13,30 @@ class TetrixKey : public QDialog {
 public:
     TetrixKey(QWidget *parent = 0);
     int getKey(int action);
-    static const int LEFT = 0;
-    static const int RIGHT = 1;
-    static const int ROTATE = 2;
-    static const int SOFTDOWN = 3;
-    static const int MAGICDOWN = 4;
+    enum { LFT1, LFT2, RGT1, RGT2, ROT1, ROT2, DWN1, DWN2, DRP1, DRP2 };
 
 private:
-    QPushButton * leftButton;
-    QPushButton * rightButton;
-    QPushButton * rotateButton;
-    QPushButton * softDownButton;
-    QPushButton * hardDownButton;
-    int leftVar;
-    int rightVar;
-    int rotVar;
-    int downVar;
-    int mdownVar;
+    QPushButton * leftButton1;
+    QPushButton * rightButton1;
+    QPushButton * rotateButton1;
+    QPushButton * softDownButton1;
+    QPushButton * hardDownButton1;
+    int leftVar1;
+    int rightVar1;
+    int rotVar1;
+    int downVar1;
+    int mdownVar1;
 
-
+    QPushButton * leftButton2;
+    QPushButton * rightButton2;
+    QPushButton * rotateButton2;
+    QPushButton * softDownButton2;
+    QPushButton * hardDownButton2;
+    int leftVar2;
+    int rightVar2;
+    int rotVar2;
+    int downVar2;
+    int mdownVar2;
 
 private slots:
     void makepopup();
