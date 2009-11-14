@@ -33,9 +33,10 @@ class TetrisNetwork : public QDialog
 		QLabel * serverLabel;
 		QLabel * portLabel;
 		QPushButton * connectButton;
-		QPushButton * readyButton;
-		QPushButton * idButton;
-		QPushButton * gameButton;
+		QPushButton * startButton;
+		QPushButton * hvsnButton;
+		QPushButton * cvsnButton;
+		QPushButton * qualifierButton;
 		
 	private slots:
 		void connectionClosed();
@@ -45,9 +46,10 @@ class TetrisNetwork : public QDialog
 		void command(QString order);
 		void getMessage();
 		void connectServer();
-		void sendReady();
-		void sendId();
-		void sendGame();
+		void sendStart();
+		void sendGame1();
+		void sendGame2();
+		void sendGame3();
 			
 
 
