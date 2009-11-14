@@ -337,7 +337,7 @@ void TetrisBoard::moveLeft(int a)
 	{
 		emit toNetCommand("LEFT");
 	}
-	else if(!isGameOver and !isInDemo)
+	if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece, curX - 1, curY);
 	}
@@ -355,7 +355,7 @@ void TetrisBoard::moveRight(int a)
 	{
 		emit toNetCommand("RIGHT");
 	}
-	else if(!isGameOver and !isInDemo)
+	if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece, curX + 1, curY);
 	}
@@ -373,7 +373,7 @@ void TetrisBoard::rotateRight(int a)
 	{
 		emit toNetCommand("ROTATE");
 	}
-	else if(!isGameOver and !isInDemo)
+	if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece.rotatedRight(), curX, curY);
 	}
@@ -496,7 +496,7 @@ void TetrisBoard::rotateLeft(int a)
 
 	if(isConnected)
 	{
-		emit toNetCommand("LEFT");
+		emit toNetCommand("FALL");
 	}
 	else if(!isGameOver & !isInDemo)
 	{

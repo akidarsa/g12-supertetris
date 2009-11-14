@@ -149,43 +149,39 @@ void TetrisNetwork::command(QString order)
 {
   if(order == "LEFT")
   {
-    socket -> write("LEFT\n");
+    socket -> write("19251:LEFT\n");
   }
-  else if(order == "Right")
+  else if(order == "RIGHT")
   {
-    socket -> write("RIGHT\n");
-  }
-  else if(order == "ROTATE")
-  {
-    socket -> write("ROTATE\n");
+    socket -> write("19251:RIGHT\n");
   }
   else if(order == "ROTATE")
   {
-    socket -> write("ROTATE\n");
+    socket -> write("19251:ROTATE\n");
   }
   else if(order == "FALL")
   {
-    socket -> write("FALL\n");
+    socket -> write("19251:FALL\n");
   }
   else if(order == "PIECE")
   {
-    socket -> write("PIECE\n");
+    socket -> write("19251:PIECE\n");
   }
   else if(order == "ATTACK")
   {
-    socket -> write("ATTACK\n");
+    socket -> write("19251:ATTACK\n");
   }
   else if(order == "GAMEOVER")
   {
-    socket -> write("GAMEOVER\n");
+    socket -> write("19251:GAMEOVER\n");
   }
   else if(order == "WIN")
   {
-    socket -> write("WIN\n");
+    socket -> write("19251:WIN\n");
   }
   else if(order == "LOSE")
   {
-    socket -> write("LOSE\n");
+    socket -> write("19251:LOSE\n");
   }
   
 }
@@ -204,6 +200,9 @@ void TetrisNetwork::sendGame1()
     cvsnButton->setEnabled(false);
     qualifierButton->setEnabled(false);
     startButton->setEnabled(true);
+    humanMode = true;
+    computerMode = false;
+    qualifierMode = false;
 }
 
 void TetrisNetwork::sendGame2()
@@ -216,7 +215,10 @@ void TetrisNetwork::sendGame2()
     hvsnButton->setEnabled(false);
     cvsnButton->setEnabled(false);
     qualifierButton->setEnabled(false);      
-    startButton->setEnabled(true);  
+    startButton->setEnabled(true); 
+    humanMode = false;
+    computerMode = true;
+    qualifierMode = false;
 }
 
 void TetrisNetwork::sendGame3()
@@ -230,6 +232,9 @@ void TetrisNetwork::sendGame3()
     cvsnButton->setEnabled(false);
     qualifierButton->setEnabled(false);
     startButton->setEnabled(true);
+    humanMode = false;
+    computerMode = false;
+    qualifierMode = true;
 }
 
 void TetrisNetwork::sendStart()
@@ -239,6 +244,15 @@ void TetrisNetwork::sendStart()
     tetrisAnswer -> append("The game has started.\n Good Luck!");
     getMessage();
     this->accept();
+    if(humanMode) {
+        emit netGameMode("human");
+    }
+    else if(computerMode) {
+        emit netGameMode("computer");
+    }
+    else if(qualifierMode) {
+        emit netGameMode("qualifier");
+    }
 }
 
 void TetrisNetwork::disableButtons()
