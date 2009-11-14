@@ -135,7 +135,6 @@ private slots:
 		keyStarted = started;
 	};
 	//void configure();
-        void disconnectNet();
  };
 
  #endif

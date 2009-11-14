@@ -18,8 +18,6 @@ class TetrisNetwork : public QDialog
 		virtual ~ TetrisNetwork();
         signals:
                 void netConnected(QString command);
-
-
 	private:
 		QLineEdit * serverName;
 		QLineEdit * portNumber;
