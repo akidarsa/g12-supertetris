@@ -100,6 +100,9 @@ void TetrisNetwork::connectServer()
   connect(socket, SIGNAL(connectionClosed()), this, SLOT(connectionClosed()));
   socket -> connectToHost(serverName -> text(), (portNumber -> text()).toInt());
   socket -> write("ID=19251\n");
+  hvsnButton->setEnabled(true);
+  cvsnButton->setEnabled(true);
+  qualifierButton->setEnabled(true);
 }
 
 void TetrisNetwork::reportConnected()
@@ -200,53 +203,48 @@ void TetrisNetwork::sendGame1()
     hvsnButton->setEnabled(false);
     cvsnButton->setEnabled(false);
     qualifierButton->setEnabled(false);
+    startButton->setEnabled(true);
 }
 
 void TetrisNetwork::sendGame2()
 {
-	if(srvMsg.compare("GAMETYPE?") == 1)
-	{
-		cout << "test 2 passed" << endl;
-		socket -> write("GAMETYPE=tetris\n");
-		tetrisAnswer -> append("Computer Vs Network Selected\n");
-		tetrisAnswer -> append("Sending GameType");
-		getMessage();
-	}
+    cout << "test 2 passed" << endl;
+    socket -> write("GAMETYPE=tetris\n");
+    tetrisAnswer -> append("Computer Vs Network Selected\n");
+    tetrisAnswer -> append("Sending GameType");
+    getMessage();
     hvsnButton->setEnabled(false);
     cvsnButton->setEnabled(false);
-    qualifierButton->setEnabled(false);        
+    qualifierButton->setEnabled(false);      
+    startButton->setEnabled(true);  
 }
 
 void TetrisNetwork::sendGame3()
 {
-	if(srvMsg.compare("GAMETYPE?") == 1)
-	{
-	  cout << "test 2 passed" << endl;
-	  socket -> write("GAMETYPE=tetris-qualifier\n");
-	  tetrisAnswer -> append("Qualifier Mode Selected\n");
-	  tetrisAnswer -> append("Sending GameType");
-	  getMessage();
-	}
+    cout << "test 2 passed" << endl;
+    socket -> write("GAMETYPE=tetris-qualifier\n");
+    tetrisAnswer -> append("Qualifier Mode Selected\n");
+    tetrisAnswer -> append("Sending GameType");
+    getMessage();
     hvsnButton->setEnabled(false);
     cvsnButton->setEnabled(false);
     qualifierButton->setEnabled(false);
+    startButton->setEnabled(true);
 }
 
 void TetrisNetwork::sendStart()
 {
-	//if(srvMsg.compare("READY?") == 1)
-	//{
-	  cout << "test 3 passed" << endl;
-	  socket -> write("READY\n");
-	  tetrisAnswer -> append("The game has started.\n Good Luck!");
-	  getMessage();
-	  this->accept();
-	//}
+    cout << "test 3 passed" << endl;
+    socket -> write("READY\n");
+    tetrisAnswer -> append("The game has started.\n Good Luck!");
+    getMessage();
+    this->accept();
 }
 
-void TetrisNetwork::enableButtons()
+void TetrisNetwork::disableButtons()
 {
-    hvsnButton->setEnabled(true);
-    cvsnButton->setEnabled(true);
-    qualifierButton->setEnabled(true);
+  hvsnButton->setEnabled(false);
+  cvsnButton->setEnabled(false);
+  qualifierButton->setEnabled(false);
+  startButton->setEnabled(false);
 }

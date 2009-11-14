@@ -52,7 +52,7 @@ class TetrisNetwork : public QDialog
 		void sendGame1();
 		void sendGame2();
 		void sendGame3();
-		void enableButtons();	
+		void disableButtons();	
 
 
 };

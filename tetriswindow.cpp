@@ -87,7 +87,7 @@ using namespace std;
      connect(startCCButton, SIGNAL(clicked()), board, SLOT(startDemo()));
      connect(startCCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
      /*Network Controls*/
-     connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(enableButtons()));
+     connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(disableButtons()));
      connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(exec()));
      connect(verizon, SIGNAL(netConnected(QString)), ui_netStatus, SLOT(setText(QString)));
      connect(verizon, SIGNAL(netConnected(QString)), board, SLOT(setConnect(QString)));
