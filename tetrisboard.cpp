@@ -152,7 +152,7 @@ class ControlLineEdit;
      numBlocks = 0;
      score = 0;
      //level = 12; //it has a 12th level intellect
-     level = 9999; //I think the number 13 is lucky
+     level = 13; //I think the number 13 is lucky
      clearBoard();
      if (fp != NULL) {
          fclose(fp);
@@ -333,10 +333,18 @@ bool TetrisBoard::rotateLeft()
 void TetrisBoard::moveLeft(int a)
 {
 	a = 1;
-
-	if(!isGameOver and !isInDemo)
+	
+	if(isConnected)
+	{
+		emit toNetCommand("LEFT");
+	}
+	else if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece, curX - 1, curY);
+	}
+	else
+	{
+		return;
 	}
 }
 
@@ -344,9 +352,17 @@ void TetrisBoard::moveRight(int a)
 {
 	a = 1;
 	
-	if(!isGameOver and !isInDemo)
+	if(isConnected)
+	{
+		emit toNetCommand("RIGHT");
+	}
+	else if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece, curX + 1, curY);
+	}
+	else
+	{
+		return;
 	}
 }
 
@@ -354,9 +370,17 @@ void TetrisBoard::rotateRight(int a)
 {
 	a = 1;
 	
-	if(!isGameOver and !isInDemo)
+	if(isConnected)
+	{
+		emit toNetCommand("ROTATE");
+	}
+	else if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece.rotatedRight(), curX, curY);
+	}
+	else
+	{
+		return;
 	}
 }
 
@@ -471,11 +495,19 @@ void TetrisBoard::rotateLeft(int a)
  {
 	 a = 1;
 
-	 if(!isGameOver & !isInDemo)
-	 {
-     if (!tryMove(curPiece, curX, curY - 1))
-         pieceDropped(0);
-	 }
+	if(isConnected)
+	{
+		emit toNetCommand("LEFT");
+	}
+	else if(!isGameOver & !isInDemo)
+	{
+     		if (!tryMove(curPiece, curX, curY - 1))
+	        pieceDropped(0);
+	}
+	else
+	{
+		return;
+	}
  }
 
  void TetrisBoard::pieceDropped(int dropHeight)
