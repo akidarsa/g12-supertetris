@@ -61,6 +61,7 @@
 
  public:
      TetrisWindow();
+     virtual ~TetrisWindow();
 
  signals:
 	 void keyGrabber(QKeyEvent *event);

@@ -95,7 +95,9 @@ using namespace std;
      connect(verizon, SIGNAL(netConnected(QString)), board, SLOT(setConnect(QString)));
      connect(verizon, SIGNAL(netConnected(QString)), this, SLOT(setConnect(QString)));
      connect(verizon, SIGNAL(netGameMode(QString)), this, SLOT(netStart(QString)));
-     connect(endNetButton, SIGNAL(clicked()), verizon, SLOT(closeSocket()));   
+     connect(endNetButton, SIGNAL(clicked()), verizon, SLOT(closeSocket()));
+     connect(endNetButton, SIGNAL(clicked()), board, SLOT(pause()));
+     connect(endNetButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));   
      connect(board, SIGNAL(toNetCommand(QString)), verizon, SLOT(command(QString)));
      /* Network Receive Signals */
      connect(verizon, SIGNAL(serverLeft1()), this, SLOT(p1Left()));
@@ -174,6 +176,16 @@ using namespace std;
 
      setWindowTitle(tr("Super Tetris"));
      resize(1200,800);
+ }
+
+ TetrisWindow:: ~TetrisWindow()
+ {
+     delete board;
+     delete boardTwo;
+     delete verizon;
+//     delete &layout;
+     delete nextPieceLabel;
+     delete nextPieceLabel2;
  }
 
  QLabel *TetrisWindow::createLabel(const QString &text)
@@ -447,11 +459,8 @@ void TetrisWindow::netStart(QString mode)
     if(mode == "human") {
         board->start();
     }
-    else if(mode == "computer") {
+    else {
         board->startDemo();
     }
-    //else if(mode == "qualifier") {
-       // board->qualifier();
-    //}
 }
 

@@ -7,6 +7,7 @@
 class Demo {
 public:
 	Demo(TetrisShape*, TetrisPiece, TetrisPiece, int, int, long long);
+        virtual ~ Demo();
 	void restoreBoard();
 //	void restoreBoard2();
 	TetrisShape &shapeAt(int x, int y) {
