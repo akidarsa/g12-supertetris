@@ -118,8 +118,9 @@ using namespace std;
      /*deals with line removal*/
      connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
      connect(boardTwo, SIGNAL(linesRemovedChanged(int)), linesLcd2, SLOT(display(int)));
-     connect(board, SIGNAL(timeToAddLines(TetrisShape*)), boardTwo, SLOT(addLines(TetrisShape*)));
-     connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
+     connect(board, SIGNAL(addLineToBuffer(TetrisShape*)), boardTwo, SLOT(bufferLines(TetrisShape*)));
+     connect(boardTwo, SIGNAL(addLineToBuffer(TetrisShape*)), board, SLOT(bufferLines(TetrisShape*)));
+     /*end game signals and slots*/
      connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
      connect(boardTwo, SIGNAL(iLost(bool)), board, SLOT(gameOver(bool)));
      connect(board, SIGNAL(gameIsStart(bool)), this, SLOT(keyGrabStart(bool)));
@@ -282,7 +283,7 @@ void TetrisWindow::createControl()
 void TetrisWindow::keyPressEvent(QKeyEvent *event) 
 {
     QWidget::keyPressEvent(event);
-cout << keyStarted << endl;
+//cout << keyStarted << endl;
 	if (keyStarted)
 	{
 		if ((event->key()) == p1LftKey) 
