@@ -181,7 +181,13 @@ using namespace std;
  }
 
  TetrisWindow:: ~TetrisWindow()
- {
+{
+     delete nextPieceLabel2;
+     delete nextPieceLabel;
+     //delete verizon;
+     delete boardTwo;
+     delete board;
+
  }
 
  QLabel *TetrisWindow::createLabel(const QString &text)
