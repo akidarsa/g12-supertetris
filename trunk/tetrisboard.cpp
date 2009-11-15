@@ -87,9 +87,9 @@ class ControlLineEdit;
 
  void TetrisBoard::start()
  {
-     if (isPaused) {
+     /*if (isPaused) {
          return;
-     }
+     }*/
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
@@ -134,9 +134,9 @@ class ControlLineEdit;
 
  void TetrisBoard::startDemo()
  {
-     if (isPaused) {
+     /*if (isPaused) {
          return;
-     }
+     }*/
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;

@@ -159,10 +159,18 @@ private slots:
             if(status == "Connected") {
                 startNetButton->setEnabled(false);
                 endNetButton->setEnabled(true);
+                startButton->setEnabled(false);
+                startHHButton->setEnabled(false);
+                startHCButton->setEnabled(false);
+                startCCButton->setEnabled(false);                
             }
             else {
                 startNetButton->setEnabled(true);
                 endNetButton->setEnabled(false);
+                startButton->setEnabled(true);
+                startHHButton->setEnabled(true);
+                startHCButton->setEnabled(true);
+                startCCButton->setEnabled(true);  
             }
         };
         void netStart(QString mode);
