@@ -424,29 +424,44 @@ void TetrisWindow::keyConfig()
     p2DwnKey = dialog.getKey(TetrixKey::DWN2);
     p2DrpKey = dialog.getKey(TetrixKey::DRP2);
 
-	if(p2LftKey == 0 or p2LftKey == p1LftKey)
+	if(p1LftKey == 0 or p2LftKey == p1LftKey)
 	{
 		p1LftKey = tempLftVar[0];
+	}
+	if(p1RgtKey == 0 or p2RgtKey == p1RgtKey)
+	{
+		p1RgtKey = tempRgtVar[0];
+	}
+	if(p1RotKey == 0 or p2RotKey == p1RotKey)
+	{
+    		p1RotKey = tempRotVar[0];
+	}
+	if(p1DwnKey == 0 or p2DwnKey == p1DwnKey)
+	{
+    		p1DwnKey = tempDwnVar[0];
+	}
+	if(p1DrpKey == 0 or p2DrpKey == p1DrpKey)
+	{
+		p1DrpKey = tempDrpVar[0];
+	}
+	if(p2LftKey == 0 or p2LftKey == p1LftKey)
+	{
 		p2LftKey = tempLftVar[1];
 	}
 	if(p2RgtKey == 0 or p2RgtKey == p1RgtKey)
 	{
-		p1RgtKey = tempRgtVar[0];
 		p2RgtKey = tempRgtVar[1];
 	}
 	if(p2RotKey == 0 or p2RotKey == p1RotKey)
 	{
-    		p1RotKey = tempRotVar[0];
     		p2RotKey = tempRotVar[1];
 	}
 	if(p2DwnKey == 0 or p2DwnKey == p1DwnKey)
 	{
-    		p1DwnKey = tempDwnVar[0];
     		p2DwnKey = tempDwnVar[1];
 	}
 	if(p2DrpKey == 0 or p2DrpKey == p1DrpKey)
 	{
-		p1DrpKey = tempDrpVar[0];
 		p2DrpKey = tempDrpVar[1];
 	}
     
