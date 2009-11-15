@@ -66,12 +66,12 @@ using namespace std;
     p2DwnKey = Qt::Key_Down;
     p2DrpKey = Qt::Key_Space;
 
-	setFocusPolicy(Qt::StrongFocus);
+     setFocusPolicy(Qt::StrongFocus);
 	 
      board = new TetrisBoard;
      boardTwo = new TetrisBoard;
 
-	verizon = new TetrisNetwork;
+     verizon = new TetrisNetwork;
 
      createStatus();
      createStatus2();
@@ -90,6 +90,8 @@ using namespace std;
      connect(startCCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
      /*Network Controls*/
      connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(disableButtons()));
+     connect(startNetButton, SIGNAL(clicked()), board, SLOT(pause()));
+     connect(startNetButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));
      connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(exec()));
      connect(verizon, SIGNAL(netConnected(QString)), ui_netStatus, SLOT(setText(QString)));
      connect(verizon, SIGNAL(netConnected(QString)), board, SLOT(setConnect(QString)));
@@ -180,12 +182,6 @@ using namespace std;
 
  TetrisWindow:: ~TetrisWindow()
  {
-     delete board;
-     delete boardTwo;
-     delete verizon;
-//     delete &layout;
-     delete nextPieceLabel;
-     delete nextPieceLabel2;
  }
 
  QLabel *TetrisWindow::createLabel(const QString &text)
