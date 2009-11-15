@@ -51,7 +51,7 @@
 
      void setRandomShape();
      void setShape(TetrisShape shape);
-     void setCoords(char* piecerep);
+     void setCoords(const char* piecerep);
      void randomPieceRep();
      void setFilePointer(FILE* fpr);
 
