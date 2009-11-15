@@ -149,6 +149,10 @@
      }
      
  }*/
+  TetrisPiece:: ~TetrisPiece()
+  {
+      fclose(fp); 
+  }
 
  void TetrisPiece::setFilePointer(FILE* fpr)
  {
