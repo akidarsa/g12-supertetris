@@ -40,6 +40,7 @@
  ****************************************************************************/
 
  #include <QtGui>
+ #include <QtDebug>
  #include <iostream>
 
  #include "tetrisboard.h"
@@ -96,6 +97,26 @@ using namespace std;
      connect(verizon, SIGNAL(netGameMode(QString)), this, SLOT(netStart(QString)));
      connect(endNetButton, SIGNAL(clicked()), verizon, SLOT(closeSocket()));   
      connect(board, SIGNAL(toNetCommand(QString)), verizon, SLOT(command(QString)));
+     /* Network Receive Signals */
+     connect(verizon, SIGNAL(serverLeft1()), this, SLOT(p1Left()));
+     connect(verizon, SIGNAL(serverRight1()), this, SLOT(p1Right()));
+     connect(verizon, SIGNAL(serverRotate1()), this, SLOT(p1Rotate()));
+     connect(verizon, SIGNAL(serverFall1()), this, SLOT(p1Fall()));
+     connect(verizon, SIGNAL(serverWin1()), this, SLOT(p1Win()));
+     connect(verizon, SIGNAL(serverLose1()), this, SLOT(p1Lose()));
+     connect(verizon, SIGNAL(serverGameover1()), this, SLOT(p1Gameover()));
+     connect(verizon, SIGNAL(serverPiece1(string)), this, SLOT(p1Piece(string)));
+     connect(verizon, SIGNAL(serverAttack1(string)), this, SLOT(p1Attack(string)));
+
+     connect(verizon, SIGNAL(serverLeft2()), this, SLOT(p2Left()));
+     connect(verizon, SIGNAL(serverRight2()), this, SLOT(p2Right()));
+     connect(verizon, SIGNAL(serverRotate2()), this, SLOT(p2Rotate()));
+     connect(verizon, SIGNAL(serverFall2()), this, SLOT(p2Fall()));
+     connect(verizon, SIGNAL(serverWin2()), this, SLOT(p2Win()));
+     connect(verizon, SIGNAL(serverLose2()), this, SLOT(p2Lose()));
+     connect(verizon, SIGNAL(serverGameover2()), this, SLOT(p2Gameover()));
+     connect(verizon, SIGNAL(serverPiece2(string)), this, SLOT(p2Piece(string)));
+     connect(verizon, SIGNAL(serverAttack2(string)), this, SLOT(p2Attack(string)));
      //connect(verizon, SIGNAL(fromNetCommand(QString)), boardTwo, SLOT(
      /*other controls*/
      connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
@@ -118,9 +139,8 @@ using namespace std;
      /*deals with line removal*/
      connect(board, SIGNAL(linesRemovedChanged(int)),linesLcd, SLOT(display(int)));
      connect(boardTwo, SIGNAL(linesRemovedChanged(int)), linesLcd2, SLOT(display(int)));
-     connect(board, SIGNAL(addLineToBuffer(TetrisShape*)), boardTwo, SLOT(bufferLines(TetrisShape*)));
-     connect(boardTwo, SIGNAL(addLineToBuffer(TetrisShape*)), board, SLOT(bufferLines(TetrisShape*)));
-     /*end game signals and slots*/
+     connect(board, SIGNAL(timeToAddLines(TetrisShape*)), boardTwo, SLOT(addLines(TetrisShape*)));
+     connect(boardTwo, SIGNAL(timeToAddLines(TetrisShape*)), board, SLOT(addLines(TetrisShape*)));
      connect(board, SIGNAL(iLost(bool)), boardTwo, SLOT(gameOver(bool)));
      connect(boardTwo, SIGNAL(iLost(bool)), board, SLOT(gameOver(bool)));
      connect(board, SIGNAL(gameIsStart(bool)), this, SLOT(keyGrabStart(bool)));
@@ -280,10 +300,38 @@ void TetrisWindow::createControl()
     ui_controlGroup -> setLayout(controlLayout);
 }
 
+void TetrisWindow::p1Left(){ board->moveLeft(); }
+void TetrisWindow::p1Right(){ board->moveRight(); }
+void TetrisWindow::p1Rotate(){ board->rotateRight(); }
+void TetrisWindow::p1Fall(){board->oneLineDown(); }
+void TetrisWindow::p1Win(){ cout<<"FIX THIS p1 WINS\n"<<endl; }
+void TetrisWindow::p1Lose(){ cout<<"FIX THIS p1 LOSES\n"<<endl; }
+void TetrisWindow::p1Gameover(){ printf("P1 GAMEOVER! FIX ME!\n"); }
+void TetrisWindow::p1Piece(string piece){
+	cout<< "I GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
+}
+ 
+void TetrisWindow::p1Attack(string line){
+	cout<< "I GOT A LINE, OHNO!" <<line<<" "<<line.length()<<endl;
+}
+ 
+void TetrisWindow::p2Left(){ boardTwo->moveLeft(); }
+void TetrisWindow::p2Right(){ boardTwo->moveRight(); }
+void TetrisWindow::p2Rotate(){ boardTwo->rotateRight(); }
+void TetrisWindow::p2Fall(){ boardTwo->oneLineDown(); }
+void TetrisWindow::p2Win(){ cout<<"FIX THIS p2 WINS\n"<<endl; }
+void TetrisWindow::p2Lose(){ cout<<"FIX THIS p2 LOSES\n"<<endl; }
+void TetrisWindow::p2Gameover(){ printf("P2 GAMEOVER! FIX ME!\n"); }
+void TetrisWindow::p2Piece(string piece){
+	cout<< "U GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
+} 
+void TetrisWindow::p2Attack(string line){
+	cout<< "U GOT A LINE, HAHA!" <<line<<" "<<line.length()<<endl;
+} 
+
 void TetrisWindow::keyPressEvent(QKeyEvent *event) 
 {
     QWidget::keyPressEvent(event);
-//cout << keyStarted << endl;
 	if (keyStarted)
 	{
 		if ((event->key()) == p1LftKey) 

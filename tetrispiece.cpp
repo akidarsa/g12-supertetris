@@ -115,7 +115,9 @@
                  pieceShape = Piece7;
              }
              if (c == EOF)
+			 {
                  pieceShape = NoShape;
+			 }
              setCoords(str);
          }
      }

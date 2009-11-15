@@ -8,6 +8,7 @@
 #include<sys/time.h>
 #include<QtNetwork>
 #include<QTcpServer>
+using namespace std;
 
 class TetrisNetwork : public QDialog
 {
@@ -18,8 +19,28 @@ class TetrisNetwork : public QDialog
 		virtual ~ TetrisNetwork();
         signals:
                 void netConnected(QString command);
+		void serverLeft1();
+		void serverRight1();
+		void serverFall1();
+		void serverRotate1();
+		void serverWin1();
+		void serverLose1();
+		void serverGameover1();
+		void serverAttack1(string line);
+		void serverPiece1(string piece);
+
+		void serverLeft2();
+		void serverRight2();
+		void serverFall2();
+		void serverRotate2();
+		void serverWin2();
+		void serverLose2();
+		void serverGameover2();
+		void serverAttack2(string line);
+		void serverPiece2(string piece);
                 void netGameMode(QString mode);
 	private:
+		void commandEmitter();
 		QLineEdit * serverName;
 		QLineEdit * portNumber;
 		bool isConnected;

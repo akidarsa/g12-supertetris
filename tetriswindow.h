@@ -133,6 +133,25 @@ private slots:
 	{
 	    keyStarted = started;
 	};
+
+	void p1Left();
+	void p1Right();
+	void p1Rotate(); 
+	void p1Fall();
+	void p1Win();
+	void p1Lose();
+	void p1Gameover(); 
+	void p1Piece(string piece);
+	void p1Attack(string line);
+	void p2Left();
+	void p2Right();
+	void p2Rotate();
+	void p2Fall(); 
+	void p2Win();
+	void p2Lose();
+	void p2Gameover();
+	void p2Piece(string piece);
+	void p2Attack(string line);
 	//void configure();
         void setConnect(QString status)
         {
