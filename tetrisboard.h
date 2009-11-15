@@ -81,7 +81,7 @@
      void startDemo();
      //void configure();
      //void saveKeys();
-     void addLines(TetrisShape *line);
+     void bufferLines(TetrisShape *line);
      void gameOver(bool winOrLose) {
          isGameOver = true;
          curPiece.setShape(NoShape);
@@ -115,7 +115,7 @@
      void piece6Changed(int num6Pieces);
      void piece7Changed(int num7Pieces);
      void blocksChanged(int numBlocks);
-     void timeToAddLines(TetrisShape *line);
+     void addLineToBuffer(TetrisShape *line);
      void iLost(bool winOrLose);
      void gameIsStart(bool started);
      void toNetCommand(QString command);
@@ -133,7 +133,6 @@ protected:
      int squareWidth() { return contentsRect().width() / BoardWidth; }
      int squareHeight() { return contentsRect().height() / BoardHeight; }
      void clearBoard();
-
      void pieceDropped(int dropHeight);
      void removeFullLines();
      void newPiece();
@@ -141,7 +140,8 @@ protected:
      bool tryMove(const TetrisPiece &newPiece, int newX, int newY);
      void drawSquare(QPainter &painter, int x, int y, TetrisShape shape);
      void drawSquare(QPainter &painter, int x, int y, TetrisPiece shape);
-
+     void clearBuffer();
+     void addLines();
      QBasicTimer timer;
      QPointer<QLabel> nextPieceLabel;
      bool isStarted;
@@ -175,7 +175,10 @@ protected:
      int dropOneLineV;
      bool singlePlay;
      bool attackMode;
-     int linestoAdd;
+     TetrisShape lineBuffer[BoardHeight][BoardWidth];
+     int linesinBuffer;
+     bool linesHaveBeenAdded; //checks if lines have been added to other board
+     
  };
 
  #endif

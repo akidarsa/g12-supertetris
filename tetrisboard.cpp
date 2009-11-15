@@ -5,7 +5,7 @@
  ** Contact: Nokia Corporation (qt-info@nokia.com)
  **
  ** This file is part of the examples of the Qt Toolkit.
- **
+ *
  ** $QT_BEGIN_LICENSE:LGPL$
  ** Commercial Usage
  ** Licensees holding valid Qt Commercial licenses may use this file in
@@ -90,6 +90,7 @@ class ControlLineEdit;
      if (isPaused) {
          return;
      }
+     linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
      isInDemo = false;
@@ -136,6 +137,7 @@ class ControlLineEdit;
      if (isPaused) {
          return;
      }
+     linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
      isInDemo = true;
@@ -546,8 +548,8 @@ void TetrisBoard::rotateLeft(int a)
         break;
      }
      emit blocksChanged(numBlocks);
-
      removeFullLines();
+     addLines();
      isTested = false;
      if (!isWaitingAfterLine)
          newPiece();
@@ -556,7 +558,6 @@ void TetrisBoard::rotateLeft(int a)
  void TetrisBoard::removeFullLines()
  {
      int numFullLines = 0;
-
      for (int i = BoardHeight - 1; i >= 0; --i) {
          bool lineIsFull = true;
 
@@ -566,7 +567,6 @@ void TetrisBoard::rotateLeft(int a)
                  break;
              }
          }
-
          if (lineIsFull) {
              TetrisShape line[BoardWidth];
              for(int n = 0; n < BoardWidth; ++n) {
@@ -577,8 +577,7 @@ void TetrisBoard::rotateLeft(int a)
                      line[curX + curPiece.x(m)] = NoShape;
                  }                             
              }
-             emit timeToAddLines(line);
-             //may need to pause game for line transfer
+             emit addLineToBuffer(line);
              ++numFullLines;
              for (int k = i; k < BoardHeight - 1; ++k) {
                  for (int j = 0; j < BoardWidth; ++j)
@@ -594,7 +593,6 @@ void TetrisBoard::rotateLeft(int a)
          score += 10 * numFullLines;
          emit linesRemovedChanged(numLinesRemoved);
          emit scoreChanged(score);
-         //emit timeToAddLines(numFullLines, curPiece, curX);
          timer.start(500, this);
          isWaitingAfterLine = true;
          curPiece.setShape(NoShape);
@@ -602,33 +600,62 @@ void TetrisBoard::rotateLeft(int a)
      }
  }
 
- void TetrisBoard::addLines(TetrisShape *line)
+ void TetrisBoard::clearBuffer()
  {
-	 if(singlePlay)
-	 {
-		 return;
-	 }
-     //Checks if this line has been added from opponent
-     for(int i = 0; i < BoardWidth; ++i){
-	if(line[i] == Dead)
-	  return;
-     }
-     //move all rows up one
-     for(int m = BoardHeight - 1; m > 0; m--) {
-         for(int n = 0; n < BoardWidth; ++n) {
-             shapeAt(n,m) = shapeAt(n, m-1);
+     linesinBuffer = 0;
+     for(int i = 0;i<BoardHeight;i++) {
+         for(int j = 0;j<BoardWidth;j++) {
+             lineBuffer[i][j] = NoShape;
          }
      }
-     //create the bottom row
-     for(int j = 0; j < BoardWidth; ++j) {
-	 shapeAt(j,0) = Dead;
-	 if(line[j] == NoShape)
-           shapeAt(j,0) = line[j];
+ }
+
+ void TetrisBoard::bufferLines(TetrisShape *line)
+ {
+     for(int i = 0; i < BoardWidth; i++) {
+         lineBuffer[linesinBuffer][i] = line[i];
      }
+     linesinBuffer++;
+     //printf("buffered %d lines\n", linesinBuffer);
+ }
+
+ void TetrisBoard::addLines()
+ {
+     /*if(singlePlay) {
+         return;
+     }*/
+     //printf("linesinBuffer = %d\n", linesinBuffer);
+     for(int idx = 0; idx < linesinBuffer; idx++){
+         //Checks if this line has been added from opponent
+         for(int i = 0; i < BoardWidth; ++i){
+	     if(lineBuffer[idx][i] == Dead) {
+	         break;
+             }
+         }
+         //move all rows up one
+         for(int m = BoardHeight - 1; m > 0; m--) {
+             for(int n = 0; n < BoardWidth; ++n) {
+                 shapeAt(n,m) = shapeAt(n, m-1);
+             }
+         }
+         //create the bottom row
+         for(int j = 0; j < BoardWidth; ++j) {
+	     shapeAt(j,0) = Dead;
+	     if(lineBuffer[idx][j] == NoShape) {
+                 shapeAt(j,0) = lineBuffer[idx][j];
+             }
+         }
+     }
+     linesHaveBeenAdded = true;
  }
 
  void TetrisBoard::newPiece()
  {
+     if(linesHaveBeenAdded) {
+         //printf("linesHaveBeenAdded is true\n");
+         clearBuffer();
+         linesHaveBeenAdded = false;
+     }
      curPiece = nextPiece;
      nextPiece.setRandomShape();
      showNextPiece();
