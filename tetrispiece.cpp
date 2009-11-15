@@ -150,10 +150,9 @@
  }*/
   TetrisPiece:: ~TetrisPiece()
   {
-	  if(fp != NULL)
-	  {
-		  fclose(fp);
-	  }
+      /*if(fp != NULL) {
+          fclose(fp);
+      } */
   }
 
  void TetrisPiece::setFilePointer(FILE* fpr)

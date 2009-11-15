@@ -618,7 +618,7 @@ void TetrisBoard::rotateLeft(int a)
                      line[curX + curPiece.x(m)] = NoShape;
                  }                             
              }
-             emit addLineToBuffer(line);
+             //emit addLineToBuffer(line);
              ++numFullLines;
              for (int k = i; k < BoardHeight - 1; ++k) {
                  for (int j = 0; j < BoardWidth; ++j)

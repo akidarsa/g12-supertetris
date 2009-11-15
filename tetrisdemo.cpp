@@ -25,8 +25,8 @@ Demo::Demo(TetrisShape* hostBoard, TetrisPiece piece, TetrisPiece next,
 
 Demo:: ~Demo()
 {
-  delete board;
-  delete testBoard;
+  //delete testBoard;
+  //delete board;
 }
 
 void Demo::restoreBoard() {
@@ -237,7 +237,7 @@ void Demo::evaluateBoard(double* score) {
 	*score -= pieceAverageHeight;
 	*score += removeLineScore;
 	*score -= roughness;
-	*score -= holes;
+	*score -= 20*holes;
 	/*for (int n = BoardHeight - 1; n>= 0; n --){
 		printf("\n");
 		for(int x = (BoardWidth * n); x <= (BoardWidth * n + BoardWidth-1); ++x) {
