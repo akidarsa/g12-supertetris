@@ -145,13 +145,15 @@
                  strcat(Line,temp);
              }
              printf("%s",Line);
-         }
-     }
+         }     }
      
  }*/
   TetrisPiece:: ~TetrisPiece()
   {
-      fclose(fp); 
+	  if(fp != NULL)
+	  {
+		  fclose(fp);
+	  }
   }
 
  void TetrisPiece::setFilePointer(FILE* fpr)
