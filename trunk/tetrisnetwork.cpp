@@ -1,4 +1,5 @@
 /*tetrisnetwork.cpp*/
+#include <QtDebug>
 #include <QtGui>
 #include <stdlib.h>
 #include <string> //may need string.h
@@ -99,15 +100,16 @@ void TetrisNetwork::connectServer()
   connect(socket, SIGNAL(readyRead()), this, SLOT(getMessage()));
   connect(socket, SIGNAL(connectionClosed()), this, SLOT(connectionClosed()));
   socket -> connectToHost(serverName -> text(), (portNumber -> text()).toInt());
-  socket -> write("ID=19251\n");
-  hvsnButton->setEnabled(true);
-  cvsnButton->setEnabled(true);
-  qualifierButton->setEnabled(true);
+
 }
 
 void TetrisNetwork::reportConnected()
 {
   tetrisAnswer -> append("connected");
+  socket -> write("ID=19251\n");
+  hvsnButton->setEnabled(true);
+  cvsnButton->setEnabled(true);
+  qualifierButton->setEnabled(true);
   isConnected = true;
   emit netConnected("Connected");
 }
@@ -124,9 +126,84 @@ void TetrisNetwork::getMessage()
   socket->read( data, numBytes );
   data[numBytes] = '\0'; // terminate the char *
   QString newMessage(data);
+  srvMsg.clear();
   srvMsg = newMessage;
+  commandEmitter();
   tetrisAnswer -> append(newMessage);
 }
+
+void TetrisNetwork::commandEmitter(){
+  string msg(srvMsg.toLatin1());
+  string whatIFound(srvMsg.toLatin1());
+  int pos=msg.find(":");
+  int ago=msg.find("\n");
+  if(msg.find("START") != string::npos){ return; }
+  if(pos != -1){ whatIFound = msg.substr(pos+1,ago); }
+  if(msg.find("19251") != string::npos){
+//cout<<"THISISWHATIGOT"<<whatIFound<<endl;
+    if(msg.find("LEFT") != string::npos) {
+      emit serverLeft1();
+    } if(msg.find("RIGHT") != string::npos) {
+      emit serverRight1();
+    } if(msg.find("ROTATE") != string::npos) {
+      emit serverRotate1();
+    } if(msg.find("FALL") != string::npos) {
+      emit serverFall1();
+    } if(msg.find("WIN") != string::npos) {
+      emit serverWin1();
+    } if(msg.find("LOSE") != string::npos) { 
+      emit serverLose1();
+    } if(msg.find("GAMEOVER") != string::npos) {
+      emit serverGameover1();
+    } if(whatIFound.find("PIECE") != string::npos) {
+      pos = msg.find("PIECE");
+      ago -= pos+6;
+      whatIFound.clear();
+      whatIFound = msg.substr(pos+6,ago);
+
+      emit serverPiece1(whatIFound);
+    } if(msg.find("ATTACK") != string::npos) {
+      pos = msg.find("ATTACK");
+      ago -= pos+7;
+      whatIFound.clear();
+      whatIFound = msg.substr(pos+7,ago);
+      //whatIFound = whatIFound.replace(pos,7);
+      emit serverAttack1(whatIFound);
+    } else { return; }
+  } else {
+    if(msg.find("LEFT") != string::npos) {
+      emit serverLeft2();
+    } else if(msg.find("RIGHT") != string::npos) {
+      emit serverRight2();
+    } else if(msg.find("ROTATE") != string::npos) {
+      emit serverRotate2();
+    } else if(msg.find("FALL") != string::npos) {
+      emit serverFall2(); 
+    } if(msg.find("WIN") != string::npos) {
+      emit serverWin2();
+    } if(msg.find("LOSE") != string::npos) { 
+      emit serverLose2();
+    } else if(msg.find("GAMEOVER") != string::npos) {
+      emit serverGameover1();
+    } else if(msg.find("PIECE") != string::npos) {
+      pos = msg.find("PIECE");
+      ago -= pos+6;
+      whatIFound.clear();
+      whatIFound = msg.substr(pos+6,ago);
+      emit serverPiece2(whatIFound);
+      return;
+    } else if(msg.find("ATTACK") != string::npos) {
+      pos = msg.find("ATTACK");
+      ago -= pos+7;
+      whatIFound.clear();
+      whatIFound = msg.substr(pos+7,ago);
+      emit serverAttack2(whatIFound);
+      return;
+    } else { return; }
+  }
+}
+      
+      
 
 void TetrisNetwork::closeSocket()
 {

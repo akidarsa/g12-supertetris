@@ -277,6 +277,10 @@ class ControlLineEdit;
 
 bool TetrisBoard::moveLeft()
 {
+	if(isConnected)
+	{
+		emit toNetCommand("LEFT");
+	}
 	if(!isGameOver)
 	{
 		if(tryMove(curPiece, curX - 1, curY)){
@@ -291,6 +295,10 @@ bool TetrisBoard::moveLeft()
 
 bool TetrisBoard::moveRight()
 {
+	if(isConnected)
+	{
+		emit toNetCommand("RIGHT");
+	}
 	if(!isGameOver)
 	{
 		if(tryMove(curPiece, curX + 1, curY)){
@@ -305,6 +313,10 @@ bool TetrisBoard::moveRight()
 
 bool TetrisBoard::rotateRight()
 {
+	if(isConnected)
+	{
+		emit toNetCommand("ROTATE");
+	}
 	if(!isGameOver)
 	{
 		if(tryMove(curPiece.rotatedRight(), curX, curY)){
@@ -411,17 +423,42 @@ void TetrisBoard::rotateLeft(int a)
                  switch (result.rotation % 4) {
                      case 1:
                         curPiece = curPiece.rotatedRight();
+	if(isConnected)
+	{
+		emit toNetCommand("ROTATE");
+	}
+						
                         curPiece = curPiece.rotatedRight();
+	if(isConnected)
+	{
+		emit toNetCommand("ROTATE");
+	}
                         break;
                      case 2:
                         curPiece = curPiece.rotatedRight();
+	if(isConnected)
+	{
+		emit toNetCommand("ROTATE");
+	}
                         curPiece = curPiece.rotatedRight();
+	if(isConnected)
+	{
+		emit toNetCommand("ROTATE");
+	}
                         curPiece = curPiece.rotatedRight();
+	if(isConnected)
+	{
+		emit toNetCommand("ROTATE");
+	}
                         break;
                      case 3:
                         break;
                      default:
                         curPiece = curPiece.rotatedRight();
+	if(isConnected)
+	{
+		emit toNetCommand("ROTATE");
+	}
                  }
                  curY = BoardHeight - 1 + curPiece.minY();
 /*		if(tryMove(curPiece, result.x, curY)){
@@ -485,6 +522,10 @@ void TetrisBoard::rotateLeft(int a)
 
  void TetrisBoard::oneLineDown()
  {
+	if(isConnected)
+	{
+		emit toNetCommand("FALL");
+	}
 	 if(!isGameOver)
 	 {
      if (!tryMove(curPiece, curX, curY - 1))
@@ -500,7 +541,7 @@ void TetrisBoard::rotateLeft(int a)
 	{
 		emit toNetCommand("FALL");
 	}
-	else if(!isGameOver & !isInDemo)
+	if(!isGameOver & !isInDemo)
 	{
      		if (!tryMove(curPiece, curX, curY - 1))
 	        pieceDropped(0);
