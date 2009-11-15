@@ -351,7 +351,7 @@ void TetrisBoard::moveLeft(int a)
 	{
 		emit toNetCommand("LEFT");
 	}
-	if(!isGameOver and !isInDemo)
+	else if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece, curX - 1, curY);
 	}
@@ -369,7 +369,7 @@ void TetrisBoard::moveRight(int a)
 	{
 		emit toNetCommand("RIGHT");
 	}
-	if(!isGameOver and !isInDemo)
+	else if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece, curX + 1, curY);
 	}
@@ -387,7 +387,7 @@ void TetrisBoard::rotateRight(int a)
 	{
 		emit toNetCommand("ROTATE");
 	}
-	if(!isGameOver and !isInDemo)
+	else if(!isGameOver and !isInDemo)
 	{
 		tryMove(curPiece.rotatedRight(), curX, curY);
 	}
@@ -543,7 +543,7 @@ void TetrisBoard::rotateLeft(int a)
 	}
 	if(!isGameOver & !isInDemo)
 	{
-     		if (!tryMove(curPiece, curX, curY - 1))
+     	 	if (!tryMove(curPiece, curX, curY - 1))
 	        pieceDropped(0);
 	}
 	else
@@ -733,6 +733,7 @@ void TetrisBoard::rotateLeft(int a)
                     nextPiece.shape());
      }
      nextPieceLabel->setPixmap(pixmap);
+
  }
 
  bool TetrisBoard::tryMove(const TetrisPiece &newPiece, int newX, int newY)
@@ -756,13 +757,13 @@ void TetrisBoard::rotateLeft(int a)
  void TetrisBoard::drawSquare(QPainter &painter, int x, int y, TetrisShape shape)
  {
      static const QRgb colorTable[6] = {
-         0x000000, 0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00, 0x555555
+         0xCFCFCF, 0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00, 0x555555
      };
-
      QColor color = colorTable[int(shape)];
      painter.fillRect(x + 1, y + 1, squareWidth() - 2, squareHeight() - 2,
                       color);
 
+     if(shape == NoShape){return;}
      painter.setPen(color.light());
      painter.drawLine(x, y + squareHeight() - 1, x, y);
      painter.drawLine(x, y, x + squareWidth() - 1, y);
