@@ -48,7 +48,6 @@
  {
  public:
      TetrisPiece() { setShape(NoShape);}
-
      void setRandomShape();
      void setShape(TetrisShape shape);
      void setCoords(const char* piecerep);

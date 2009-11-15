@@ -22,6 +22,13 @@ Demo::Demo(TetrisShape* hostBoard, TetrisPiece piece, TetrisPiece next,
 	testPiece.setShape(piece.shape());
         testPiece.setFilePointer(piece.getFilePointer());
 }
+
+Demo:: ~Demo()
+{
+  delete board;
+  delete testBoard;
+}
+
 void Demo::restoreBoard() {
 	for (int i = 0; i < BoardHeight * BoardWidth; ++i) {
 		testBoard[i] = board[i];
