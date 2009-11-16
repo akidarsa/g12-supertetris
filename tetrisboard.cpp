@@ -66,6 +66,7 @@ class ControlLineEdit;
      singlePlay = false;
      fp = NULL;
      singlePlay = false;
+     serverCounter = 0;
  }
 
  void TetrisBoard::setNextPieceLabel(QLabel *label)
@@ -753,7 +754,8 @@ void TetrisBoard::rotateLeft(int a)
  }
 
 void TetrisBoard::showMeTheNetPiece(){ 
-cout<<"NetPiece for you->"<<netPiece<<endl;
+	cout<<serverCounter<<" "<<numPiecesDropped<<endl;
+//cout<<"NetPiece for you->"<<netPiece<<endl;
 }
 
  void TetrisBoard::clearBuffer()
