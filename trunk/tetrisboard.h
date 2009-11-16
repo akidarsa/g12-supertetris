@@ -117,6 +117,7 @@
 	   justStarted = false;
          }
      }
+     void goFast();
      
 
  signals:
@@ -194,7 +195,7 @@ protected:
      int linesinBuffer;
      bool linesHaveBeenAdded; //checks if lines have been added to other board
      string netPiece;
-     string netPieceQueue[2];     
+     string netPieceQueue[2];  
  };
 
  #endif

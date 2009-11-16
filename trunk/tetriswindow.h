@@ -105,9 +105,9 @@ using namespace std;
      QLCDNumber *linesLcd;
      QLCDNumber *linesLcd2;
      QPushButton *startButton;
+     QPushButton *startCButton;
      QPushButton *startHHButton;
      QPushButton *startHCButton;
-     QPushButton *startCCButton;
      QPushButton *startNetButton;
      QPushButton *endNetButton;
      QPushButton *quitButton;
@@ -167,7 +167,7 @@ private slots:
                 startButton->setEnabled(false);
                 startHHButton->setEnabled(false);
                 startHCButton->setEnabled(false);
-                startCCButton->setEnabled(false);                
+                startCButton->setEnabled(false);                
             }
             else {
                 startNetButton->setEnabled(true);
@@ -175,7 +175,7 @@ private slots:
                 startButton->setEnabled(true);
                 startHHButton->setEnabled(true);
                 startHCButton->setEnabled(true);
-                startCCButton->setEnabled(true);  
+                startCButton->setEnabled(true);  
             }
         };
         void netStart(QString mode);
