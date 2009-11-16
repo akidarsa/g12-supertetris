@@ -104,6 +104,9 @@ class ControlLineEdit;
      num6Pieces = 0;
      num7Pieces = 0;
      numBlocks = 0;
+     while(!netPieceQueue.empty()){
+	netPieceQueue.pop();
+     }
      score = 0;
      level = 1;
      clearBoard();
@@ -134,9 +137,9 @@ class ControlLineEdit;
      emit piece7Changed(num7Pieces);
      emit blocksChanged(numBlocks);
      emit gameIsStart(true);
-//     if(!isConnected){
+     if(!isConnected){
        newPiece();
-  //   }
+     }
      timer.start(timeoutTime(), this);
  }
 
@@ -153,6 +156,9 @@ class ControlLineEdit;
      isTested = false;
      isGameOver = false;
      isWaitingAfterLine = false;
+     while(!netPieceQueue.empty()){
+	netPieceQueue.pop();
+     }
      numLinesRemoved = 0;
      numPiecesDropped = 0;
      num4Pieces = 0;
@@ -191,9 +197,9 @@ class ControlLineEdit;
      emit piece7Changed(num7Pieces);
      emit blocksChanged(numBlocks);
      emit gameIsStart(true);
-     //if(!isConnected){
+     if(!isConnected){
        newPiece();
-     //}
+     }
      timer.start(timeoutTime(), this);
  }
 
@@ -201,6 +207,9 @@ class ControlLineEdit;
  {
      if (isPaused) {
          return;
+     }
+     while(!netPieceQueue.empty()){
+	netPieceQueue.pop();
      }
      linesHaveBeenAdded = true;
      singlePlay = false;
@@ -489,9 +498,9 @@ void TetrisBoard::rotateLeft(int a)
      if (event->timerId() == timer.timerId()) {
          if (isWaitingAfterLine) {
              isWaitingAfterLine = false;
-//     	     if(!isConnected){
+     	     if(!isConnected){
        		newPiece();
-//	     }
+	     }
              timer.start(timeoutTime(), this);
          } else {
              if(isInDemo && !isTested) {
@@ -603,8 +612,10 @@ void TetrisBoard::rotateLeft(int a)
  {
      switch(a){
 	case 'D': //Down
-		if(!tryMove(curPiece,curX,curY - 1))
+		if(!tryMove(curPiece,curX,curY - 1)){
 			pieceDropped(0);
+			newPiece();
+		}
 		break;
 	case 'R': //Right
 		tryMove(curPiece, curX + 1, curY);
@@ -690,7 +701,7 @@ void TetrisBoard::rotateLeft(int a)
      removeFullLines();
      addLines();
      isTested = false;
-     if (!isWaitingAfterLine)
+     if (!isWaitingAfterLine and !isConnected)
          newPiece();
  }
 
@@ -817,7 +828,6 @@ cout<<"NetPiece for you->"<<netPiece<<endl;
      }
      curPiece = nextPiece;
      if(isConnected) {
-	 showMeTheNetPiece();
          nextPiece.setShape(netPiece);
      }
      else {
