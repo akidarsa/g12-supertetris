@@ -112,8 +112,10 @@
      void getNetPiece(string piece) {
 	   netPieceQueue.push(piece);
 	   netPiece = netPieceQueue.front();
+	   serverCounter++;
 	   //showMeTheNetPiece();
 	 if(!justStarted){
+	   dropDown();
  	   newPiece();
 	   netPieceQueue.pop();
          }else{
@@ -195,6 +197,7 @@ protected:
      int Right;
      int dropLineV;
      int dropOneLineV;
+     int serverCounter;
      bool singlePlay;
      bool attackMode;
      TetrisShape lineBuffer[BoardHeight][BoardWidth];
