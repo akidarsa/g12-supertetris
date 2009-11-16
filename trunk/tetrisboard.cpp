@@ -87,14 +87,15 @@ class ControlLineEdit;
 
  void TetrisBoard::start()
  {
-     /*if (isPaused) {
+     if (isPaused) {
          return;
-     }*/
-     netPieceQueue[0] = '\0';
-     netPieceQueue[1] = '\0';
+     }
+     netPieceQueue[0]="\0";
+     netPieceQueue[1]="\0";
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
+     justStarted = true;
      isInDemo = false;
      isGameOver = false;
      isWaitingAfterLine = false;
@@ -118,12 +119,7 @@ class ControlLineEdit;
          }
      }
      if(isConnected) {
-         if(curPiece.shape() == NoShape) {
-             curPiece.setShape(netPiece);
-         }
-         else {
-             nextPiece.setShape(netPiece);
-         }
+         nextPiece.setShape(netPiece);
      }
      else {
          nextPiece.setFilePointer(fp);
@@ -140,20 +136,23 @@ class ControlLineEdit;
      emit piece7Changed(num7Pieces);
      emit blocksChanged(numBlocks);
      emit gameIsStart(true);
-     newPiece();
+     if(!isConnected){
+       newPiece();
+     }
      timer.start(timeoutTime(), this);
  }
 
  void TetrisBoard::startDemo()
  {
-     /*if (isPaused) {
+     if (isPaused) {
          return;
-     }*/
-     netPieceQueue[0] = '\0';
-     netPieceQueue[1] = '\0';
+     }
+     netPieceQueue[0]="\0";
+     netPieceQueue[1]="\0";
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
+     justStarted = true;
      isInDemo = true;
      isTested = false;
      isGameOver = false;
@@ -180,12 +179,7 @@ class ControlLineEdit;
          }
      }
      if(isConnected) {
-         if(curPiece.shape() == NoShape) {
-             curPiece.setShape(netPiece);
-         }
-         else {
-             nextPiece.setShape(netPiece);
-         }
+         nextPiece.setShape(netPiece);
      }
      else {
          nextPiece.setFilePointer(fp);
@@ -202,7 +196,9 @@ class ControlLineEdit;
      emit piece7Changed(num7Pieces);
      emit blocksChanged(numBlocks);
      emit gameIsStart(true);
-     newPiece();
+     if(!isConnected){
+       newPiece();
+     }
      timer.start(timeoutTime(), this);
  }
  void TetrisBoard::reset()
@@ -437,7 +433,10 @@ void TetrisBoard::rotateLeft(int a)
      if (event->timerId() == timer.timerId()) {
          if (isWaitingAfterLine) {
              isWaitingAfterLine = false;
-             newPiece();
+     	     if(!isConnected){
+       		newPiece();
+	     }
+     //        newPiece();
              timer.start(timeoutTime(), this);
          } else {
              if(isInDemo && !isTested) {
@@ -496,7 +495,8 @@ void TetrisBoard::rotateLeft(int a)
              }
              else {
 //		dropDown();
-                oneLineDown();
+		if(!isConnected){
+                  oneLineDown();}
              }
          }
      } else {
@@ -583,8 +583,7 @@ void TetrisBoard::rotateLeft(int a)
 	if(isConnected)
 	{
 		emit toNetCommand("FALL");
-	}
-	if(!isGameOver & !isInDemo)
+	} else if(!isGameOver & !isInDemo)
 	{
      	 	if (!tryMove(curPiece, curX, curY - 1))
 	        pieceDropped(0);

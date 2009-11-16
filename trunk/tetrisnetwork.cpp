@@ -143,13 +143,11 @@ void TetrisNetwork::commandEmitter(){
   while(i!=10&&ago[i] != -1){ 
 	i++; 
 	pos[i] = msg.find(":",pos[i-1]+1);
-	if(pos[i] != -1){ pos[i] = ago[i-1]+1;}
+	if(pos[i] != -1){ pos[i] = ago[i-1];}
 	ago[i] = msg.find("\n",ago[i-1]+1);
   }
-  //if(msg.find("START") != string::npos){ return; }
   for(int j=0; j<i; j++){
     if(pos[j] != -1){ whatIFound.clear(); whatIFound = msg.substr(pos[j],ago[j]-pos[j]+1); 
-//	cout<<pos[j]<<" "<<ago[j]-pos[j]<<endl;}
 }
     else{ break; }
     if(whatIFound.find("19251") != string::npos){
@@ -171,13 +169,16 @@ void TetrisNetwork::commandEmitter(){
        pos[j] = whatIFound.find("PIECE");
        ago[j] -= pos[j]+6;
        whatIFound = whatIFound.substr(pos[j]+6,ago[j]);
-
+       size_t tempo = whatIFound.find("\n");
+       if(tempo!=string::npos){
+         whatIFound=whatIFound.erase(tempo);
+       }
+	   //whatIFound.erase(ago[j]-1);
        emit serverPiece1(whatIFound);
      } if(whatIFound.find("ATTACK") != string::npos) {
        pos[j] = whatIFound.find("ATTACK");
        ago[j] -= pos[j]+7;
        whatIFound = whatIFound.substr(pos[j]+7,ago[j]);
-       //whatIFound = whatIFound.replace(pos,7);
        emit serverAttack1(whatIFound);
      } //else { return; }
    } else {
