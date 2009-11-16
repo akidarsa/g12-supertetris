@@ -57,7 +57,7 @@ class TetrisNetwork : public QDialog
 		QLabel * serverLabel;
 		QLabel * portLabel;
 		QPushButton * connectButton;
-		QPushButton * startButton;
+		QPushButton * readyButton;
 		QPushButton * hvsnButton;
 		QPushButton * cvsnButton;
 		QPushButton * qualifierButton;
@@ -74,6 +74,7 @@ class TetrisNetwork : public QDialog
 		void getMessage();
 		void connectServer();
 		void sendStart();
+		void startItUp();
 		void sendGame1();
 		void sendGame2();
 		void sendGame3();

@@ -27,13 +27,13 @@ TetrisNetwork::TetrisNetwork()
     createServerGroupBox();
     createAnswerGroupBox();
     createModeGroupBox();
-    startButton = new QPushButton("Start");
-    connect(startButton, SIGNAL(clicked()), this, SLOT(sendStart()));
+    readyButton = new QPushButton("Ready");
+    connect(readyButton, SIGNAL(clicked()), this, SLOT(sendStart()));
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(serverGroupBox);
     mainLayout->addWidget(answerGroupBox);
     mainLayout->addWidget(modeGroupBox);
-    mainLayout->addWidget(startButton);
+    mainLayout->addWidget(readyButton);
     setLayout(mainLayout);
     setWindowTitle(tr("Tetris Network.Live"));
 }
@@ -150,6 +150,7 @@ void TetrisNetwork::commandEmitter(){
     if(pos[j] != -1){ whatIFound.clear(); whatIFound = msg.substr(pos[j],ago[j]-pos[j]+1); 
 }
     else{ break; }
+    if(whatIFound.find("START") != string::npos){ startItUp(); }
     if(whatIFound.find("19251") != string::npos){
      if(whatIFound.find("LEFT") != string::npos) {
         emit serverLeft1();
@@ -284,7 +285,7 @@ void TetrisNetwork::sendGame1()
     hvsnButton->setEnabled(false);
     cvsnButton->setEnabled(false);
     qualifierButton->setEnabled(false);
-    startButton->setEnabled(true);
+    readyButton->setEnabled(true);
     humanMode = true;
     computerMode = false;
     qualifierMode = false;
@@ -300,7 +301,7 @@ void TetrisNetwork::sendGame2()
     hvsnButton->setEnabled(false);
     cvsnButton->setEnabled(false);
     qualifierButton->setEnabled(false);      
-    startButton->setEnabled(true); 
+    readyButton->setEnabled(true); 
     humanMode = false;
     computerMode = true;
     qualifierMode = false;
@@ -316,7 +317,7 @@ void TetrisNetwork::sendGame3()
     hvsnButton->setEnabled(false);
     cvsnButton->setEnabled(false);
     qualifierButton->setEnabled(false);
-    startButton->setEnabled(true);
+    readyButton->setEnabled(true);
     humanMode = false;
     computerMode = false;
     qualifierMode = true;
@@ -329,6 +330,9 @@ void TetrisNetwork::sendStart()
     tetrisAnswer -> append("The game has started.\n Good Luck!");
     getMessage();
     this->accept();
+}
+
+void TetrisNetwork::startItUp(){
     if(humanMode) {
         emit netGameMode("human");
     }
@@ -345,5 +349,5 @@ void TetrisNetwork::disableButtons()
   hvsnButton->setEnabled(false);
   cvsnButton->setEnabled(false);
   qualifierButton->setEnabled(false);
-  startButton->setEnabled(false);
+  readyButton->setEnabled(false);
 }

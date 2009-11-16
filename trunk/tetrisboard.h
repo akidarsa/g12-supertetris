@@ -45,6 +45,7 @@
  #include <QBasicTimer>
  #include <QFrame>
  #include <QPointer>
+ #include <queue>
  #include <string>
  #include "tetrispiece.h"
  #include "PieceMovement.h"
@@ -61,6 +62,7 @@
      TetrisBoard(QWidget *parent = 0);
 
      void setNextPieceLabel(QLabel *label);
+     void showMeTheNetPiece();
      QSize sizeHint() const;
      QSize minimumSizeHint() const;
      void serverMove(char a);
@@ -108,13 +110,13 @@
          }
      }
      void getNetPiece(string piece) {
-         netPieceQueue[1] = netPieceQueue[0];
-         netPieceQueue[0] = piece;
-         netPiece = netPieceQueue[1];
-	 if(!justStarted){
+         if(piece != "\0"){
+	   netPieceQueue.push(piece);
+	   netPiece = netPieceQueue.front();
+         }
+	 if(!netPieceQueue.empty()){
  	   newPiece();
-	 } else {
-	   justStarted = false;
+	   netPieceQueue.pop();
          }
      }
      void goFast();
@@ -168,6 +170,7 @@ protected:
      bool isWaitingAfterLine;
      bool isConnected;
      bool justStarted;
+     bool messyQueue;
      TetrisPiece curPiece;
      TetrisPiece nextPiece;
      int curX;
@@ -195,7 +198,7 @@ protected:
      int linesinBuffer;
      bool linesHaveBeenAdded; //checks if lines have been added to other board
      string netPiece;
-     string netPieceQueue[2];  
+     queue<string> netPieceQueue;     
  };
 
  #endif

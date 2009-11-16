@@ -90,8 +90,6 @@ class ControlLineEdit;
      if (isPaused) {
          return;
      }
-     netPieceQueue[0]="\0";
-     netPieceQueue[1]="\0";
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
@@ -136,9 +134,9 @@ class ControlLineEdit;
      emit piece7Changed(num7Pieces);
      emit blocksChanged(numBlocks);
      emit gameIsStart(true);
-     if(!isConnected){
+//     if(!isConnected){
        newPiece();
-     }
+  //   }
      timer.start(timeoutTime(), this);
  }
 
@@ -147,8 +145,6 @@ class ControlLineEdit;
      if (isPaused) {
          return;
      }
-     netPieceQueue[0]="\0";
-     netPieceQueue[1]="\0";
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
@@ -195,9 +191,9 @@ class ControlLineEdit;
      emit piece7Changed(num7Pieces);
      emit blocksChanged(numBlocks);
      emit gameIsStart(true);
-     if(!isConnected){
+     //if(!isConnected){
        newPiece();
-     }
+     //}
      timer.start(timeoutTime(), this);
  }
 
@@ -492,10 +488,9 @@ void TetrisBoard::rotateLeft(int a)
      if (event->timerId() == timer.timerId()) {
          if (isWaitingAfterLine) {
              isWaitingAfterLine = false;
-     	     if(!isConnected){
+//     	     if(!isConnected){
        		newPiece();
-	     }
-     //        newPiece();
+//	     }
              timer.start(timeoutTime(), this);
          } else {
              if(isInDemo && !isTested) {
@@ -607,7 +602,8 @@ void TetrisBoard::rotateLeft(int a)
  {
      switch(a){
 	case 'D': //Down
-		tryMove(curPiece,curX,curY - 1);
+		if(!tryMove(curPiece,curX,curY - 1))
+			pieceDropped(0);
 		break;
 	case 'R': //Right
 		tryMove(curPiece, curX + 1, curY);
@@ -742,6 +738,10 @@ void TetrisBoard::rotateLeft(int a)
      }
  }
 
+void TetrisBoard::showMeTheNetPiece(){ 
+cout<<"NetPiece for you->"<<netPiece<<endl;
+}
+
  void TetrisBoard::clearBuffer()
  {
      linesinBuffer = 0;
@@ -814,6 +814,7 @@ void TetrisBoard::rotateLeft(int a)
      }
      curPiece = nextPiece;
      if(isConnected) {
+	 showMeTheNetPiece();
          nextPiece.setShape(netPiece);
      }
      else {
