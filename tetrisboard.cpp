@@ -319,11 +319,14 @@ class ControlLineEdit;
               painter.drawText(rect, Qt::AlignCenter, tr("You Won! \\(^_^)/"));
               return;
           }
+          else if(!canAttack) {
+              painter.drawText(rect, Qt::AlignCenter, tr("Game Over! \\(*_*)/"));
+              return;
+          }
           else {
               painter.drawText(rect, Qt::AlignCenter, tr("You Lose! (>_<)"));
               return;
           }
-
       }
 
      int boardTop = rect.bottom() - BoardHeight*squareHeight();
