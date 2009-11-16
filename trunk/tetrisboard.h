@@ -110,14 +110,16 @@
          }
      }
      void getNetPiece(string piece) {
-         if(piece != "\0"){
 	   netPieceQueue.push(piece);
 	   netPiece = netPieceQueue.front();
-         }
-	 if(!netPieceQueue.empty()){
+	   //showMeTheNetPiece();
+	 if(!justStarted){
  	   newPiece();
 	   netPieceQueue.pop();
-         }
+         }else{
+           //newPiece();
+	   justStarted = false;
+	 }
      }
      void goFast();
      void enableAttack() {canAttack = true;}

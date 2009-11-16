@@ -130,14 +130,14 @@
  void TetrisPiece::setShape(string piece)
  {
      char str[49];
-     cout<<"before char->"<<piece<<endl;
-     cout<<"I'm a piece in TetrisPiece ->";
+     //cout<<"before char->"<<piece<<endl;
+     //cout<<"I'm a piece in TetrisPiece ->";
      for(int i = 0; i < (int)piece.length(); i++)
      {
          str[i] = piece[i];
-	 cout<<str[i];
+	 //cout<<str[i];
      }
-	cout<<endl<<endl;
+	//cout<<endl<<endl;
      str[piece.length()] = '\0';
      if (piece.length() == 16)
      {
