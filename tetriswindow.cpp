@@ -335,7 +335,7 @@ void TetrisWindow::p1Gameover(){
 //printf("P1 GAMEOVER! FIX ME!\n"); 
 }
 void TetrisWindow::p1Piece(string piece){
-//	cout<< "I GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
+	cout<< "I GOT A PIECE, SEE->" <<piece<<" "<<piece.length()<<endl;
     emit pieceFromNet(piece);
 //    cout << "Piece for board 1: " << piece << endl;
 }
