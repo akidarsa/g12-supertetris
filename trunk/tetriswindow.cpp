@@ -95,6 +95,7 @@ using namespace std;
      connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(exec()));
      connect(verizon, SIGNAL(netConnected(QString)), ui_netStatus, SLOT(setText(QString)));
      connect(verizon, SIGNAL(netConnected(QString)), board, SLOT(setConnect(QString)));
+     connect(verizon, SIGNAL(netConnected(QString)), boardTwo, SLOT(setConnect(QString)));
      connect(verizon, SIGNAL(netConnected(QString)), this, SLOT(setConnect(QString)));
      connect(verizon, SIGNAL(netGameMode(QString)), this, SLOT(netStart(QString)));
      connect(endNetButton, SIGNAL(clicked()), verizon, SLOT(closeSocket()));
@@ -102,6 +103,9 @@ using namespace std;
      connect(endNetButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));   
      connect(board, SIGNAL(toNetCommand(QString)), verizon, SLOT(command(QString)));
      /* Network Receive Signals */
+     connect(this, SIGNAL(pieceFromNet(string)), board, SLOT(getNetPiece(string)));
+     connect(this, SIGNAL(piece2FromNet(string)), boardTwo, SLOT(getNetPiece(string)));
+
      connect(verizon, SIGNAL(serverLeft1()), this, SLOT(p1Left()));
      connect(verizon, SIGNAL(serverRight1()), this, SLOT(p1Right()));
      connect(verizon, SIGNAL(serverRotate1()), this, SLOT(p1Rotate()));
@@ -111,7 +115,7 @@ using namespace std;
      connect(verizon, SIGNAL(serverGameover1()), this, SLOT(p1Gameover()));
      connect(verizon, SIGNAL(serverPiece1(string)), this, SLOT(p1Piece(string)));
      connect(verizon, SIGNAL(serverAttack1(string)), this, SLOT(p1Attack(string)));
-
+     
      connect(verizon, SIGNAL(serverLeft2()), this, SLOT(p2Left()));
      connect(verizon, SIGNAL(serverRight2()), this, SLOT(p2Right()));
      connect(verizon, SIGNAL(serverRotate2()), this, SLOT(p2Rotate()));
@@ -329,6 +333,8 @@ printf("P1 GAMEOVER! FIX ME!\n");
 }
 void TetrisWindow::p1Piece(string piece){
 //	cout<< "I GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
+    emit pieceFromNet(piece);
+    cout << "Piece for board 1: " << piece << endl;
 }
  
 void TetrisWindow::p1Attack(string line){
@@ -344,6 +350,8 @@ void TetrisWindow::p2Lose(){ cout<<"FIX THIS p2 LOSES\n"<<endl; }
 void TetrisWindow::p2Gameover(){ printf("P2 GAMEOVER! FIX ME!\n"); }
 void TetrisWindow::p2Piece(string piece){
 //	cout<< "U GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
+    emit piece2FromNet(piece);
+    cout << "Piece for board 2: " << piece << endl;
 } 
 void TetrisWindow::p2Attack(string line){
 //	cout<< "U GOT A LINE, HAHA!" <<line<<" "<<line.length()<<endl;
@@ -485,5 +493,6 @@ void TetrisWindow::netStart(QString mode)
     else {
         board->startDemo();
     }
+    boardTwo->start();
 }
 

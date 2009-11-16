@@ -46,7 +46,8 @@
  //#include <QFrame>
  //#include <QWidget>
 #include "tetrisnetwork.h"
-
+#include <string>
+using namespace std;
 
  class QLCDNumber;
  class QLabel;
@@ -65,6 +66,8 @@
 
  signals:
 	 void keyGrabber(QKeyEvent *event);
+         void pieceFromNet(string piece);
+         void piece2FromNet(string piece);
 
  private:
 	TetrisNetwork * verizon;

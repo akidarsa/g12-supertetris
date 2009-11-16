@@ -126,7 +126,36 @@
          setFilePointer(NULL);
      }
  }
-
+ 
+ void TetrisPiece::setShape(string piece)
+ {
+     char str[49];
+     for(int i = 0; i < (int)piece.length(); i++)
+     {
+         str[i] = piece[i];
+     }
+     str[piece.length()] = '\0';
+     if (piece.length() == 16)
+     {
+         pieceShape = Piece4;
+     }
+     else if (piece.length() == 25)
+     {
+         pieceShape = Piece5;
+     }
+     else if (piece.length() == 36)
+     {
+         pieceShape = Piece6;
+     }
+     else if (piece.length() == 49)
+     {
+         pieceShape = Piece7;
+     }
+     else {
+         pieceShape = NoShape;
+     }
+     setCoords(str);
+ }
  /*char* TetrisPiece::setFileName()
  {
      if (qApp->argc() == 3)
