@@ -120,7 +120,8 @@
          }
      }
      void goFast();
-     
+     void enableAttack() {canAttack = true;}
+     void disableAttack() {canAttack = false;}
 
  signals:
      void scoreChanged(int score);
@@ -198,7 +199,8 @@ protected:
      int linesinBuffer;
      bool linesHaveBeenAdded; //checks if lines have been added to other board
      string netPiece;
-     queue<string> netPieceQueue;     
+     queue<string> netPieceQueue;    
+     bool canAttack; 
  };
 
  #endif
