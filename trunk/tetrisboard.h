@@ -84,6 +84,7 @@
      //void configure();
      //void saveKeys();
      void bufferLines(TetrisShape *line);
+     void bufferLines(string line);
      void gameOver(bool winOrLose) {
          isGameOver = true;
          curPiece.setShape(NoShape);

@@ -68,6 +68,8 @@ using namespace std;
 	 void keyGrabber(QKeyEvent *event);
          void pieceFromNet(string piece);
          void piece2FromNet(string piece);
+         void lineFromNet(string line);
+         void line2FromNet(string line);
 
  private:
 	TetrisNetwork * verizon;
