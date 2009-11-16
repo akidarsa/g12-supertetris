@@ -107,7 +107,9 @@
          }
      }
      void getNetPiece(string piece) {
-         netPiece = piece;
+         netPieceQueue[1] = netPieceQueue[0];
+         netPieceQueue[0] = piece;
+         netPiece = netPieceQueue[1];        
      }
      
 
@@ -185,7 +187,7 @@ protected:
      int linesinBuffer;
      bool linesHaveBeenAdded; //checks if lines have been added to other board
      string netPiece;
-     
+     string netPieceQueue[2];     
  };
 
  #endif
