@@ -90,6 +90,8 @@ class ControlLineEdit;
      /*if (isPaused) {
          return;
      }*/
+     netPieceQueue[0] = '\0';
+     netPieceQueue[1] = '\0';
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
@@ -116,7 +118,12 @@ class ControlLineEdit;
          }
      }
      if(isConnected) {
-         nextPiece.setShape(netPiece);
+         if(curPiece.shape() == NoShape) {
+             curPiece.setShape(netPiece);
+         }
+         else {
+             nextPiece.setShape(netPiece);
+         }
      }
      else {
          nextPiece.setFilePointer(fp);
@@ -142,6 +149,8 @@ class ControlLineEdit;
      /*if (isPaused) {
          return;
      }*/
+     netPieceQueue[0] = '\0';
+     netPieceQueue[1] = '\0';
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
@@ -171,7 +180,12 @@ class ControlLineEdit;
          }
      }
      if(isConnected) {
-         nextPiece.setShape(netPiece);
+         if(curPiece.shape() == NoShape) {
+             curPiece.setShape(netPiece);
+         }
+         else {
+             nextPiece.setShape(netPiece);
+         }
      }
      else {
          nextPiece.setFilePointer(fp);
