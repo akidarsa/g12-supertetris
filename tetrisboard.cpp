@@ -166,8 +166,8 @@ class ControlLineEdit;
      num7Pieces = 0;
      numBlocks = 0;
      score = 0;
-     //level = 12; //it has a 12th level intellect
-     level = 13; //I think the number 13 is lucky
+     level = 12; //it has a 12th level intellect
+     //level = 999; //accelerated mode
      clearBoard();
      if (fp != NULL) {
          fclose(fp);
@@ -661,7 +661,7 @@ void TetrisBoard::rotateLeft(int a)
                      line[curX + curPiece.x(m)] = NoShape;
                  }                             
              }
-             //emit addLineToBuffer(line);
+             emit addLineToBuffer(line);
              ++numFullLines;
              for (int k = i; k < BoardHeight - 1; ++k) {
                  for (int j = 0; j < BoardWidth; ++j)
@@ -692,6 +692,20 @@ void TetrisBoard::rotateLeft(int a)
              lineBuffer[i][j] = NoShape;
          }
      }
+ }
+
+ void TetrisBoard::bufferLines(string line)
+ {
+     for(int i = 0; i < BoardWidth; i++)
+     {
+         if(line[i] == 1) {
+             lineBuffer[linesinBuffer][i] = Dead;
+         }
+         else {
+             lineBuffer[linesinBuffer][i] = NoShape;
+         }
+     }
+     linesinBuffer++;
  }
 
  void TetrisBoard::bufferLines(TetrisShape *line)

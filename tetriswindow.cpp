@@ -106,6 +106,9 @@ using namespace std;
      connect(this, SIGNAL(pieceFromNet(string)), board, SLOT(getNetPiece(string)));
      connect(this, SIGNAL(piece2FromNet(string)), boardTwo, SLOT(getNetPiece(string)));
 
+     connect(this, SIGNAL(lineFromNet(string)), board, SLOT(getNetPiece(string)));
+     connect(this, SIGNAL(line2FromNet(string)), boardTwo, SLOT(getNetPiece(string)));
+
      connect(verizon, SIGNAL(serverLeft1()), this, SLOT(p1Left()));
      connect(verizon, SIGNAL(serverRight1()), this, SLOT(p1Right()));
      connect(verizon, SIGNAL(serverRotate1()), this, SLOT(p1Rotate()));
@@ -339,6 +342,7 @@ void TetrisWindow::p1Piece(string piece){
  
 void TetrisWindow::p1Attack(string line){
 //	cout<< "I GOT A LINE, OHNO!" <<line<<" "<<line.length()<<endl;
+    emit lineFromNet(line);
 }
  
 void TetrisWindow::p2Left(){ boardTwo->serverMove('L'); }
@@ -355,6 +359,7 @@ void TetrisWindow::p2Piece(string piece){
 } 
 void TetrisWindow::p2Attack(string line){
 //	cout<< "U GOT A LINE, HAHA!" <<line<<" "<<line.length()<<endl;
+    emit line2FromNet(line);
 } 
 
 void TetrisWindow::keyPressEvent(QKeyEvent *event) 
