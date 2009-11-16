@@ -166,7 +166,6 @@ class ControlLineEdit;
      numBlocks = 0;
      score = 0;
      level = 12; //it has a 12th level intellect
-     //level = 999; //accelerated mode
      clearBoard();
      if (fp != NULL) {
          fclose(fp);
@@ -201,6 +200,66 @@ class ControlLineEdit;
      }
      timer.start(timeoutTime(), this);
  }
+
+  void TetrisBoard::goFast()
+ {
+     if (isPaused) {
+         return;
+     }
+     netPieceQueue[0]="\0";
+     netPieceQueue[1]="\0";
+     linesHaveBeenAdded = true;
+     singlePlay = false;
+     isStarted = true;
+     justStarted = true;
+     isInDemo = true;
+     isTested = false;
+     isGameOver = false;
+     isWaitingAfterLine = false;
+     numLinesRemoved = 0;
+     numPiecesDropped = 0;
+     num4Pieces = 0;
+     num5Pieces = 0;
+     num6Pieces = 0;
+     num7Pieces = 0;
+     numBlocks = 0;
+     score = 0;
+     level = 999; //go super fast
+     clearBoard();
+     if (fp != NULL) {
+         fclose(fp);
+     }
+     if (qApp->argc() == 3)
+     {
+         if (strcmp(qApp->argv()[1],"-f") == 0)
+         {
+             fp = fopen(qApp->argv()[2],"r");
+         }
+     }
+     if(isConnected) {
+         nextPiece.setShape(netPiece);
+     }
+     else {
+         nextPiece.setFilePointer(fp);
+         curPiece.setFilePointer(fp);
+         nextPiece.setRandomShape();
+     }
+     emit linesRemovedChanged(numLinesRemoved);
+     emit scoreChanged(score);
+     emit levelChanged(level);
+     emit pieceChanged(numPiecesDropped);
+     emit piece4Changed(num4Pieces);
+     emit piece5Changed(num5Pieces);
+     emit piece6Changed(num6Pieces);
+     emit piece7Changed(num7Pieces);
+     emit blocksChanged(numBlocks);
+     emit gameIsStart(true);
+     if(!isConnected){
+       newPiece();
+     }
+     timer.start(timeoutTime(), this);
+ }
+
  void TetrisBoard::reset()
  {
      nextPiece.setShape(NoShape);
@@ -660,7 +719,7 @@ void TetrisBoard::rotateLeft(int a)
                      line[curX + curPiece.x(m)] = NoShape;
                  }                             
              }
-             emit addLineToBuffer(line);
+             //emit addLineToBuffer(line);
              ++numFullLines;
              for (int k = i; k < BoardHeight - 1; ++k) {
                  for (int j = 0; j < BoardWidth; ++j)

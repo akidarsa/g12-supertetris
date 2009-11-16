@@ -85,9 +85,9 @@ using namespace std;
      /*Human vs. Computer start*/
      connect(startHCButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startHCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
-     /*Computer vs. Computer start*/
-     connect(startCCButton, SIGNAL(clicked()), board, SLOT(startDemo()));
-     connect(startCCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
+     /*Accelerated Mode start*/
+     connect(startCButton, SIGNAL(clicked()), board, SLOT(goFast()));
+     connect(startCButton, SIGNAL(clicked()), boardTwo, SLOT(reset()));
      /*Network Controls*/
      connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(disableButtons()));
      connect(startNetButton, SIGNAL(clicked()), board, SLOT(pause()));
@@ -281,12 +281,12 @@ void TetrisWindow::createControl()
     startHHButton->setFocusPolicy(Qt::NoFocus);
     startHCButton = new QPushButton(tr("Human &vs. Computer"));
     startHCButton->setFocusPolicy(Qt::NoFocus);
-    startCCButton = new QPushButton(tr("&Computer vs. Computer"));
-    startCCButton->setFocusPolicy(Qt::NoFocus);
+    startCButton = new QPushButton(tr("&Accelerated Demo Mode"));
+    startCButton->setFocusPolicy(Qt::NoFocus);
     localLayout -> addWidget(startButton, 0, 0);
     localLayout -> addWidget(startHHButton, 1, 0);
     localLayout -> addWidget(startHCButton, 2, 0);
-    localLayout -> addWidget(startCCButton, 3, 0);
+    localLayout -> addWidget(startCButton, 3, 0);
     ui_localGroup = new QGroupBox(tr("Start - Local"));
     ui_localGroup -> setLayout(localLayout);
     //Network Buttons Start here, local ends
