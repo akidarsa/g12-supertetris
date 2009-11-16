@@ -713,7 +713,9 @@ void TetrisBoard::rotateLeft(int a)
                      line[curX + curPiece.x(m)] = NoShape;
                  }                             
              }
-             //emit addLineToBuffer(line);
+             if(canAttack) {
+                 emit addLineToBuffer(line);
+             }
              ++numFullLines;
              for (int k = i; k < BoardHeight - 1; ++k) {
                  for (int j = 0; j < BoardWidth; ++j)
@@ -775,9 +777,9 @@ cout<<"NetPiece for you->"<<netPiece<<endl;
 
  void TetrisBoard::addLines()
  {
-     /*if(singlePlay) {
+     if(singlePlay) {
          return;
-     }*/
+     }
      //printf("linesinBuffer = %d\n", linesinBuffer);
      for(int idx = 0; idx < linesinBuffer; idx++){
          //Checks if this line has been added from opponent

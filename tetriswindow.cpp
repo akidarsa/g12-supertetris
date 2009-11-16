@@ -79,15 +79,19 @@ using namespace std;
      /*Single player start*/
      connect(startButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startButton, SIGNAL(clicked()), boardTwo, SLOT(reset()));
+     connect(startButton, SIGNAL(clicked()), board, SLOT(disableAttack()));
      /*Human vs. Human start*/
      connect(startHHButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startHHButton, SIGNAL(clicked()), boardTwo, SLOT(start()));
+     connect(startHHButton, SIGNAL(clicked()), board, SLOT(enableAttack()));
      /*Human vs. Computer start*/
      connect(startHCButton, SIGNAL(clicked()), board, SLOT(start()));
      connect(startHCButton, SIGNAL(clicked()), boardTwo, SLOT(startDemo()));
+     connect(startHCButton, SIGNAL(clicked()), board, SLOT(enableAttack()));
      /*Accelerated Mode start*/
      connect(startCButton, SIGNAL(clicked()), board, SLOT(goFast()));
      connect(startCButton, SIGNAL(clicked()), boardTwo, SLOT(reset()));
+     connect(startCButton, SIGNAL(clicked()), board, SLOT(disableAttack()));
      /*Network Controls*/
      connect(startNetButton, SIGNAL(clicked()), verizon, SLOT(disableButtons()));
      connect(startNetButton, SIGNAL(clicked()), board, SLOT(pause()));
