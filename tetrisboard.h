@@ -45,10 +45,11 @@
  #include <QBasicTimer>
  #include <QFrame>
  #include <QPointer>
-
+ #include <string>
  #include "tetrispiece.h"
  #include "PieceMovement.h"
  #include "tetrisdemo.h"
+ using namespace std;
 
  class QLabel;
 
@@ -105,6 +106,10 @@
              isConnected = false;
          }
      }
+     void getNetPiece(string piece) {
+         netPiece = piece;
+     }
+     
 
  signals:
      void scoreChanged(int score);
@@ -179,6 +184,7 @@ protected:
      TetrisShape lineBuffer[BoardHeight][BoardWidth];
      int linesinBuffer;
      bool linesHaveBeenAdded; //checks if lines have been added to other board
+     string netPiece;
      
  };
 

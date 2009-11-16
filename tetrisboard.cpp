@@ -115,9 +115,14 @@ class ControlLineEdit;
                 fp = fopen(qApp->argv()[2],"r");
          }
      }
-     nextPiece.setFilePointer(fp);
-     curPiece.setFilePointer(fp);
-     nextPiece.setRandomShape();
+     if(isConnected) {
+         nextPiece.setShape(netPiece);
+     }
+     else {
+         nextPiece.setFilePointer(fp);
+         curPiece.setFilePointer(fp);
+         nextPiece.setRandomShape();
+     }
      emit linesRemovedChanged(numLinesRemoved);
      emit scoreChanged(score);
      emit levelChanged(level);
@@ -165,9 +170,14 @@ class ControlLineEdit;
              fp = fopen(qApp->argv()[2],"r");
          }
      }
-     nextPiece.setFilePointer(fp);
-     curPiece.setFilePointer(fp);
-     nextPiece.setRandomShape();
+     if(isConnected) {
+         nextPiece.setShape(netPiece);
+     }
+     else {
+         nextPiece.setFilePointer(fp);
+         curPiece.setFilePointer(fp);
+         nextPiece.setRandomShape();
+     }
      emit linesRemovedChanged(numLinesRemoved);
      emit scoreChanged(score);
      emit levelChanged(level);
@@ -717,7 +727,12 @@ void TetrisBoard::rotateLeft(int a)
          linesHaveBeenAdded = false;
      }
      curPiece = nextPiece;
-     nextPiece.setRandomShape();
+     if(isConnected) {
+         nextPiece.setShape(netPiece);
+     }
+     else {
+         nextPiece.setRandomShape();
+     }
      showNextPiece();
      curX = BoardWidth / 2 + 1;
      curY = BoardHeight - 1 + curPiece.minY();

@@ -41,6 +41,8 @@
   #ifndef TETRISPIECE_H
  #define TETRISPIECE_H
 #include <stdio.h>
+#include <string>
+using namespace std;
 
  enum TetrisShape { NoShape, Piece4, Piece5, Piece6, Piece7, Dead, Mark};
 
@@ -50,6 +52,7 @@
      TetrisPiece() { setShape(NoShape);}
      virtual ~TetrisPiece();
      void setRandomShape();
+     void setShape(string piece);
      void setShape(TetrisShape shape);
      void setCoords(const char* piecerep);
      void randomPieceRep();
