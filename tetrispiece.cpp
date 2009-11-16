@@ -498,17 +498,17 @@
  void TetrisPiece::setCoords(const char* piecerep)
  {
      int counter = 0;
-     //printf("Coords:");
+//     printf("Coords:");
      for (int y = 0; y < size();y++)
      {
          for (int x = 0; x < size();x++)
          {
-             if (piecerep[y+(x*size())] == '1')
+             if (piecerep[x+(y*size())] == '1')
              {
                 coords[counter][0] = x - size()/2;
-                coords[counter][1] = size()/2 - y;
+                coords[counter][1] = y - size()/2;
                 counter++;
-                //printf("%d,%d -",coords[counter-1][0],coords[counter-1][1]);
+//                printf("%d,%d -",coords[counter-1][0],coords[counter-1][1]);
              }
          }
      }

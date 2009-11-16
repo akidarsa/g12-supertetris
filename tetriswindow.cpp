@@ -326,18 +326,18 @@ void TetrisWindow::p1Right(){ board->serverMove('R'); }
 void TetrisWindow::p1Rotate(){ board->serverMove('T'); }
 void TetrisWindow::p1Fall(){ board->serverMove('D'); }
 void TetrisWindow::p1Win(){ 
-cout<<"FIX THIS p1 WINS\n"<<endl; 
+//cout<<"FIX THIS p1 WINS\n"<<endl; 
 }
 void TetrisWindow::p1Lose(){
- cout<<"FIX THIS p1 LOSES\n"<<endl; 
+// cout<<"FIX THIS p1 LOSES\n"<<endl; 
 }
 void TetrisWindow::p1Gameover(){ 
-printf("P1 GAMEOVER! FIX ME!\n"); 
+//printf("P1 GAMEOVER! FIX ME!\n"); 
 }
 void TetrisWindow::p1Piece(string piece){
 //	cout<< "I GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
     emit pieceFromNet(piece);
-    cout << "Piece for board 1: " << piece << endl;
+//    cout << "Piece for board 1: " << piece << endl;
 }
  
 void TetrisWindow::p1Attack(string line){
@@ -355,7 +355,7 @@ void TetrisWindow::p2Gameover(){ printf("P2 GAMEOVER! FIX ME!\n"); }
 void TetrisWindow::p2Piece(string piece){
 //	cout<< "U GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
     emit piece2FromNet(piece);
-    cout << "Piece for board 2: " << piece << endl;
+//    cout << "Piece for board 2: " << piece << endl;
 } 
 void TetrisWindow::p2Attack(string line){
 //	cout<< "U GOT A LINE, HAHA!" <<line<<" "<<line.length()<<endl;

@@ -110,7 +110,12 @@
      void getNetPiece(string piece) {
          netPieceQueue[1] = netPieceQueue[0];
          netPieceQueue[0] = piece;
-         netPiece = netPieceQueue[1];        
+         netPiece = netPieceQueue[1];
+	 if(!justStarted){
+ 	   newPiece();
+	 } else {
+	   justStarted = false;
+         }
      }
      
 
@@ -161,6 +166,7 @@ protected:
      bool isTested;
      bool isWaitingAfterLine;
      bool isConnected;
+     bool justStarted;
      TetrisPiece curPiece;
      TetrisPiece nextPiece;
      int curX;
