@@ -520,6 +520,25 @@ void TetrisBoard::rotateLeft(int a)
 	 }
  }
 
+ void TetrisBoard::serverMove(char a)
+ {
+     switch(a){
+	case 'D': //Down
+		tryMove(curPiece,curX,curY - 1);
+		break;
+	case 'R': //Right
+		tryMove(curPiece, curX + 1, curY);
+		break;
+	case 'L': //Left
+		tryMove(curPiece, curX - 1, curY);
+		break;
+	case 'T': //roTate
+		tryMove(curPiece.rotatedRight(), curX, curY);
+		break;
+	default: break;
+     }
+ }
+
  void TetrisBoard::oneLineDown()
  {
 	if(isConnected)

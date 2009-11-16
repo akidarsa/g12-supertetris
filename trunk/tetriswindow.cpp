@@ -314,33 +314,39 @@ void TetrisWindow::createControl()
     ui_controlGroup -> setLayout(controlLayout);
 }
 
-void TetrisWindow::p1Left(){ board->moveLeft(); }
-void TetrisWindow::p1Right(){ board->moveRight(); }
-void TetrisWindow::p1Rotate(){ board->rotateRight(); }
-void TetrisWindow::p1Fall(){board->oneLineDown(); }
-void TetrisWindow::p1Win(){ cout<<"FIX THIS p1 WINS\n"<<endl; }
-void TetrisWindow::p1Lose(){ cout<<"FIX THIS p1 LOSES\n"<<endl; }
-void TetrisWindow::p1Gameover(){ printf("P1 GAMEOVER! FIX ME!\n"); }
+void TetrisWindow::p1Left(){ board->serverMove('L'); }
+void TetrisWindow::p1Right(){ board->serverMove('R'); }
+void TetrisWindow::p1Rotate(){ board->serverMove('T'); }
+void TetrisWindow::p1Fall(){ board->serverMove('D'); }
+void TetrisWindow::p1Win(){ 
+cout<<"FIX THIS p1 WINS\n"<<endl; 
+}
+void TetrisWindow::p1Lose(){
+ cout<<"FIX THIS p1 LOSES\n"<<endl; 
+}
+void TetrisWindow::p1Gameover(){ 
+printf("P1 GAMEOVER! FIX ME!\n"); 
+}
 void TetrisWindow::p1Piece(string piece){
-	cout<< "I GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
+//	cout<< "I GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
 }
  
 void TetrisWindow::p1Attack(string line){
-	cout<< "I GOT A LINE, OHNO!" <<line<<" "<<line.length()<<endl;
+//	cout<< "I GOT A LINE, OHNO!" <<line<<" "<<line.length()<<endl;
 }
  
-void TetrisWindow::p2Left(){ boardTwo->moveLeft(); }
-void TetrisWindow::p2Right(){ boardTwo->moveRight(); }
-void TetrisWindow::p2Rotate(){ boardTwo->rotateRight(); }
-void TetrisWindow::p2Fall(){ boardTwo->oneLineDown(); }
+void TetrisWindow::p2Left(){ boardTwo->serverMove('L'); }
+void TetrisWindow::p2Right(){ boardTwo->serverMove('R'); }
+void TetrisWindow::p2Rotate(){ boardTwo->serverMove('T'); }
+void TetrisWindow::p2Fall(){ boardTwo->serverMove('D'); }
 void TetrisWindow::p2Win(){ cout<<"FIX THIS p2 WINS\n"<<endl; }
 void TetrisWindow::p2Lose(){ cout<<"FIX THIS p2 LOSES\n"<<endl; }
 void TetrisWindow::p2Gameover(){ printf("P2 GAMEOVER! FIX ME!\n"); }
 void TetrisWindow::p2Piece(string piece){
-	cout<< "U GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
+//	cout<< "U GOT A PIECE, SEE!" <<piece<<" "<<piece.length()<<endl;
 } 
 void TetrisWindow::p2Attack(string line){
-	cout<< "U GOT A LINE, HAHA!" <<line<<" "<<line.length()<<endl;
+//	cout<< "U GOT A LINE, HAHA!" <<line<<" "<<line.length()<<endl;
 } 
 
 void TetrisWindow::keyPressEvent(QKeyEvent *event) 

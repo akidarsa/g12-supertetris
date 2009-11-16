@@ -135,72 +135,79 @@ void TetrisNetwork::getMessage()
 void TetrisNetwork::commandEmitter(){
   string msg(srvMsg.toLatin1());
   string whatIFound(srvMsg.toLatin1());
-  int pos=msg.find(":");
-  int ago=msg.find("\n");
-  if(msg.find("START") != string::npos){ return; }
-  if(pos != -1){ whatIFound = msg.substr(pos+1,ago); }
-  if(msg.find("19251") != string::npos){
-//cout<<"THISISWHATIGOT"<<whatIFound<<endl;
-    if(msg.find("LEFT") != string::npos) {
-      emit serverLeft1();
-    } if(msg.find("RIGHT") != string::npos) {
-      emit serverRight1();
-    } if(msg.find("ROTATE") != string::npos) {
-      emit serverRotate1();
-    } if(msg.find("FALL") != string::npos) {
-      emit serverFall1();
-    } if(msg.find("WIN") != string::npos) {
-      emit serverWin1();
-    } if(msg.find("LOSE") != string::npos) { 
-      emit serverLose1();
-    } if(msg.find("GAMEOVER") != string::npos) {
-      emit serverGameover1();
-    } if(whatIFound.find("PIECE") != string::npos) {
-      pos = msg.find("PIECE");
-      ago -= pos+6;
-      whatIFound.clear();
-      whatIFound = msg.substr(pos+6,ago);
-
-      emit serverPiece1(whatIFound);
-    } if(msg.find("ATTACK") != string::npos) {
-      pos = msg.find("ATTACK");
-      ago -= pos+7;
-      whatIFound.clear();
-      whatIFound = msg.substr(pos+7,ago);
-      //whatIFound = whatIFound.replace(pos,7);
-      emit serverAttack1(whatIFound);
-    } else { return; }
-  } else {
-    if(msg.find("LEFT") != string::npos) {
-      emit serverLeft2();
-    } else if(msg.find("RIGHT") != string::npos) {
-      emit serverRight2();
-    } else if(msg.find("ROTATE") != string::npos) {
-      emit serverRotate2();
-    } else if(msg.find("FALL") != string::npos) {
-      emit serverFall2(); 
-    } if(msg.find("WIN") != string::npos) {
-      emit serverWin2();
-    } if(msg.find("LOSE") != string::npos) { 
-      emit serverLose2();
-    } else if(msg.find("GAMEOVER") != string::npos) {
-      emit serverGameover1();
-    } else if(msg.find("PIECE") != string::npos) {
-      pos = msg.find("PIECE");
-      ago -= pos+6;
-      whatIFound.clear();
-      whatIFound = msg.substr(pos+6,ago);
-      emit serverPiece2(whatIFound);
-      return;
-    } else if(msg.find("ATTACK") != string::npos) {
-      pos = msg.find("ATTACK");
-      ago -= pos+7;
-      whatIFound.clear();
-      whatIFound = msg.substr(pos+7,ago);
-      emit serverAttack2(whatIFound);
-      return;
-    } else { return; }
+  int ago[10];
+  int pos[10];
+  int i = 0;
+  pos[i]=0;
+  ago[i]=msg.find("\n");
+  while(i!=10&&ago[i] != -1){ 
+	i++; 
+	pos[i] = msg.find(":",pos[i-1]+1);
+	if(pos[i] != -1){ pos[i] = ago[i-1]+1;}
+	ago[i] = msg.find("\n",ago[i-1]+1);
   }
+  //if(msg.find("START") != string::npos){ return; }
+  for(int j=0; j<i; j++){
+    if(pos[j] != -1){ whatIFound.clear(); whatIFound = msg.substr(pos[j],ago[j]-pos[j]+1); 
+//	cout<<pos[j]<<" "<<ago[j]-pos[j]<<endl;}
+}
+    else{ break; }
+    if(whatIFound.find("19251") != string::npos){
+     if(whatIFound.find("LEFT") != string::npos) {
+        emit serverLeft1();
+     } if(whatIFound.find("RIGHT") != string::npos) {
+        emit serverRight1();
+     } if(whatIFound.find("ROTATE") != string::npos) {
+       emit serverRotate1();
+     } if(whatIFound.find("FALL") != string::npos) {
+       emit serverFall1();
+     } if(whatIFound.find("WIN") != string::npos) {
+       emit serverWin1();
+     } if(whatIFound.find("LOSE") != string::npos) { 
+       emit serverLose1();
+     } if(whatIFound.find("GAMEOVER") != string::npos) {
+       emit serverGameover1();
+     } if(whatIFound.find("PIECE") != string::npos) {
+       pos[j] = whatIFound.find("PIECE");
+       ago[j] -= pos[j]+6;
+       whatIFound = whatIFound.substr(pos[j]+6,ago[j]);
+
+       emit serverPiece1(whatIFound);
+     } if(whatIFound.find("ATTACK") != string::npos) {
+       pos[j] = whatIFound.find("ATTACK");
+       ago[j] -= pos[j]+7;
+       whatIFound = whatIFound.substr(pos[j]+7,ago[j]);
+       //whatIFound = whatIFound.replace(pos,7);
+       emit serverAttack1(whatIFound);
+     } //else { return; }
+   } else {
+     if(whatIFound.find("LEFT") != string::npos) {
+       emit serverLeft2();
+     } else if(whatIFound.find("RIGHT") != string::npos) {
+       emit serverRight2();
+     } else if(whatIFound.find("ROTATE") != string::npos) {
+       emit serverRotate2();
+     } else if(whatIFound.find("FALL") != string::npos) {
+       emit serverFall2(); 
+     } if(whatIFound.find("WIN") != string::npos) {
+       emit serverWin2();
+     } if(whatIFound.find("LOSE") != string::npos) { 
+       emit serverLose2();
+     } else if(whatIFound.find("GAMEOVER") != string::npos) {
+       emit serverGameover1();
+     } else if(whatIFound.find("PIECE") != string::npos) {
+       pos[j] = whatIFound.find("PIECE");
+       ago[j] -= pos[j]+6;
+       whatIFound = whatIFound.substr(pos[j]+6,ago[j]);
+       emit serverPiece2(whatIFound);
+     } else if(whatIFound.find("ATTACK") != string::npos) {
+       pos[j] = whatIFound.find("ATTACK");
+       ago[j] -= pos[j]+7;
+       whatIFound = whatIFound.substr(pos[j]+7,ago[j]);
+       emit serverAttack2(whatIFound);
+     } //else { return; }
+   }
+ }
 }
       
       

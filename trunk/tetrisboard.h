@@ -62,6 +62,7 @@
      void setNextPieceLabel(QLabel *label);
      QSize sizeHint() const;
      QSize minimumSizeHint() const;
+     void serverMove(char a);
      void dropDown();
      void dropDown(int b);
      void oneLineDown();
