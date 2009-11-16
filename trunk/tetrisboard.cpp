@@ -202,8 +202,6 @@ class ControlLineEdit;
      if (isPaused) {
          return;
      }
-     netPieceQueue[0]="\0";
-     netPieceQueue[1]="\0";
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
