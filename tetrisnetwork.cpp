@@ -85,6 +85,7 @@ void TetrisNetwork::createAnswerGroupBox()
   tetrisAnswer = new QTextEdit;
   layout -> addWidget(tetrisAnswer);
   answerGroupBox -> setLayout(layout);
+  tetrisAnswer -> append("To connect to the server, please input the server address and the port number. then press the engage button. Once you're connected, there will be a 'GAMETYPE?' and there you can choose your game type. When that's done, you can press the ready button and the game will start when the server has acknowledged the game. \n\nHave Fun\nand\nThank you for using our client. (*^_^*)");
 }
 
 void TetrisNetwork::connectServer()
