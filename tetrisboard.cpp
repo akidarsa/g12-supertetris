@@ -858,8 +858,10 @@ void TetrisBoard::showMeTheNetPiece(){
          curPiece.setShape(NoShape);
          timer.stop();
          isStarted = false;
+         if(!isConnected) {
+             emit iLost(true);
+         }
          isGameOver = true;
-         emit iLost(true);
          isWin = false;
          update();
      }
