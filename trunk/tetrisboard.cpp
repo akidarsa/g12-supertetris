@@ -962,4 +962,55 @@ void TetrisBoard::showMeTheNetPiece(){
      painter.drawLine(x + squareWidth() - 1, y + squareHeight() - 1,
                       x + squareWidth() - 1, y + 1);
  }
- 
+
+void TetrisBoard::gameOver(bool winOrLose) 
+{
+	isGameOver = true;
+	curPiece.setShape(NoShape);
+	timer.stop();
+	isStarted = false;
+	if (winOrLose) 
+	{
+		isWin = true;
+	}
+	else 
+	{
+		isWin = false;
+	}
+	update();
+}
+
+
+void TetrisBoard::setConnect(QString status) 
+{
+	if(status == "Connected") 
+	{
+		isConnected = true;
+	}
+	else
+	{
+		isConnected = false;
+	}
+}
+
+void TetrisBoard::getNetPiece(string piece) 
+{
+	netPieceQueue.push(piece);
+	netPiece = netPieceQueue.front();
+	serverCounter++;
+	//showMeTheNetPiece();
+	if(!justStarted)
+	{
+		dropDown();
+		nextPiece.setShape(netPiece);
+		newPiece();
+		timer.start(timeoutTime(), this);
+		netPieceQueue.pop();
+	}
+	else
+	{
+		//newPiece();
+		justStarted = false;
+	}
+}
+

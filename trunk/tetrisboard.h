@@ -87,44 +87,10 @@
      //void saveKeys();
      void bufferLines(TetrisShape *line);
      void bufferLines(string line);
-     void gameOver(bool winOrLose) {
-         isGameOver = true;
-         curPiece.setShape(NoShape);
-         timer.stop();
-         isStarted = false;
-         if (winOrLose) {
-             isWin = true;
-         }
-         else {
-             isWin = false;
-         }
-         update();
-     }
+     void gameOver(bool winOrLose);
      void reset();
-     void setConnect(QString status) {
-         if(status == "Connected") {
-             isConnected = true;
-         }
-         else {
-             isConnected = false;
-         }
-     }
-     void getNetPiece(string piece) {
-	   netPieceQueue.push(piece);
-	   netPiece = netPieceQueue.front();
-	   serverCounter++;
-	   //showMeTheNetPiece();
-	 if(!justStarted){
-	   dropDown();
-           nextPiece.setShape(netPiece);
- 	   newPiece();
-           timer.start(timeoutTime(), this);
-	   netPieceQueue.pop();
-         }else{
-           //newPiece();
-	   justStarted = false;
-	 }
-     }
+     void setConnect(QString status);
+     void getNetPiece(string piece); 
      void goFast();
      void enableAttack() {canAttack = true;}
      void disableAttack() {canAttack = false;}

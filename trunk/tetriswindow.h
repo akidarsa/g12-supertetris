@@ -161,28 +161,9 @@ private slots:
 	void p2Gameover();
 	void p2Piece(string piece);
 	void p2Attack(string line);
-	//void configure();
-        void setConnect(QString status)
-        {
-            if(status == "Connected") {
-                startNetButton->setEnabled(false);
-                endNetButton->setEnabled(true);
-                startButton->setEnabled(false);
-                startHHButton->setEnabled(false);
-                startHCButton->setEnabled(false);
-                startCButton->setEnabled(false);                
-            }
-            else {
-                startNetButton->setEnabled(true);
-                endNetButton->setEnabled(false);
-                startButton->setEnabled(true);
-                startHHButton->setEnabled(true);
-                startHCButton->setEnabled(true);
-                startCButton->setEnabled(true);  
-            }
-        };
-        void netStart(QString mode);
-		void musicStart();
+	void setConnect(QString status);
+	void netStart(QString mode);
+	void musicStart();
  };
 
  #endif
