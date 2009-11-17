@@ -128,10 +128,7 @@ class ControlLineEdit;
                 fp = fopen(qApp->argv()[2],"r");
          }
      }
-     if(isConnected) {
-         nextPiece.setShape(netPiece);
-     }
-     else {
+     if(!isConnected) {
          nextPiece.setFilePointer(fp);
          curPiece.setFilePointer(fp);
          nextPiece.setRandomShape();

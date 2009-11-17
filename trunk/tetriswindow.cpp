@@ -52,8 +52,8 @@ using namespace std;
 
  TetrisWindow::TetrisWindow()
  {
-	 keyStarted = false;
-	 musicIsPlaying = false;
+    keyStarted = false;
+    musicIsPlaying = false;
 
     p1LftKey = Qt::Key_A;
     p1RgtKey = Qt::Key_D;
@@ -500,14 +500,16 @@ void TetrisWindow::netStart(QString mode)
 {
     if(mode == "human") {
         board->start();
+        board->enableAttack();
         boardTwo->start();
     }
     else if(mode == "computer") {
         board->startDemo();
+        board->enableAttack();
         boardTwo->start();
     }
     else if(mode == "qualifier") {
-        board->start();
+        board->startDemo();
         board->disableAttack();
         boardTwo->reset();
     }
