@@ -148,8 +148,8 @@ class ControlLineEdit;
      emit gameIsStart(true);
      if(!isConnected){
        newPiece();
+       timer.start(timeoutTime(), this);
      }
-     timer.start(timeoutTime(), this);
  }
 
  void TetrisBoard::startDemo()
@@ -208,8 +208,8 @@ class ControlLineEdit;
      emit gameIsStart(true);
      if(!isConnected){
        newPiece();
+       timer.start(timeoutTime(), this);
      }
-     timer.start(timeoutTime(), this);
  }
 
   void TetrisBoard::goFast()
@@ -268,8 +268,8 @@ class ControlLineEdit;
      emit gameIsStart(true);
      if(!isConnected){
        newPiece();
+       timer.start(timeoutTime(), this);
      }
-     timer.start(timeoutTime(), this);
  }
 
  void TetrisBoard::reset()
