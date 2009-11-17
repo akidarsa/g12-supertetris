@@ -329,7 +329,7 @@ void TetrisWindow::createControl()
     controlLayout -> addWidget(ui_networkGroup, 0, 1, 4, 1);
     controlLayout -> addWidget(configureButton, 0, 2);
     controlLayout -> addWidget(pauseButton, 1, 2);
-//    controlLayout -> addWidget(musicButton, 2, 2);
+    controlLayout -> addWidget(musicButton, 2, 2); // COmment this out later!
     controlLayout -> addWidget(quitButton, 3, 2);
     ui_controlGroup = new QGroupBox(tr("Menu"));
     ui_controlGroup -> setLayout(controlLayout);
