@@ -315,7 +315,6 @@ class ControlLineEdit;
      update();
  }
 
-
  void TetrisBoard::paintEvent(QPaintEvent *event)
  {
      QFrame::paintEvent(event);
