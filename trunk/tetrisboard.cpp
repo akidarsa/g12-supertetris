@@ -186,9 +186,9 @@ class ControlLineEdit;
          }
      }
      if(isConnected) {
-         nextPiece.setShape(netPiece);
+        /* nextPiece.setShape(netPiece);
      }
-     else {
+     else {*/
          nextPiece.setFilePointer(fp);
          curPiece.setFilePointer(fp);
          nextPiece.setRandomShape();
@@ -564,7 +564,6 @@ void TetrisBoard::rotateLeft(int a)
 		}*/
 		int trys = 0;
                 while(result.x != curX) {
-			cout<<"result:  "<<result.x<<" current: "<<curX<<endl;
 			if(result.x < curX){ if(!
 				moveLeft()//;}
 			){ if(trys++==15){break;} }}
@@ -630,7 +629,7 @@ void TetrisBoard::rotateLeft(int a)
 	case 'D': //Down
 		if(!tryMove(curPiece,curX,curY - 1)){
 			pieceDropped(0);
-			newPiece();
+			//newPiece();
 		}
 		break;
 	case 'R': //Right
@@ -769,8 +768,8 @@ void TetrisBoard::rotateLeft(int a)
  }
 
 void TetrisBoard::showMeTheNetPiece(){ 
-	cout<<serverCounter<<" "<<numPiecesDropped<<endl;
-//cout<<"NetPiece for you->"<<netPiece<<endl;
+//	cout<<serverCounter<<" "<<numPiecesDropped<<endl;
+cout<<"NetPiece for you->"<<netPiece<<endl;
 }
 
  void TetrisBoard::clearBuffer()
@@ -995,22 +994,18 @@ void TetrisBoard::setConnect(QString status)
 
 void TetrisBoard::getNetPiece(string piece) 
 {
+	string bwa;
 	netPieceQueue.push(piece);
-	netPiece = netPieceQueue.front();
-	serverCounter++;
-	//showMeTheNetPiece();
-	if(!justStarted)
+
+	if(netPieceQueue.size() ==2)
 	{
-		dropDown();
+		netPiece = netPieceQueue.front();
+		bwa = netPieceQueue.back();
 		nextPiece.setShape(netPiece);
 		newPiece();
-		timer.start(timeoutTime(), this);
 		netPieceQueue.pop();
-	}
-	else
-	{
-		//newPiece();
-		justStarted = false;
+		nextPiece.setShape(bwa);
+		showNextPiece();
 	}
 }
 
