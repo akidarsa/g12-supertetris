@@ -53,6 +53,7 @@ using namespace std;
  TetrisWindow::TetrisWindow()
  {
 	 keyStarted = false;
+	 musicIsPlaying = false;
 
     p1LftKey = Qt::Key_A;
     p1RgtKey = Qt::Key_D;
@@ -137,6 +138,7 @@ using namespace std;
      connect(quitButton , SIGNAL(clicked()), qApp, SLOT(quit()));
      connect(pauseButton, SIGNAL(clicked()), board, SLOT(pause()));
      connect(pauseButton, SIGNAL(clicked()), boardTwo, SLOT(pause()));
+     connect(musicButton, SIGNAL(clicked()), this, SLOT(musicStart()));
      connect(configureButton, SIGNAL(clicked()), this, SLOT(keyConfig()));
      /*updates stats*/
      connect(board, SIGNAL(pieceChanged(int)), ui_pieceCountLabel, SLOT(setNum(int)));
@@ -198,6 +200,11 @@ using namespace std;
      //delete verizon;
      delete boardTwo;
      delete board;
+	if(musicIsPlaying)
+	{
+		int a;
+		a = system("killall timidity >> /dev/null");
+	}
 
  }
 
@@ -314,12 +321,15 @@ void TetrisWindow::createControl()
     quitButton->setFocusPolicy(Qt::NoFocus);
     pauseButton = new QPushButton(tr("&Pause"));
     pauseButton->setFocusPolicy(Qt::NoFocus);
+	musicButton = new QPushButton(tr("&Music"));
+	musicButton->setFocusPolicy(Qt::NoFocus);
     configureButton = new QPushButton(tr("&Key Configure"));
     configureButton->setFocusPolicy(Qt::NoFocus);
     controlLayout -> addWidget(ui_localGroup, 0 , 0, 4, 1);
     controlLayout -> addWidget(ui_networkGroup, 0, 1, 4, 1);
     controlLayout -> addWidget(configureButton, 0, 2);
     controlLayout -> addWidget(pauseButton, 1, 2);
+//    controlLayout -> addWidget(musicButton, 2, 2);
     controlLayout -> addWidget(quitButton, 3, 2);
     ui_controlGroup = new QGroupBox(tr("Menu"));
     ui_controlGroup -> setLayout(controlLayout);
@@ -505,3 +515,20 @@ void TetrisWindow::netStart(QString mode)
     boardTwo->start();
 }
 
+void TetrisWindow::musicStart()
+{
+	int a;
+	
+	if(musicIsPlaying)
+	{
+
+		a = system("killall timidity >> /dev/null");
+		musicIsPlaying = false;
+	}
+	else
+	{
+		a =system("timidity music/tetrisb.mid --loop >> /dev/null &");
+		musicIsPlaying = true;
+	}
+
+}

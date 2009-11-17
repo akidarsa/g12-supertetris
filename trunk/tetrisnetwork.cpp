@@ -276,7 +276,6 @@ void TetrisNetwork::sendGame1()
 {
 //	while(srvMsg.compare("GAMETYPE?") == 1)
 //	{
-		cout << "test 2 passed" << endl;
 		socket -> write("GAMETYPE=tetris\n");
 		tetrisAnswer -> append("Human Vs Network Selected\n");
 		tetrisAnswer -> append("Sending GameType");
@@ -293,7 +292,6 @@ void TetrisNetwork::sendGame1()
 
 void TetrisNetwork::sendGame2()
 {
-    cout << "test 2 passed" << endl;
     socket -> write("GAMETYPE=tetris\n");
     tetrisAnswer -> append("Computer Vs Network Selected\n");
     tetrisAnswer -> append("Sending GameType");
@@ -309,7 +307,6 @@ void TetrisNetwork::sendGame2()
 
 void TetrisNetwork::sendGame3()
 {
-    cout << "test 2 passed" << endl;
     socket -> write("GAMETYPE=tetris-qualifier\n");
     tetrisAnswer -> append("Qualifier Mode Selected\n");
     tetrisAnswer -> append("Sending GameType");
@@ -325,7 +322,6 @@ void TetrisNetwork::sendGame3()
 
 void TetrisNetwork::sendStart()
 {
-    cout << "test 3 passed" << endl;
     socket -> write("READY\n");
     tetrisAnswer -> append("The game has started.\n Good Luck!");
     getMessage();
