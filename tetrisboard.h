@@ -116,7 +116,9 @@
 	   //showMeTheNetPiece();
 	 if(!justStarted){
 	   dropDown();
+           nextPiece.setShape(netPiece);
  	   newPiece();
+           timer.start(timeoutTime(), this);
 	   netPieceQueue.pop();
          }else{
            //newPiece();
