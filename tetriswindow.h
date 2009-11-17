@@ -113,6 +113,7 @@ using namespace std;
      QPushButton *quitButton;
      QPushButton *pauseButton;
      QPushButton *configureButton;
+     QPushButton *musicButton;
     int p1LftKey;
     int p1RgtKey;
     int p1RotKey;
@@ -132,6 +133,7 @@ using namespace std;
     int tempDwnVar[2];
     int tempDrpVar[2];
     bool keyStarted;
+	bool musicIsPlaying;
 
 private slots:
 	void keyConfig();
@@ -179,6 +181,7 @@ private slots:
             }
         };
         void netStart(QString mode);
+		void musicStart();
  };
 
  #endif

@@ -88,6 +88,14 @@ class ControlLineEdit;
 
  void TetrisBoard::start()
  {
+	 // This is where the music should be implemented, however 
+	 // QSound doesn't seem to work and I am not sure why other
+	 // libraries too doesn't go well with my system.
+	 // Due to my inability to test this, I was not able to put this
+	 // at any other place.
+	 //QSound bgMusic("music/tetrisb.mid");
+	 //bgMusic.play();
+
      if (isPaused) {
          return;
      }
