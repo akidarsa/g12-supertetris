@@ -70,6 +70,7 @@ using namespace std;
          void piece2FromNet(string piece);
          void lineFromNet(string line);
          void line2FromNet(string line);
+         void netGameOver(bool winOrLose);
 
  private:
 	TetrisNetwork * verizon;
