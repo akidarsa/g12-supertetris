@@ -31,7 +31,7 @@ TetrixKey::TetrixKey(QWidget * parent) : QDialog(parent) {
     layout->addWidget(hardDownButton2, 4, 2);
     this->setLayout(layout);
 
-/*    leftVar1 = 0;
+    leftVar1 = 0;
     rightVar1 = 0;
     rotVar1 = 0;
     downVar1 = 0;
@@ -41,7 +41,7 @@ TetrixKey::TetrixKey(QWidget * parent) : QDialog(parent) {
     rightVar2 = 0;
     rotVar2 = 0;
     downVar2 = 0;
-    mdownVar2 = 0;*/
+    mdownVar2 = 0;
 
     connect(leftButton1, SIGNAL(clicked()), this, SLOT(makepopup()));
     connect(rightButton1, SIGNAL(clicked()), this, SLOT(makepopup()));
