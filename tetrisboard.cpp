@@ -96,9 +96,9 @@ class ControlLineEdit;
 	 //QSound bgMusic("music/tetrisb.mid");
 	 //bgMusic.play();
 
-     if (isPaused) {
+     /*if (isPaused) {
          return;
-     }
+     }*/
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
@@ -154,9 +154,9 @@ class ControlLineEdit;
 
  void TetrisBoard::startDemo()
  {
-     if (isPaused) {
+     /*if (isPaused) {
          return;
-     }
+     }*/
      linesHaveBeenAdded = true;
      singlePlay = false;
      isStarted = true;
@@ -214,9 +214,9 @@ class ControlLineEdit;
 
   void TetrisBoard::goFast()
  {
-     if (isPaused) {
+     /*if (isPaused) {
          return;
-     }
+     }*/
      while(!netPieceQueue.empty()){
 	netPieceQueue.pop();
      }
@@ -375,7 +375,7 @@ bool TetrisBoard::moveLeft()
 	{
 		emit toNetCommand("LEFT");
 	}
-	if(!isGameOver)
+	else if(!isGameOver)
 	{
 		if(tryMove(curPiece, curX - 1, curY)){
 			return true;
@@ -383,6 +383,10 @@ bool TetrisBoard::moveLeft()
 		else{
 			return false;
 		}
+	}
+	else
+	{
+		return false;
 	}
 	return false;
 }
@@ -393,7 +397,7 @@ bool TetrisBoard::moveRight()
 	{
 		emit toNetCommand("RIGHT");
 	}
-	if(!isGameOver)
+	else if(!isGameOver)
 	{
 		if(tryMove(curPiece, curX + 1, curY)){
 			return true;
@@ -401,6 +405,10 @@ bool TetrisBoard::moveRight()
 		else{
 			return false;
 		}
+	}
+	else
+	{
+		return false;
 	}
 	return false;
 }
@@ -411,7 +419,7 @@ bool TetrisBoard::rotateRight()
 	{
 		emit toNetCommand("ROTATE");
 	}
-	if(!isGameOver)
+	else if(!isGameOver)
 	{
 		if(tryMove(curPiece.rotatedRight(), curX, curY)){
 			return true;
@@ -419,6 +427,10 @@ bool TetrisBoard::rotateRight()
 		else{
 			return false;
 		}
+	}
+	else
+	{
+		return false;
 	}
 	return false;
 }
@@ -518,43 +530,37 @@ void TetrisBoard::rotateLeft(int a)
                  PieceMovement result = demoChoice.ratePosition(curPiece);
                  switch (result.rotation % 4) {
                      case 1:
-                        curPiece = curPiece.rotatedRight();
-	if(isConnected)
-	{
-		emit toNetCommand("ROTATE");
-	}
-						
-                        curPiece = curPiece.rotatedRight();
-	if(isConnected)
-	{
-		emit toNetCommand("ROTATE");
-	}
+			if(isConnected){
+				emit toNetCommand("ROTATE");
+				emit toNetCommand("ROTATE");
+			}else{
+                        	curPiece = curPiece.rotatedRight();
+                        	curPiece = curPiece.rotatedRight();
+			}
                         break;
+
                      case 2:
-                        curPiece = curPiece.rotatedRight();
-	if(isConnected)
-	{
-		emit toNetCommand("ROTATE");
-	}
-                        curPiece = curPiece.rotatedRight();
-	if(isConnected)
-	{
-		emit toNetCommand("ROTATE");
-	}
-                        curPiece = curPiece.rotatedRight();
-	if(isConnected)
-	{
-		emit toNetCommand("ROTATE");
-	}
+			if(isConnected){
+				emit toNetCommand("ROTATE");
+				emit toNetCommand("ROTATE");
+				emit toNetCommand("ROTATE");
+			}else{
+	                        curPiece = curPiece.rotatedRight();
+	                        curPiece = curPiece.rotatedRight();
+	                        curPiece = curPiece.rotatedRight();
+			}
                         break;
+
                      case 3:
                         break;
+
                      default:
-                        curPiece = curPiece.rotatedRight();
-	if(isConnected)
-	{
-		emit toNetCommand("ROTATE");
-	}
+			if(isConnected)
+			{
+				emit toNetCommand("ROTATE");
+			}else{
+                	        curPiece = curPiece.rotatedRight();
+			}
                  }
                  curY = BoardHeight - 1 + curPiece.minY();
 /*		if(tryMove(curPiece, result.x, curY)){
@@ -562,8 +568,13 @@ void TetrisBoard::rotateLeft(int a)
 		}*/
 		int trys = 0;
                 while(result.x != curX) {
-			if(result.x < curX){ if(!moveLeft()){ if(trys++==15){break;} }}
-			else { if(!moveRight()){ if(trys++==15){break; } }}
+			cout<<"result:  "<<result.x<<" current: "<<curX<<endl;
+			if(result.x < curX){ if(!
+				moveLeft()//;}
+			){ if(trys++==15){break;} }}
+			else { if(!
+				moveRight()//;}
+			){ if(trys++==15){break; } }}
 		}
              }
              else {
@@ -844,7 +855,7 @@ void TetrisBoard::showMeTheNetPiece(){
          nextPiece.setRandomShape();
      }
      showNextPiece();
-     curX = BoardWidth / 2 + 1;
+     curX = (BoardWidth - (curPiece.maxX() - curPiece.minX()))/2;
      curY = BoardHeight - 1 + curPiece.minY();
 
      if (!tryMove(curPiece, curX, curY)) {
