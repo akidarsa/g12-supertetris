@@ -1,4 +1,4 @@
- /****************************************************************************
+/****************************************************************************
  **
  ** Copyright (C) 2009 Nokia Corporation and/or its subsidiary(-ies).
  ** All rights reserved.
@@ -39,82 +39,81 @@
  **
  ****************************************************************************/
 
- #ifndef TETRISWINDOW_H
- #define TETRISWINDOW_H
+#ifndef TETRISWINDOW_H
+#define TETRISWINDOW_H
 
- #include <QtGui>
- //#include <QFrame>
- //#include <QWidget>
+#include <QtGui>
+//#include <QFrame>
+//#include <QWidget>
 #include "tetrisnetwork.h"
 #include <string>
 using namespace std;
 
- class QLCDNumber;
- class QLabel;
- class QPushButton;
- class QGroupBox;
+class QLCDNumber;
+class QLabel;
+class QPushButton;
+class QGroupBox;
 
- class TetrisBoard;
+class TetrisBoard;
 
- class TetrisWindow : public QWidget
- {
-     Q_OBJECT
+class TetrisWindow : public QWidget {
+    Q_OBJECT
 
- public:
-     TetrisWindow();
-     virtual ~TetrisWindow();
+public:
+    TetrisWindow();
+    virtual ~TetrisWindow();
 
- signals:
-	 void keyGrabber(QKeyEvent *event);
-         void pieceFromNet(string piece);
-         void piece2FromNet(string piece);
-         void lineFromNet(string line);
-         void line2FromNet(string line);
-         void netGameOver(bool winOrLose);
+signals:
+    void keyGrabber(QKeyEvent *event);
+    void pieceFromNet(string piece);
+    void piece2FromNet(string piece);
+    void lineFromNet(string line);
+    void line2FromNet(string line);
+    void netGameOver(bool winOrLose);
 
- private:
-	TetrisNetwork * verizon;
-     QLabel *createLabel(const QString &text);
-     void createStatus();
-     void createStatus2();
-     void createControl();
-     TetrisBoard *board;
-     TetrisBoard *boardTwo;
-     QLabel *nextPieceLabel;
-     QLabel *nextPieceLabel2;
-     QGroupBox * ui_statusGroup;
-     QGroupBox * ui_statusGroup2;
-     QGroupBox * ui_controlGroup;
-     QGroupBox * ui_networkGroup;
-     QGroupBox * ui_localGroup;
-     QLabel * ui_pieceCountLabel;
-     QLabel * ui_piece4Label;
-     QLabel * ui_piece5Label;
-     QLabel * ui_piece6Label;
-     QLabel * ui_piece7Label;
-     QLabel * ui_blockCountLabel;
-     QLabel * ui_pieceCountLabel2;
-     QLabel * ui_piece4Label2;
-     QLabel * ui_piece5Label2;
-     QLabel * ui_piece6Label2;
-     QLabel * ui_piece7Label2;
-     QLabel * ui_blockCountLabel2;
-     QLabel * ui_linesRemoved2;
-     QLabel * ui_netStatus;
-     //QLCDNumber *scoreLcd;
-     //QLCDNumber *levelLcd;
-     QLCDNumber *linesLcd;
-     QLCDNumber *linesLcd2;
-     QPushButton *startButton;
-     QPushButton *startCButton;
-     QPushButton *startHHButton;
-     QPushButton *startHCButton;
-     QPushButton *startNetButton;
-     QPushButton *endNetButton;
-     QPushButton *quitButton;
-     QPushButton *pauseButton;
-     QPushButton *configureButton;
-     QPushButton *musicButton;
+private:
+    TetrisNetwork * verizon;
+    QLabel *createLabel(const QString &text);
+    void createStatus();
+    void createStatus2();
+    void createControl();
+    TetrisBoard *board;
+    TetrisBoard *boardTwo;
+    QLabel *nextPieceLabel;
+    QLabel *nextPieceLabel2;
+    QGroupBox * ui_statusGroup;
+    QGroupBox * ui_statusGroup2;
+    QGroupBox * ui_controlGroup;
+    QGroupBox * ui_networkGroup;
+    QGroupBox * ui_localGroup;
+    QLabel * ui_pieceCountLabel;
+    QLabel * ui_piece4Label;
+    QLabel * ui_piece5Label;
+    QLabel * ui_piece6Label;
+    QLabel * ui_piece7Label;
+    QLabel * ui_blockCountLabel;
+    QLabel * ui_pieceCountLabel2;
+    QLabel * ui_piece4Label2;
+    QLabel * ui_piece5Label2;
+    QLabel * ui_piece6Label2;
+    QLabel * ui_piece7Label2;
+    QLabel * ui_blockCountLabel2;
+    QLabel * ui_linesRemoved2;
+    QLabel * ui_netStatus;
+    //QLCDNumber *scoreLcd;
+    //QLCDNumber *levelLcd;
+    QLCDNumber *linesLcd;
+    QLCDNumber *linesLcd2;
+    QPushButton *startButton;
+    QPushButton *startCButton;
+    QPushButton *startHHButton;
+    QPushButton *startHCButton;
+    QPushButton *startNetButton;
+    QPushButton *endNetButton;
+    QPushButton *quitButton;
+    QPushButton *pauseButton;
+    QPushButton *configureButton;
+    QPushButton *musicButton;
     int p1LftKey;
     int p1RgtKey;
     int p1RotKey;
@@ -134,37 +133,37 @@ using namespace std;
     int tempDwnVar[2];
     int tempDrpVar[2];
     bool keyStarted;
-	bool musicIsPlaying;
+    bool musicIsPlaying;
 
 private slots:
-	void keyConfig();
-	void keyGrabStart(bool started)
-	{
-	    keyStarted = started;
-	};
+    void keyConfig();
 
-	void p1Left();
-	void p1Right();
-	void p1Rotate(); 
-	void p1Fall();
-	void p1Win();
-	void p1Lose();
-	void p1Gameover(); 
-	void p1Piece(string piece);
-	void p1Attack(string line);
-	void p2Left();
-	void p2Right();
-	void p2Rotate();
-	void p2Fall(); 
-	void p2Win();
-	void p2Lose();
-	void p2Gameover();
-	void p2Piece(string piece);
-	void p2Attack(string line);
-	void setConnect(QString status);
-	void netStart(QString mode);
-	void musicStart();
- };
+    void keyGrabStart(bool started) {
+        keyStarted = started;
+    };
 
- #endif
+    void p1Left();
+    void p1Right();
+    void p1Rotate();
+    void p1Fall();
+    void p1Win();
+    void p1Lose();
+    void p1Gameover();
+    void p1Piece(string piece);
+    void p1Attack(string line);
+    void p2Left();
+    void p2Right();
+    void p2Rotate();
+    void p2Fall();
+    void p2Win();
+    void p2Lose();
+    void p2Gameover();
+    void p2Piece(string piece);
+    void p2Attack(string line);
+    void setConnect(QString status);
+    void netStart(QString mode);
+    void musicStart();
+};
+
+#endif
 

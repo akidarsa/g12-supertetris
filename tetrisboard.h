@@ -1,4 +1,4 @@
- /****************************************************************************
+/****************************************************************************
  **
  ** Copyright (C) 2009 Nokia Corporation and/or its subsidiary(-ies).
  ** All rights reserved.
@@ -39,142 +39,161 @@
  **
  ****************************************************************************/
 
- #ifndef TETRISBOARD_H
- #define TETRISBOARD_H
+#ifndef TETRISBOARD_H
+#define TETRISBOARD_H
 
- #include <QBasicTimer>
- #include <QFrame>
- #include <QPointer>
- #include <math.h>
- #include <queue>
- #include <list>
- #include <string>
- #include "tetrispiece.h"
- #include "PieceMovement.h"
- #include "tetrisdemo.h"
- using namespace std;
+#include <QBasicTimer>
+#include <QFrame>
+#include <QPointer>
+#include <math.h>
+#include <queue>
+#include <list>
+#include <string>
+#include "tetrispiece.h"
+#include "PieceMovement.h"
+#include "tetrisdemo.h"
+using namespace std;
 
- class QLabel;
+class QLabel;
 
- class TetrisBoard : public QFrame
- {
-     Q_OBJECT
+class TetrisBoard : public QFrame {
+    Q_OBJECT
 
- public:
-     TetrisBoard(QWidget *parent = 0);
+public:
+    TetrisBoard(QWidget *parent = 0);
 
-     void setNextPieceLabel(QLabel *label);
-     void showMeTheNetPiece();
-     QSize sizeHint() const;
-     QSize minimumSizeHint() const;
-     void serverMove(char a);
-     void dropDown();
-     void dropDown(int b);
-     void oneLineDown();
-     void oneLineDown(int a);
-     bool isInDemo;
-     bool moveLeft();
-     bool moveRight();
-     bool rotateRight();
-     bool rotateLeft();
+    void setNextPieceLabel(QLabel *label);
+    void showMeTheNetPiece();
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
+    void serverMove(char a);
+    void dropDown();
+    void dropDown(int b);
+    void oneLineDown();
+    void oneLineDown(int a);
+    bool isInDemo;
+    bool moveLeft();
+    bool moveRight();
+    bool rotateRight();
+    bool rotateLeft();
 
- public slots:
-     void start();
-     void pause();
-     void startDemo();
-     //void configure();
-     //void saveKeys();
-     void bufferLines(TetrisShape *line);
-     void bufferLines(string line);
-     void gameOver(bool winOrLose);
-     void reset();
-     void setConnect(QString status);
-     void getNetPiece(string piece); 
-     void goFast();
-     void enableAttack() {canAttack = true;}
-     void disableAttack() {canAttack = false;}
+public slots:
+    void start();
+    void pause();
+    void startDemo();
+    //void configure();
+    //void saveKeys();
+    void bufferLines(TetrisShape *line);
+    void bufferLines(string line);
+    void gameOver(bool winOrLose);
+    void reset();
+    void setConnect(QString status);
+    void getNetPiece(string piece);
+    void goFast();
 
- signals:
-     void scoreChanged(int score);
-     void levelChanged(int level);
-     void linesRemovedChanged(int numLines);
-     void pieceChanged(int numPiecesDropped);
-     void piece4Changed(int num4Pieces);
-     void piece5Changed(int num5Pieces);
-     void piece6Changed(int num6Pieces);
-     void piece7Changed(int num7Pieces);
-     void blocksChanged(int numBlocks);
-     void addLineToBuffer(TetrisShape *line);
-     void iLost(bool winOrLose);
-     void gameIsStart(bool started);
-     void toNetCommand(QString command);
+    void enableAttack() {
+        canAttack = true;
+    }
+
+    void disableAttack() {
+        canAttack = false;
+    }
+
+signals:
+    void scoreChanged(int score);
+    void levelChanged(int level);
+    void linesRemovedChanged(int numLines);
+    void pieceChanged(int numPiecesDropped);
+    void piece4Changed(int num4Pieces);
+    void piece5Changed(int num5Pieces);
+    void piece6Changed(int num6Pieces);
+    void piece7Changed(int num7Pieces);
+    void blocksChanged(int numBlocks);
+    void addLineToBuffer(TetrisShape *line);
+    void iLost(bool winOrLose);
+    void gameIsStart(bool started);
+    void toNetCommand(QString command);
 
 protected:
-     void paintEvent(QPaintEvent *event);
-     //void keyPressEvent(QKeyEvent *event);
-     void timerEvent(QTimerEvent *event);
+    void paintEvent(QPaintEvent *event);
+    //void keyPressEvent(QKeyEvent *event);
+    void timerEvent(QTimerEvent *event);
 
- private:
-     enum { BoardWidth = 20, BoardHeight = 30 };
+private:
 
-     TetrisShape &shapeAt(int x, int y) { return board[(y * BoardWidth) + x]; }
-     int timeoutTime() { return 1000 / (1 + level); }
-     int squareWidth() { return contentsRect().width() / BoardWidth; }
-     int squareHeight() { return contentsRect().height() / BoardHeight; }
-     void clearBoard();
-     void pieceDropped(int dropHeight);
-     void removeFullLines();
-     void newPiece();
-     void showNextPiece();
-     bool tryMove(const TetrisPiece &newPiece, int newX, int newY);
-     void drawSquare(QPainter &painter, int x, int y, TetrisShape shape);
-     void drawSquare(QPainter &painter, int x, int y, TetrisPiece shape);
-     void clearBuffer();
-     void addLines();
+    enum {
+        BoardWidth = 20, BoardHeight = 30
+    };
 
-     bool isStarted;
-     bool isGameOver;
-     bool isWin; //must be placed after isGameOver is true
-     bool isPaused;
-     bool isTested;
-     bool isWaitingAfterLine;
-     bool isConnected;
-     bool justStarted;
-     bool messyQueue;
-     bool singlePlay;
-     bool attackMode;
-     bool canAttack; 
-     bool linesHaveBeenAdded; //checks if lines have been added to other board
-     QBasicTimer timer;
-     QPointer<QLabel> nextPieceLabel;
-     TetrisPiece curPiece;
-     TetrisPiece nextPiece;
-     TetrisShape board[BoardWidth * BoardHeight];
-     TetrisShape lineBuffer[BoardHeight][BoardWidth];
-     int linesinBuffer;
-     int curX;
-     int curY;
-     int numLinesRemoved;
-     int numPiecesDropped;
-     int score;
-     int level;
-     int num4Pieces; //counts number of 4 block pieces
-     int num5Pieces; //counts number of 5 block pieces
-     int num6Pieces; //counts number of 6 block pieces
-     int num7Pieces; //counts number of 7 block pieces
-     int numBlocks; //counts number of blocks in pieces
-     int Up;
-     int Down;
-     int Left;
-     int Right;
-     int dropLineV;
-     int dropOneLineV;
-     int serverCounter;
-     FILE* fp;
-     string netPiece;
-     vector<string> vecty;
-     queue<string> netPieceQueue;    
- };
+    TetrisShape &shapeAt(int x, int y) {
+        return board[(y * BoardWidth) + x];
+    }
 
- #endif
+    int timeoutTime() {
+        return 1000 / (1 + level);
+    }
+
+    int squareWidth() {
+        return contentsRect().width() / BoardWidth;
+    }
+
+    int squareHeight() {
+        return contentsRect().height() / BoardHeight;
+    }
+    void clearBoard();
+    void pieceDropped(int dropHeight);
+    void removeFullLines();
+    void newPiece();
+    void showNextPiece();
+    bool tryMove(const TetrisPiece &newPiece, int newX, int newY);
+    void drawSquare(QPainter &painter, int x, int y, TetrisShape shape);
+    void drawSquare(QPainter &painter, int x, int y, TetrisPiece shape);
+    void clearBuffer();
+    void addLines();
+
+    bool isStarted;
+    bool isGameOver;
+    bool isWin; //must be placed after isGameOver is true
+    bool isPaused;
+    bool isTested;
+    bool isWaitingAfterLine;
+    bool isConnected;
+    bool justStarted;
+    bool messyQueue;
+    bool singlePlay;
+    bool attackMode;
+    bool canAttack;
+    bool linesHaveBeenAdded; //checks if lines have been added to other board
+    QBasicTimer timer;
+    QPointer<QLabel> nextPieceLabel;
+    TetrisPiece curPiece;
+    TetrisPiece nextPiece;
+    TetrisShape board[BoardWidth * BoardHeight];
+    TetrisShape lineBuffer[BoardHeight][BoardWidth];
+    int linesinBuffer;
+    int curX;
+    int curY;
+    int numLinesRemoved;
+    int numPiecesDropped;
+    int score;
+    int level;
+    int num4Pieces; //counts number of 4 block pieces
+    int num5Pieces; //counts number of 5 block pieces
+    int num6Pieces; //counts number of 6 block pieces
+    int num7Pieces; //counts number of 7 block pieces
+    int numBlocks; //counts number of blocks in pieces
+    int Up;
+    int Down;
+    int Left;
+    int Right;
+    int dropLineV;
+    int dropOneLineV;
+    int serverCounter;
+    FILE* fp;
+    string netPiece;
+    vector<string> vecty;
+    queue<string> netPieceQueue;
+};
+
+#endif
 
