@@ -38,46 +38,67 @@
  ** $QT_END_LICENSE$
  **
  ****************************************************************************/
-  #ifndef TETRISPIECE_H
- #define TETRISPIECE_H
+#ifndef TETRISPIECE_H
+#define TETRISPIECE_H
 #include <stdio.h>
 #include <string>
 using namespace std;
 
- enum TetrisShape { NoShape, Piece4, Piece5, Piece6, Piece7, Dead, Mark};
+enum TetrisShape {
+    NoShape, Piece4, Piece5, Piece6, Piece7, Dead, Mark
+};
 
- class TetrisPiece
- {
- public:
-     TetrisPiece() { setShape(NoShape);}
-     virtual ~TetrisPiece();
-     void setRandomShape();
-     void setShape(string piece);
-     void setShape(TetrisShape shape);
-     void setCoords(const char* piecerep);
-     void randomPieceRep();
-     void setFilePointer(FILE* fpr);
+class TetrisPiece {
+public:
 
-     TetrisShape shape() const { return pieceShape; }
-     int x(int index) const { return coords[index][0]; }
-     int y(int index) const { return coords[index][1]; }
-     int size() const;
-     int minX() const;
-     int maxX() const;
-     int minY() const;
-     int maxY() const;
-     int blocks;
-     TetrisPiece rotatedLeft();
-     TetrisPiece rotatedRight();
-     FILE* getFilePointer() {return fp;}
+    TetrisPiece() {
+        setShape(NoShape);
+    }
+    virtual ~TetrisPiece();
+    void setRandomShape();
+    void setShape(string piece);
+    void setShape(TetrisShape shape);
+    void setCoords(const char* piecerep);
+    void randomPieceRep();
+    void setFilePointer(FILE* fpr);
 
- private:
-     void setX(int index, int x) { coords[index][0] = x; }
-     void setY(int index, int y) { coords[index][1] = y; }
-     void shiftToTopLeft(int s);
+    TetrisShape shape() const {
+        return pieceShape;
+    }
 
-     TetrisShape pieceShape;
-     int coords[7][2];
-     FILE* fp;
- };
- #endif
+    int x(int index) const {
+        return coords[index][0];
+    }
+
+    int y(int index) const {
+        return coords[index][1];
+    }
+    int size() const;
+    int minX() const;
+    int maxX() const;
+    int minY() const;
+    int maxY() const;
+    int blocks;
+    TetrisPiece rotatedLeft();
+    TetrisPiece rotatedRight();
+
+    FILE* getFilePointer() {
+        return fp;
+    }
+
+private:
+
+    void setX(int index, int x) {
+        coords[index][0] = x;
+    }
+
+    void setY(int index, int y) {
+        coords[index][1] = y;
+    }
+    void shiftToTopLeft(int s);
+
+    TetrisShape pieceShape;
+    int coords[7][2];
+    FILE* fp;
+};
+#endif

@@ -4,7 +4,7 @@
 TetrixKey::TetrixKey(QWidget * parent) : QDialog(parent) {
     this -> resize(200, 300);
     QGridLayout *layout = new QGridLayout;
-    
+
 
     //P1 Buttons
     leftButton1 = new QPushButton(tr("Set P1 Left"));
@@ -109,7 +109,7 @@ int TetrixKey::getKey(int action) {
             return downVar2;
         case DRP2:
             return mdownVar2;
-	}
+    }
 
     return 0;
 }

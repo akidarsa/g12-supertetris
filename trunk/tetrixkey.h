@@ -13,9 +13,12 @@ class TetrixKey : public QDialog {
 public:
     TetrixKey(QWidget *parent = 0);
     int getKey(int action);
-    enum { LFT1, LFT2, RGT1, RGT2, ROT1, ROT2, DWN1, DWN2, DRP1, DRP2 };
-    virtual ~TetrixKey()
-    {
+
+    enum {
+        LFT1, LFT2, RGT1, RGT2, ROT1, ROT2, DWN1, DWN2, DRP1, DRP2
+    };
+
+    virtual ~TetrixKey() {
         delete hardDownButton2;
         delete softDownButton2;
         delete rotateButton2;

@@ -8,7 +8,11 @@ class PieceMovement {
 public:
     int x;
     int rotation;
-    PieceMovement(){x=0;rotation=0;};
+
+    PieceMovement() {
+        x = 0;
+        rotation = 0;
+    };
 };
 
 #endif	/* _PIECEMOVEMENT_H */
