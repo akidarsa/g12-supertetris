@@ -110,8 +110,8 @@ using namespace std;
      /* Network Receive Signals */
      connect(this, SIGNAL(pieceFromNet(string)), board, SLOT(getNetPiece(string)));
      connect(this, SIGNAL(piece2FromNet(string)), boardTwo, SLOT(getNetPiece(string)));
-     connect(this, SIGNAL(lineFromNet(string)), board, SLOT(getNetPiece(string)));
-     connect(this, SIGNAL(line2FromNet(string)), boardTwo, SLOT(getNetPiece(string)));
+     connect(this, SIGNAL(lineFromNet(string)), board, SLOT(bufferLines(string)));
+     connect(this, SIGNAL(line2FromNet(string)), boardTwo, SLOT(bufferLines(string)));
      connect(verizon, SIGNAL(serverLeft1()), this, SLOT(p1Left()));
      connect(verizon, SIGNAL(serverRight1()), this, SLOT(p1Right()));
      connect(verizon, SIGNAL(serverRotate1()), this, SLOT(p1Rotate()));
@@ -327,7 +327,7 @@ void TetrisWindow::createControl()
     controlLayout -> addWidget(ui_networkGroup, 0, 1, 4, 1);
     controlLayout -> addWidget(configureButton, 0, 2);
     controlLayout -> addWidget(pauseButton, 1, 2);
-    controlLayout -> addWidget(musicButton, 2, 2); // COmment this out later!
+    controlLayout -> addWidget(musicButton, 2, 2); // Comment this out later!
     controlLayout -> addWidget(quitButton, 3, 2);
     ui_controlGroup = new QGroupBox(tr("Menu"));
     ui_controlGroup -> setLayout(controlLayout);
