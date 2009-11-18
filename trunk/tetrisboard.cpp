@@ -231,8 +231,8 @@ class ControlLineEdit;
      emit gameIsStart(true);
      if(!isConnected){
        newPiece();
-       timer.start(timeoutTime(), this);
      }
+       timer.start(timeoutTime(), this);
  }
 
   void TetrisBoard::goFast()
@@ -523,14 +523,16 @@ bool TetrisBoard::rotateLeft()
 /*		if(tryMove(curPiece, result.x, curY)){
 		} else{
 		}*/
-		int trys = 0;
-                while(result.x != curX) {
-			if(result.x < curX){ if(!
-				moveLeft()//;}
-			){ if(trys++==15){break;} }}
-			else { if(!
-				moveRight()//;}
-			){ if(trys++==15){break; } }}
+		int trys = curX;
+                while(result.x != trys) {
+			if(result.x < trys){ 
+				moveLeft();
+				trys--;
+			}
+			else { 
+				moveRight();//;}
+				trys++;
+			}
 		}
              }
              else {
@@ -812,7 +814,7 @@ cout<<"NetPiece for you->"<<netPiece<<endl;
      }
      showNextPiece();
      curX = floor((BoardWidth - (curPiece.maxX() - curPiece.minX())+1)/2);
-     curX+=2;
+     curX+=1;
      curY = BoardHeight - 1 + curPiece.minY();
   //   cout << BoardHeight<<" - 1 "<<"+"<<curPiece.minY()<<" = ";
 /*	cout<<curY<<endl;*/
