@@ -354,7 +354,7 @@ class ControlLineEdit;
           painter.drawText(rect, Qt::AlignCenter, tr("Single Player Mode"));
       }
      //Display Game Over
-      if (isGameOver&&!singlePlay) {
+      if (isGameOver && !singlePlay) {
           if(isWin) {
               painter.drawText(rect, Qt::AlignCenter, tr("You Won! \\(^_^)/"));
               return;
@@ -397,7 +397,7 @@ bool TetrisBoard::moveLeft()
 	{
 		emit toNetCommand("LEFT");
 	}
-	else if(!isGameOver)
+	else if(!isGameOver && !isInDemo)
 	{
 		if(tryMove(curPiece, curX - 1, curY)){
 			return true;
@@ -419,7 +419,7 @@ bool TetrisBoard::moveRight()
 	{
 		emit toNetCommand("RIGHT");
 	}
-	else if(!isGameOver)
+	else if(!isGameOver && !isInDemo)
 	{
 		if(tryMove(curPiece, curX + 1, curY)){
 			return true;
@@ -441,7 +441,7 @@ bool TetrisBoard::rotateRight()
 	{
 		emit toNetCommand("ROTATE");
 	}
-	else if(!isGameOver)
+	else if(!isGameOver && !isInDemo)
 	{
 		if(tryMove(curPiece.rotatedRight(), curX, curY)){
 			return true;
@@ -459,7 +459,7 @@ bool TetrisBoard::rotateRight()
 
 bool TetrisBoard::rotateLeft()
 {
-	if(!isGameOver)
+	if(!isGameOver && !isInDemo)
 	{
 		if(tryMove(curPiece.rotatedLeft(), curX, curY)){
 			return true;
@@ -554,7 +554,7 @@ bool TetrisBoard::rotateLeft()
 
  void TetrisBoard::dropDown()
  {
-	 if(!isGameOver) // and !isInDemo) //Add this on the final submit
+	 if(!isGameOver and !isInDemo) //Add this on the final submit
 	 {
      int dropHeight = 0;
      int newY = curY;
