@@ -65,7 +65,7 @@ class ControlLineEdit;
      singlePlay = false;
      attackMode = false;
      linesHaveBeenAdded = false;
-     canAttack = false;
+     canAttack = true;
      Up = (int) Qt::Key_Up;
      Down = (int) Qt::Key_Down;
      Left = (int) Qt::Key_Left;
