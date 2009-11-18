@@ -73,10 +73,10 @@
      void oneLineDown();
      void oneLineDown(int a);
      bool isInDemo;
-	 bool moveLeft();
-	 bool moveRight();
-	 bool rotateRight();
-	 bool rotateLeft();
+     bool moveLeft();
+     bool moveRight();
+     bool rotateRight();
+     bool rotateLeft();
 
  public slots:
      void start();
@@ -131,8 +131,7 @@ protected:
      void drawSquare(QPainter &painter, int x, int y, TetrisPiece shape);
      void clearBuffer();
      void addLines();
-     QBasicTimer timer;
-     QPointer<QLabel> nextPieceLabel;
+
      bool isStarted;
      bool isGameOver;
      bool isWin; //must be placed after isGameOver is true
@@ -142,8 +141,17 @@ protected:
      bool isConnected;
      bool justStarted;
      bool messyQueue;
+     bool singlePlay;
+     bool attackMode;
+     bool canAttack; 
+     bool linesHaveBeenAdded; //checks if lines have been added to other board
+     QBasicTimer timer;
+     QPointer<QLabel> nextPieceLabel;
      TetrisPiece curPiece;
      TetrisPiece nextPiece;
+     TetrisShape board[BoardWidth * BoardHeight];
+     TetrisShape lineBuffer[BoardHeight][BoardWidth];
+     int linesinBuffer;
      int curX;
      int curY;
      int numLinesRemoved;
@@ -155,8 +163,6 @@ protected:
      int num6Pieces; //counts number of 6 block pieces
      int num7Pieces; //counts number of 7 block pieces
      int numBlocks; //counts number of blocks in pieces
-     TetrisShape board[BoardWidth * BoardHeight];
-     FILE* fp;
      int Up;
      int Down;
      int Left;
@@ -164,15 +170,10 @@ protected:
      int dropLineV;
      int dropOneLineV;
      int serverCounter;
-     bool singlePlay;
-     bool attackMode;
-     TetrisShape lineBuffer[BoardHeight][BoardWidth];
-     int linesinBuffer;
-     bool linesHaveBeenAdded; //checks if lines have been added to other board
+     FILE* fp;
      string netPiece;
      vector<string> vecty;
      queue<string> netPieceQueue;    
-     bool canAttack; 
  };
 
  #endif

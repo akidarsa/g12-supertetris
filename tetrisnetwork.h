@@ -41,14 +41,18 @@ class TetrisNetwork : public QDialog
                 void netGameMode(QString mode);
 	private:
 		void commandEmitter();
-		QLineEdit * serverName;
-		QLineEdit * portNumber;
-		bool isConnected;
-		QTcpSocket * socket;
-		QPushButton * closeButton;
                 void createModeGroupBox();
 		void createServerGroupBox();
 		void createAnswerGroupBox();  
+
+		bool isConnected;
+                bool humanMode;
+                bool computerMode;
+                bool qualifierMode;
+		QLineEdit * serverName;
+		QLineEdit * portNumber;
+		QTcpSocket * socket;
+		QPushButton * closeButton;
 		QGroupBox *serverGroupBox;
 		QGroupBox *answerGroupBox;
                 QGroupBox *modeGroupBox;
@@ -61,9 +65,6 @@ class TetrisNetwork : public QDialog
 		QPushButton * hvsnButton;
 		QPushButton * cvsnButton;
 		QPushButton * qualifierButton;
-                bool humanMode;
-                bool computerMode;
-                bool qualifierMode;
 		
 	private slots:
 		void connectionClosed();
