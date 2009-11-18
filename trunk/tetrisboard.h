@@ -72,7 +72,7 @@
      void dropDown(int b);
      void oneLineDown();
      void oneLineDown(int a);
-     bool isInDemo = false;
+     bool isInDemo;
 	 bool moveLeft();
 	 bool moveRight();
 	 bool rotateRight();
@@ -133,15 +133,15 @@ protected:
      void addLines();
      QBasicTimer timer;
      QPointer<QLabel> nextPieceLabel;
-     bool isStarted = false;
-     bool isGameOver = false;
-     bool isWin = false; //must be placed after isGameOver is true
-     bool isPaused = false;
-     bool isTested = false;
-     bool isWaitingAfterLine = false;
-     bool isConnected = false;
-     bool justStarted = false;
-     bool messyQueue = false;
+     bool isStarted;
+     bool isGameOver;
+     bool isWin; //must be placed after isGameOver is true
+     bool isPaused;
+     bool isTested;
+     bool isWaitingAfterLine;
+     bool isConnected;
+     bool justStarted;
+     bool messyQueue;
      TetrisPiece curPiece;
      TetrisPiece nextPiece;
      int curX;

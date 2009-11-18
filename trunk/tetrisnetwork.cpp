@@ -23,6 +23,9 @@ using namespace std;
 TetrisNetwork::TetrisNetwork()
 {
     isConnected = false;
+    humanMode = false;
+    computerMode = false;
+    qualifierMode = false;
     socket = NULL;
     createServerGroupBox();
     createAnswerGroupBox();

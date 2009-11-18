@@ -54,8 +54,18 @@ class ControlLineEdit;
      setFrameStyle(QFrame::Panel | QFrame::Sunken);
      isStarted = false;
      isGameOver = false;
+     isWin = false;
      isPaused = false;
+     isTested = false;
      isInDemo = false;
+     isWaitingAfterLine = false;
+     isConnected = false;
+     justStarted = false;
+     messyQueue = false;
+     singlePlay = false;
+     attackMode = false;
+     linesHaveBeenAdded = false;
+     canAttack = false;
      Up = (int) Qt::Key_Up;
      Down = (int) Qt::Key_Down;
      Left = (int) Qt::Key_Left;
@@ -63,9 +73,7 @@ class ControlLineEdit;
      dropLineV = (int) Qt::Key_Space;
      dropOneLineV = (int) Qt::Key_D;
      clearBoard();
-     singlePlay = false;
      fp = NULL;
-     singlePlay = false;
      serverCounter = 0;
  }
 
