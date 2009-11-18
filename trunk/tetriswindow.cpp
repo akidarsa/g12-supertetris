@@ -371,47 +371,47 @@ void TetrisWindow::p2Attack(string line){
 void TetrisWindow::keyPressEvent(QKeyEvent *event) 
 {
     QWidget::keyPressEvent(event);
-	if (keyStarted)
+	if (keyStarted&&!board->isInDemo)
 	{
 		if ((event->key()) == p1LftKey) 
 		{
-			board->moveLeft(1);
+			board->moveLeft();
 		} 
 		else if ((event->key()) == p1RgtKey) 
 		{
-			board->moveRight(1);
+			board->moveRight();
 		} 
 		else if ((event->key()) == p1RotKey) 
 		{
-			board->rotateRight(1);
+			board->rotateRight();
 		} 
 		else if ((event->key()) == p1DrpKey) 
 		{
-			board->dropDown(1);
+			board->dropDown();
 		} 
 		else if ((event->key()) == p1DwnKey) 
 		{
-			board->oneLineDown(1);
+			board->oneLineDown();
 		} 
 		else if ((event->key()) == p2LftKey) 
 		{
-			boardTwo->moveLeft(1);
+			boardTwo->moveLeft();
 		} 
 		else if ((event->key()) == p2RgtKey) 
 		{
-			boardTwo->moveRight(1);
+			boardTwo->moveRight();
 		} 
 		else if ((event->key()) == p2RotKey) 
 		{
-			boardTwo->rotateRight(1);
+			boardTwo->rotateRight();
 		} 
 		else if ((event->key()) == p2DrpKey) 
 		{
-			boardTwo->dropDown(1);
+			boardTwo->dropDown();
 		} 
 		else if ((event->key()) == p2DwnKey) 
 		{
-			boardTwo->oneLineDown(1);
+			boardTwo->oneLineDown();
 		}
 		else 
 		{

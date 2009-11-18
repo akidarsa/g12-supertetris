@@ -445,71 +445,6 @@ bool TetrisBoard::rotateLeft()
 	return false;
 }
 
-void TetrisBoard::moveLeft(int a)
-{
-	a = 1;
-	
-	if(isConnected)
-	{
-		emit toNetCommand("LEFT");
-	}
-	else if(!isGameOver and !isInDemo)
-	{
-		tryMove(curPiece, curX - 1, curY);
-	}
-	else
-	{
-		return;
-	}
-}
-
-void TetrisBoard::moveRight(int a)
-{
-	a = 1;
-	
-	if(isConnected)
-	{
-		emit toNetCommand("RIGHT");
-	}
-	else if(!isGameOver and !isInDemo)
-	{
-		tryMove(curPiece, curX + 1, curY);
-	}
-	else
-	{
-		return;
-	}
-}
-
-void TetrisBoard::rotateRight(int a)
-{
-	a = 1;
-	
-	if(isConnected)
-	{
-		emit toNetCommand("ROTATE");
-	}
-	else if(!isGameOver and !isInDemo)
-	{
-		tryMove(curPiece.rotatedRight(), curX, curY);
-	}
-	else
-	{
-		return;
-	}
-}
-
-void TetrisBoard::rotateLeft(int a)
-{
-	a = 1;
-
-	if(!isGameOver and !isInDemo)
-	{
-		tryMove(curPiece.rotatedLeft(), curX, curY);
-	}
-}
-
-
  void TetrisBoard::timerEvent(QTimerEvent *event)
  {
      if (event->timerId() == timer.timerId()) {
@@ -850,8 +785,11 @@ cout<<"NetPiece for you->"<<netPiece<<endl;
          nextPiece.setRandomShape();
      }
      showNextPiece();
-     curX = (BoardWidth - (curPiece.maxX() - curPiece.minX()))/2;
+     curX = floor((BoardWidth - (curPiece.maxX() - curPiece.minX())+1)/2);
+     curX+=2;
      curY = BoardHeight - 1 + curPiece.minY();
+  //   cout << BoardHeight<<" - 1 "<<"+"<<curPiece.minY()<<" = ";
+/*	cout<<curY<<endl;*/
 
      if (!tryMove(curPiece, curX, curY)) {
          curPiece.setShape(NoShape);
@@ -890,6 +828,7 @@ cout<<"NetPiece for you->"<<netPiece<<endl;
 
  bool TetrisBoard::tryMove(const TetrisPiece &newPiece, int newX, int newY)
  {
+	if(newX < 2){ cout<< newX<<endl;}
      for (int i = 0; i < newPiece.size(); ++i) {
          int x = newX + newPiece.x(i);
          int y = newY - newPiece.y(i);
@@ -995,9 +934,21 @@ void TetrisBoard::setConnect(QString status)
 void TetrisBoard::getNetPiece(string piece) 
 {
 	string bwa;
-	netPieceQueue.push(piece);
+//	netPieceQueue.push(piece);
+	vecty.push_back(piece);
 
-	if(netPieceQueue.size() ==2)
+	if(vecty.size() >= 2)
+	{
+		dropDown();
+		netPiece = vecty[0];
+		bwa = vecty[1];
+		nextPiece.setShape(netPiece);
+		newPiece();
+		vecty.erase(vecty.begin());
+		nextPiece.setShape(bwa);
+		showNextPiece();
+	}
+/*	if(netPieceQueue.size() ==2)
 	{
 		netPiece = netPieceQueue.front();
 		bwa = netPieceQueue.back();
@@ -1006,6 +957,6 @@ void TetrisBoard::getNetPiece(string piece)
 		netPieceQueue.pop();
 		nextPiece.setShape(bwa);
 		showNextPiece();
-	}
+	}*/
 }
 

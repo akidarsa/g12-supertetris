@@ -45,7 +45,9 @@
  #include <QBasicTimer>
  #include <QFrame>
  #include <QPointer>
+ #include <math.h>
  #include <queue>
+ #include <list>
  #include <string>
  #include "tetrispiece.h"
  #include "PieceMovement.h"
@@ -70,14 +72,11 @@
      void dropDown(int b);
      void oneLineDown();
      void oneLineDown(int a);
+     bool isInDemo = false;
 	 bool moveLeft();
 	 bool moveRight();
 	 bool rotateRight();
 	 bool rotateLeft();
-	 void moveLeft(int a);
-	 void moveRight(int a);
-	 void rotateRight(int a);
-	 void rotateLeft(int a);
 
  public slots:
      void start();
@@ -134,16 +133,15 @@ protected:
      void addLines();
      QBasicTimer timer;
      QPointer<QLabel> nextPieceLabel;
-     bool isStarted;
-     bool isGameOver;
-     bool isWin; //must be placed after isGameOver is true
-     bool isPaused;
-     bool isInDemo;
-     bool isTested;
-     bool isWaitingAfterLine;
-     bool isConnected;
-     bool justStarted;
-     bool messyQueue;
+     bool isStarted = false;
+     bool isGameOver = false;
+     bool isWin = false; //must be placed after isGameOver is true
+     bool isPaused = false;
+     bool isTested = false;
+     bool isWaitingAfterLine = false;
+     bool isConnected = false;
+     bool justStarted = false;
+     bool messyQueue = false;
      TetrisPiece curPiece;
      TetrisPiece nextPiece;
      int curX;
@@ -172,6 +170,7 @@ protected:
      int linesinBuffer;
      bool linesHaveBeenAdded; //checks if lines have been added to other board
      string netPiece;
+     vector<string> vecty;
      queue<string> netPieceQueue;    
      bool canAttack; 
  };
