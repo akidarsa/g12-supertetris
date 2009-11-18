@@ -74,6 +74,24 @@ class ControlLineEdit;
      dropOneLineV = (int) Qt::Key_D;
      clearBoard();
      fp = NULL;
+     linesinBuffer = 0;
+     curX = 0;
+     curY = 0;
+     numLinesRemoved = 0;
+     numPiecesDropped = 0;
+     score = 0;
+     level = 0;
+     num4Pieces = 0; //counts number of 4 block pieces
+     num5Pieces = 0; //counts number of 5 block pieces
+     num6Pieces = 0; //counts number of 6 block pieces
+     num7Pieces = 0; //counts number of 7 block pieces
+     numBlocks = 0; //counts number of blocks in pieces
+     Up = 0;
+     Down = 0;
+     Left = 0;
+     Right = 0;
+     dropLineV = 0;
+     dropOneLineV = 0;
      serverCounter = 0;
  }
 
@@ -836,7 +854,6 @@ cout<<"NetPiece for you->"<<netPiece<<endl;
 
  bool TetrisBoard::tryMove(const TetrisPiece &newPiece, int newX, int newY)
  {
-	if(newX < 2){ cout<< newX<<endl;}
      for (int i = 0; i < newPiece.size(); ++i) {
          int x = newX + newPiece.x(i);
          int y = newY - newPiece.y(i);
